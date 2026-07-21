@@ -1,0 +1,293 @@
+@scene chapter_1b_wisdom_of_system
+
+background: dragon_celestial.jpg
+music: wisdom_theme.mp3
+
+dialogue:
+"The dragon folds its enormous wings."
+"The golden eyes that judged your soul begin to dim."
+
+npc Dragon:
+"Power alone cannot shape destiny, {{player_name}}."
+"You carry {{hp}} health and {{strength}} strength."
+"But you do not yet know what those numbers ARE."
+
+background: sky_summons.jpg
+
+dialogue:
+"The dragon raises one massive claw toward the sky."
+"A pillar of light erupts from the ground beneath you."
+"The mountains dissolve. The clouds scatter."
+"Even the dragon breaks apart into countless golden fragments."
+"..."
+"Darkness."
+"..."
+
+background: ancient_library.png
+
+dialogue:
+"A single blue light appears in the distance. It grows closer."
+"An endless hall materializes around you."
+"Shelves of glowing books stretch farther than the eye can see."
+
+background: sage_reading.jpg
+
+dialogue:
+"At the center sits a robed figure, hooded, an open book resting across his knees."
+
+npc ???:
+"Welcome, {{player_name}}."
+"You survived the Trial of the Dragon."
+"Now you must understand the power you wield."
+
+dialogue:
+"The figure lowers his hood."
+"White hair. A weathered face. Eyes that have read more than any one life should hold."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"WISDOM OF THE SYSTEM"
+"Variables · Data Types · print() · input()"
+
+npc System Sage:
+"I am the Sage of the System."
+"Every soul that passes the Dragon arrives here."
+"Look — the words you spoke at your Awakening."
+
+dialogue:
+"He opens his hand."
+"Your character sheet unfurls in the air, exactly as you wrote it."
+
+interactive: wisdom_character_sheet
+
+npc System Sage:
+"Do you know what these symbols truly are?"
+
+background: ancient_library.png
+
+dialogue:
+"You shake your head."
+"The Sage smiles, and the hall answers him."
+"— LESSON I — MEMORIES OF THE WORLD —"
+
+dialogue:
+"One line drifts forward, glowing."
+"It folds itself into a small wooden chest."
+"A name burns itself into the lid."
+"The value falls inside. The lid closes."
+"Click."
+
+npc System Sage:
+"Every piece of information must have a place to rest."
+"This chest is a Variable."
+"A name on the lid. A value within."
+"Open them. See what your world remembers."
+
+interactive: wisdom_open_chests
+
+npc System Sage:
+"Without variables, no hero remembers their name."
+"No warrior remembers their strength."
+"No kingdom remembers its history."
+"Variables are the memory of this world."
+
+dialogue:
+"The Sage sets an empty chest before you. Its lid is bare."
+
+npc System Sage:
+"A chest is not born with a name."
+"You give it one, and you fill it — with a single stroke."
+"The equals sign does not mean 'is the same as'."
+"It means 'place this inside'."
+"Try it. Forge a chest of your own."
+
+interactive: wisdom_assignment_forge
+
+npc System Sage:
+"Good. And what is placed may be replaced."
+"Assign again, and the old value is simply... forgotten."
+
+interactive: wisdom_reassign
+
+dialogue:
+"The chest's contents flicker, then settle on the new value."
+"The old one is gone, as if it had never been."
+"— LESSON II — THE NATURE OF INFORMATION —"
+
+npc System Sage:
+"Not all values share the same nature."
+"Your name is not the same KIND of thing as your health."
+"Watch. The System will read each one."
+
+interactive: wisdom_type_scan
+
+npc System Sage:
+"Four families. Every value the System knows belongs to one."
+"Text wrapped in quotation marks — a String."
+"Whole numbers — an Integer."
+"Numbers that fracture into decimals — a Float."
+"And truth itself, which has only two faces — a Boolean."
+
+dialogue:
+"Four runes ignite and begin to orbit you."
+"String — Integer — Float — Boolean"
+
+npc System Sage:
+"Now sort them yourself."
+"A merchant who mistakes a name for a number loses his fortune."
+
+interactive: wisdom_sort_types
+
+npc System Sage:
+"You see it now."
+"The quotation mark is a boundary."
+"Cross it, and 250 stops being a quantity and becomes mere shapes on a page."
+
+interactive: wisdom_quote_trap
+
+background: sage_reading.jpg
+
+dialogue:
+"— LESSON III — THE VOICE OF THE SYSTEM —"
+"The Sage leads you to an enormous silver mirror."
+"It reflects nothing at all. Only darkness."
+
+npc You:
+"Why can't I see myself?"
+
+npc System Sage:
+"Because the mirror cannot read your thoughts."
+"You hold values, but you have never once SPOKEN them."
+"There is a spell for this."
+
+dialogue:
+"A command burns itself into the air."
+"print()"
+
+npc System Sage:
+"Place something inside the brackets."
+"The System will reveal it to the world."
+"But be careful what you place there."
+
+interactive: wisdom_predict_print
+
+npc System Sage:
+"You understand the difference."
+"A name inside quotes is text. A name without them is a chest — and the mirror shows what is inside."
+"Now speak, {{player_name}}."
+"Show the mirror your name, and your health."
+
+mission: wisdom_voice_of_system
+
+dialogue:
+"The mirror floods with light."
+"Your name blazes across its surface, then your health beneath it."
+"For the first time, the world has heard you."
+
+npc System Sage:
+"Well done. You have learned to speak."
+
+system skill_learned:
+"SKILL LEARNED"
+"You have learned 'VOICE OF THE SYSTEM'."
+"The world can now hear you speak."
+
+dialogue:
+"— LESSON IV — LISTENING TO THE WORLD —"
+"The mirror vanishes."
+"A luminous crystal descends in its place."
+
+npc Crystal:
+"Choose your weapon."
+
+dialogue:
+"..."
+"Nothing happens."
+"The crystal waits. You have no way to answer it."
+
+npc System Sage:
+"You have learned to speak to the world."
+"But a conversation runs both ways."
+"The world now wishes to speak to YOU."
+
+dialogue:
+"A second command materializes beside the first."
+"input()"
+
+npc System Sage:
+"This spell does not shout. It listens."
+"It halts the world, waits for an answer, and hands that answer back to you."
+"And what it returns is always Text — even when it looks like a number."
+"Remember that. It has undone wiser travellers than you."
+
+interactive: wisdom_input_flow
+
+npc System Sage:
+"Now ask the crystal its question."
+"Store what it hears. Then announce the answer."
+
+mission: wisdom_listener_of_worlds
+
+dialogue:
+"A word settles into a brand-new chest, labelled weapon."
+"The crystal shatters into light."
+"A blade materializes and falls into your waiting hand."
+"It hums with a sound like a held breath."
+
+npc System Sage:
+"Excellent. You have learned to listen."
+
+system item_obtained:
+"ITEM OBTAINED"
+"You have obtained 'BEGINNER'S BLADE'."
+
+system skill_learned:
+"SKILL LEARNED"
+"You have learned 'LISTENER OF WORLDS'."
+"The world can now answer when you ask."
+
+npc System Sage:
+"Prove it once more, and the door will open for you."
+"Everything you have learned — in a single breath."
+
+interactive: wisdom_final_recall
+
+background: ancient_library.png
+
+dialogue:
+"The Sage closes the ancient book in his hands."
+"The chests, the mirror, the orbiting runes — all of it fades."
+"He turns toward a colossal stone doorway at the end of the hall."
+"Three symbols are carved into it, dark and unlit."
+"Fire. Water. Nature."
+"The doorway trembles."
+"A voice echoes from somewhere far beyond it."
+
+npc ???:
+"Traveller..."
+"The world remembers your name."
+"It hears your voice."
+"It listens when you ask."
+"But it still cannot CHOOSE."
+
+npc System Sage:
+"That lesson is not mine to give."
+"Someone beyond that door has waited a very long time for you."
+"Go. He is not as strong as he once was."
+
+dialogue:
+"The Sage steps aside."
+"The great door grinds open, and cold forest air rushes in."
+
+system level_up:
+"CHAPTER COMPLETE"
+"Wisdom of the System"
+"Mastered: Variables · Assignment · Data Types · print() · input()"
+
+reward:
+xp: 50
+gold: 25
+achievement: WISDOM OF THE SYSTEM
+
+next:
+chapter_2_trial_of_choice

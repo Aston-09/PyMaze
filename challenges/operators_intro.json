@@ -1,0 +1,30 @@
+{
+  "challenge_id": "operators_intro",
+  "topic": "Operators and Basic I/O",
+  "difficulty": "easy",
+  "title": "Mathematical Foundations",
+  "narrative": "To survive in this world, you must learn to manipulate data. The System presents you with two raw numbers. Combine them.",
+  "instructions": "The System has provided two numbers, `a` and `b`. Use math operators to derive three new values:\n- `total_sum` — `a` added to `b`\n- `difference` — `b` subtracted from `a`\n- `product` — `a` multiplied by `b`\n\nUse the variables `a` and `b`, not the literal numbers — the System may change them.",
+  "starting_code": "a = 15\nb = 5\n\n# Add your variables below:\n\n",
+  "test_type": "variables",
+  "expected_variables": {
+    "total_sum": "int",
+    "difference": "int",
+    "product": "int"
+  },
+  "validation_tests": [
+    { "variable": "total_sum", "check": "equals", "value": 20 },
+    { "variable": "difference", "check": "equals", "value": 10 },
+    { "variable": "product", "check": "equals", "value": 75 }
+  ],
+  "hints": [
+    "Use the + operator for total_sum",
+    "Use the - operator for difference",
+    "Use the * operator for product"
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 25,
+    "achievement": "MATH MAGICIAN"
+  }
+}

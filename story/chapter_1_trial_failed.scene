@@ -1,0 +1,43 @@
+@scene chapter_1_trial_failed
+
+background: dragon_celestial.jpg
+music: dragon_theme.mp3
+
+dialogue:
+"The dragon roars."
+"The sound shakes the very foundations of the ruins."
+
+npc Dragon:
+"Power without wisdom..."
+"...is nothing."
+"You have failed the Trial."
+
+system warning:
+"STATS RECALIBRATED"
+"Every stat has returned to its base value."
+"HP 100 · STR 10 · DEF 10 · DEX 10 · MP 50"
+
+background: ruins.png
+
+dialogue:
+"The stolen power drains out of you."
+"You are left with exactly what you began with — and nothing more."
+"You wait for the world to end."
+"It does not."
+"The dragon's enormous eye settles on you, and the fury in it has cooled."
+
+npc Dragon:
+"You are not being punished, {{player_name}}."
+"You reached for power you did not understand."
+"So you will be taught to understand it."
+"Failure is not the end of your road."
+"It is the beginning of your education."
+
+dialogue:
+"The great head lowers until it is level with you."
+"Whatever comes next, it is not an ending."
+
+next:
+chapter_1b_wisdom_of_system
+
+

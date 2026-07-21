@@ -1,0 +1,44 @@
+{
+  "challenge_id": "trial_of_choice",
+  "topic": "Control Flow (If / Elif / Else)",
+  "difficulty": "easy",
+  "title": "Trial of Choice",
+  "narrative": "The ancient gate demands a choice. You must teach it how to choose between Fire, Water, and Nature.",
+  "instructions": "Write an if-elif-else statement based on the `user_input` variable provided by the System.\n\n- If `user_input` is `1`, print `\"Fire\"`.\n- If `user_input` is `2`, print `\"Water\"`.\n- If `user_input` is `3`, print `\"Nature\"`.\n- Otherwise, print `\"Enter number between 1, 2 and 3.\"`",
+  "starting_code": "# `user_input` is provided by the System (do not reassign it).\n\n# Write your if-elif-else statement below using print():\n\n",
+  "test_type": "script_output",
+  "input_variable": "user_input",
+  "validation_tests": [
+    {
+      "input": 1,
+      "expected_output": "Fire\n"
+    },
+    {
+      "input": 2,
+      "expected_output": "Water\n"
+    },
+    {
+      "input": 3,
+      "expected_output": "Nature\n"
+    },
+    {
+      "input": 4,
+      "expected_output": "Enter number between 1, 2 and 3.\n"
+    },
+    {
+      "input": 0,
+      "expected_output": "Enter number between 1, 2 and 3.\n"
+    }
+  ],
+  "hints": [
+    "Use `if user_input == 1:`",
+    "Use `elif user_input == 2:` for the next condition.",
+    "Use `else:` for the otherwise condition.",
+    "Make sure to use the `print()` function exactly as requested."
+  ],
+  "reward": {
+    "xp": 100,
+    "gold": 50,
+    "achievement": "MASTER OF CHOICES"
+  }
+}

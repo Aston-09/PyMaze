@@ -1,0 +1,1178 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500&display=swap');
+
+/* ============================================================
+   PyBe — Handcrafted Paper Design System
+   Aged parchment, iron-gall ink, gold leaf and wax seals.
+   Every surface is a page; every panel is something pressed,
+   folded, or bound by hand.
+   ============================================================ */
+
+:root {
+  /* ---- Paper ---- */
+  --paper: #f2e8d2;
+  --paper-raised: #f8f1e0;
+  --paper-deep: #e6d8b8;
+  --paper-edge: #d4c39c;
+  --paper-shadow: rgba(90, 68, 38, 0.18);
+
+  /* ---- Ink ---- */
+  --ink: #2f2418;
+  --ink-soft: #6b5842;
+  /* Faded ink still has to be READ — captions, hints and progress counts all
+     use it, so it sits at 4.6:1 on paper rather than the prettier, illegible
+     wash it started as. */
+  --ink-faded: #786548;
+
+  /* ---- Accents ---- */
+  --gold: #b0822f;
+  --gold-bright: #d8a94a;
+  --gold-leaf: #e8c877;
+  --seal-red: #97372b;
+  --ink-blue: #2f4f6b;
+  --moss: #4d6b3f;
+  --plum: #6a4a72;
+
+  /* ---- Semantic ---- */
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-soft);
+  --text-accent: var(--ink-blue);
+  --text-gold: #7d5a1c;
+  --text-dragon: var(--seal-red);
+
+  --accent-primary: var(--seal-red);
+  --accent-hover: #7d2c22;
+  --accent-success: var(--moss);
+  --accent-error: var(--seal-red);
+  --accent-xp: var(--plum);
+  --accent-mana: var(--ink-blue);
+  --accent-hp: var(--seal-red);
+  --accent-gold: var(--gold);
+
+  --bg-primary: #cbb894;
+  --bg-secondary: var(--paper-deep);
+  --bg-glass: var(--paper);
+  --bg-glass-light: var(--paper-raised);
+
+  --border-color: var(--paper-edge);
+  --border-glow: var(--gold);
+
+  /* ---- Elevation: paper stacks, it does not float ---- */
+  --shadow-sm: 0 1px 2px rgba(90, 68, 38, 0.16), 0 2px 6px rgba(90, 68, 38, 0.10);
+  --shadow-md: 0 2px 4px rgba(90, 68, 38, 0.14), 0 8px 20px rgba(90, 68, 38, 0.16);
+  --shadow-lift: 0 4px 8px rgba(90, 68, 38, 0.16), 0 14px 32px rgba(90, 68, 38, 0.20);
+  --shadow-press: inset 0 1px 3px rgba(90, 68, 38, 0.28);
+  --shadow-glow: 0 0 0 1px rgba(176, 130, 47, 0.35), 0 6px 18px rgba(176, 130, 47, 0.18);
+  --shadow-gold: 0 0 0 1px rgba(176, 130, 47, 0.5), 0 4px 16px rgba(176, 130, 47, 0.25);
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-full: 9999px;
+
+  --font-sans: 'EB Garamond', Georgia, serif;
+  --font-mono: 'Fira Code', monospace;
+  --font-rpg: 'Cinzel', serif;
+
+  /* Fibrous paper grain, inlined so the page needs no network fetch. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow: hidden;
+  /* The desk the pages rest on: worn leather and lamplight. */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 240, 200, 0.45), transparent 60%),
+    radial-gradient(ellipse at 15% 90%, rgba(120, 88, 48, 0.28), transparent 55%),
+    linear-gradient(160deg, #d3c09b 0%, #bda580 50%, #a98e68 100%);
+}
+
+/* Grain overlay across the whole desk. */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: var(--grain);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#root { height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 2; }
+
+::selection { background: rgba(176, 130, 47, 0.28); color: var(--ink); }
+
+/* Keyboard focus: a gilt ring, visible on every surface in the palette.
+   The whole chapter is playable without a mouse, so this has to read
+   clearly on paper, on ink nameplates, and on the seal-red buttons. */
+:focus-visible {
+  outline: 2px solid var(--ink-blue);   /* 7:1 on paper — WCAG 1.4.11 */
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+/* Only suppress the ring for pointer users, never for keyboard. */
+:focus:not(:focus-visible) { outline: none; }
+
+/* ---- Typography ---- */
+h1, h2, h3 {
+  font-family: var(--font-rpg);
+  font-weight: 600; line-height: 1.25;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+h1 { font-size: 2.1rem; letter-spacing: 0.03em; }
+h2 { font-size: 1.45rem; }
+h3 {
+  font-size: 1rem; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-soft);
+  font-weight: 600;
+}
+p { margin-bottom: 0.75rem; color: var(--text-secondary); }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ---- Layout ---- */
+.app-container {
+  display: flex; flex-direction: column;
+  height: 100vh; width: 100%;
+  max-width: 1600px; margin: 0 auto; padding: 1rem 1.5rem;
+}
+
+/* ============================================================
+   HUD — a leather-bound ledger strip
+   ============================================================ */
+.hud {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.7rem 1.25rem; margin-bottom: 1rem;
+  background:
+    linear-gradient(var(--paper-raised), var(--paper));
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  gap: 1rem;
+  position: relative;
+}
+
+/* Hand-ruled double line under the ledger head. */
+.hud::after {
+  content: '';
+  position: absolute; left: 1rem; right: 1rem; bottom: 5px;
+  height: 2px;
+  border-top: 1px solid rgba(176, 130, 47, 0.4);
+  border-bottom: 1px solid rgba(176, 130, 47, 0.22);
+}
+
+.hud-brand {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-rpg); font-size: 1.35rem; font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.hud-brand span:first-child { color: var(--seal-red); }
+
+.hud-stats { display: flex; align-items: center; gap: 1.15rem; flex-wrap: wrap; }
+
+.hud-stat {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.9rem; font-weight: 600; color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.hud-stat .stat-icon { font-size: 0.95rem; filter: saturate(0.75); }
+.hud-stat .stat-value { color: var(--ink); }
+
+.hud-player-name {
+  font-family: var(--font-rpg);
+  font-weight: 600; font-size: 0.85rem;
+  padding: 0.3rem 0.9rem;
+  background: var(--seal-red);
+  color: var(--paper-raised);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.06em;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Stat Bars: ink filling a ruled trough ---- */
+.stat-bar-container {
+  width: 60px; height: 7px;
+  background: var(--paper-deep);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-press);
+}
+/* Scaled rather than resized: transform is composited, `width` would force
+   a layout pass on every HP/MP change. */
+.stat-bar-fill {
+  height: 100%; width: 100%;
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.stat-bar-hp { background: linear-gradient(90deg, #8a2f24, #b9503f); }
+.stat-bar-mana { background: linear-gradient(90deg, #2b4a66, #4a7196); }
+.stat-bar-xp { background: linear-gradient(90deg, #5e4066, #8a6394); }
+
+/* ============================================================
+   Panels — sheets of paper on the desk
+   ============================================================ */
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.panel {
+  background: var(--paper);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.75rem;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+/* The warm bevel of a page catching lamplight along its top edge. */
+.panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+}
+
+.panel:hover { box-shadow: var(--shadow-lift); }
+
+.panel-content { overflow-y: auto; flex: 1; padding-right: 0.6rem; }
+
+/* ---- Scrollbar: a thin gilt rule ---- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); border-radius: var(--radius-sm); }
+::-webkit-scrollbar-thumb {
+  background: var(--paper-edge);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(90, 68, 38, 0.18);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ============================================================
+   SCENE BACKGROUND — the world behind the page
+
+   The art is dark and saturated; the UI is parchment. These are tied
+   together by treating each image as a printed plate: warmed slightly,
+   vignetted at the edges, and dusted with the same paper grain that runs
+   across the rest of the interface. The result reads as an illustration
+   bound into the manuscript rather than a screenshot pasted behind it.
+   ============================================================ */
+.scene-background {
+  position: fixed; inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Each location is a "plate": a sharp image, plus a blurred copy that fills
+   the frame when the sharp one cannot cover it. */
+.scene-plate {
+  position: absolute; inset: 0;
+  will-change: opacity, transform;
+}
+
+.scene-plate.is-current {
+  opacity: 1;
+  animation: plateEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.scene-plate.is-outgoing {
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1.05);
+}
+
+/* Blurred backdrop — only visible where the sharp image leaves gaps. */
+.scene-plate-fill {
+  position: absolute; inset: -8%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(38px) saturate(1.15) brightness(0.62);
+  transform: scale(1.15);
+}
+
+.scene-plate-image {
+  position: absolute; inset: -4%;        /* room to drift without edge gaps */
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Warmed and slightly lifted so it belongs to the parchment palette. */
+  filter: sepia(0.18) saturate(0.98) brightness(0.94);
+  animation: kenBurns 26s ease-in-out infinite alternate;
+}
+
+/* Landscape art fills the frame edge to edge. */
+.scene-plate.fit-cover .scene-plate-image { background-size: cover; }
+.scene-plate.fit-cover .scene-plate-fill { display: none; }
+
+/* Tall or narrow art is shown whole, floating over its own blurred copy, so
+   a portrait-orientation dragon is actually a visible dragon. */
+.scene-plate.fit-contain .scene-plate-image {
+  inset: 2% 0;
+  background-size: contain;
+  animation: subjectFloat 18s ease-in-out infinite alternate;
+  filter: sepia(0.14) saturate(1.02) brightness(0.98)
+          drop-shadow(0 18px 46px rgba(0, 0, 0, 0.55));
+}
+
+/* Slow field of drifting motes over everything — the air itself moving. */
+.scene-motes {
+  position: absolute; inset: -20%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 22%, rgba(255, 246, 214, 0.75), transparent),
+    radial-gradient(1.4px 1.4px at 68% 14%, rgba(214, 236, 255, 0.65), transparent),
+    radial-gradient(1.8px 1.8px at 34% 68%, rgba(255, 240, 200, 0.6), transparent),
+    radial-gradient(1.2px 1.2px at 82% 54%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 52% 86%, rgba(226, 244, 255, 0.5), transparent),
+    radial-gradient(1.3px 1.3px at 24% 46%, rgba(255, 250, 226, 0.45), transparent),
+    radial-gradient(1.7px 1.7px at 92% 30%, rgba(255, 244, 210, 0.5), transparent),
+    radial-gradient(1.2px 1.2px at 6% 76%, rgba(220, 240, 255, 0.45), transparent);
+  background-size: 44% 44%;
+  animation: moteDrift 38s linear infinite;
+  opacity: 0.55;
+}
+
+/* Vignette + paper grain, printed over the plate. */
+.scene-background-scrim {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(58, 42, 24, 0.45) 100%),
+    linear-gradient(180deg, rgba(58, 42, 24, 0.30) 0%, transparent 28%, transparent 55%, rgba(40, 28, 16, 0.55) 100%),
+    var(--grain);
+  transition: opacity 0.6s ease;
+}
+.scene-background-scrim.is-dimmed { opacity: 1; }
+
+@keyframes kenBurns {
+  from { transform: scale(1.06) translate3d(0, 0, 0); }
+  to   { transform: scale(1.20) translate3d(-3%, -2.2%, 0); }
+}
+
+/* A contained subject breathes in place instead of panning off its own edges. */
+@keyframes subjectFloat {
+  from { transform: scale(1.00) translate3d(0, 0.8%, 0); }
+  to   { transform: scale(1.06) translate3d(0, -1.2%, 0); }
+}
+
+/* Each new location pushes in rather than simply appearing. */
+@keyframes plateEnter {
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes moteDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(6%, -12%, 0); }
+}
+
+/* Narration sits at the foot of the frame, cinema-style, with the world
+   visible above it. */
+.narration-frame {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  width: 100%; max-width: 880px;
+  margin: 0 auto;
+  padding-bottom: 0.5rem;
+}
+
+/* Content always stacks above the world. */
+.main-content, .hud { position: relative; z-index: 1; }
+
+/* ============================================================
+   SYSTEM PANELS — the one intentional break from parchment
+
+   Everything else in PyBe is paper and ink because it is part of the
+   handcrafted world. The System is NOT part of that world; it is something
+   overlaid on it. So its panels are dark, backlit and machine-precise:
+   ornate corner filigree, a crowned icon, rules bracketing a letterspaced
+   title, and bracketed body copy. Modelled on the provided UI kit.
+   ============================================================ */
+.system-panel-stage {
+  position: relative; z-index: 1;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.5rem;
+  padding: 2rem 1rem;
+}
+
+.system-panel {
+  --sys-hue: #4a7fb5;
+  --sys-glow: rgba(74, 127, 181, 0.5);
+  --sys-ink: #dce8f5;
+
+  position: relative;
+  width: 100%; max-width: 520px;
+  padding: 2.25rem 2.5rem 2rem;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid var(--sys-hue);
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--sys-hue) 34%, transparent), transparent 70%),
+    linear-gradient(165deg, #101a27 0%, #060b12 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 28px var(--sys-glow),
+    0 18px 48px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 color-mix(in srgb, var(--sys-hue) 45%, transparent);
+  color: var(--sys-ink);
+  opacity: 0; transform: translateY(10px) scale(0.985);
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.system-panel.is-entered { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Corner filigree — drawn with borders so no image is needed. */
+.system-corner {
+  position: absolute; width: 22px; height: 22px;
+  border: 2px solid var(--sys-hue);
+  opacity: 0.85;
+}
+.system-corner.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; border-radius: 5px 0 0 0; }
+.system-corner.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; border-radius: 0 5px 0 0; }
+.system-corner.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; border-radius: 0 0 0 5px; }
+.system-corner.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; border-radius: 0 0 5px 0; }
+
+.system-crest {
+  font-size: 1.15rem; line-height: 1;
+  width: 38px; height: 38px; margin: 0 auto 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--sys-hue);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sys-hue) 18%, transparent);
+  box-shadow: 0 0 14px var(--sys-glow);
+}
+
+.system-title {
+  font-family: var(--font-rpg);
+  font-size: 1.15rem; font-weight: 700;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  text-indent: 0.24em;              /* balance the trailing letterspace */
+  color: #fff;
+  padding: 0.7rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--sys-hue) 60%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--sys-hue) 60%, transparent);
+  text-shadow: 0 0 12px var(--sys-glow);
+}
+
+.system-body { margin-top: 1.1rem; }
+
+.system-line {
+  font-family: var(--font-mono);
+  font-size: 0.98rem; line-height: 1.65;
+  color: var(--sys-ink);
+  margin: 0 0 0.35rem;
+  text-wrap: balance;
+}
+.system-line:last-child { margin-bottom: 0; }
+
+.system-flourish {
+  display: block; margin-top: 1.1rem;
+  font-size: 0.7rem; color: var(--sys-hue);
+  opacity: 0.9;
+}
+
+.system-dismiss { position: relative; z-index: 1; }
+
+/* ---- Variants, keyed to the reference sheet ---- */
+.system-panel.variant-alarm         { --sys-hue: #4a7fb5; --sys-glow: rgba(74,127,181,0.5); }
+.system-panel.variant-system        { --sys-hue: #5f9e4a; --sys-glow: rgba(95,158,74,0.45); }
+.system-panel.variant-notification  { --sys-hue: #c79a3c; --sys-glow: rgba(199,154,60,0.45); }
+.system-panel.variant-skill_learned { --sys-hue: #8f6fc4; --sys-glow: rgba(143,111,196,0.5); }
+.system-panel.variant-status        { --sys-hue: #3fa79b; --sys-glow: rgba(63,167,155,0.45); }
+.system-panel.variant-warning       { --sys-hue: #b84436; --sys-glow: rgba(184,68,54,0.5); }
+.system-panel.variant-item_obtained { --sys-hue: #b8862f; --sys-glow: rgba(184,134,47,0.45); }
+.system-panel.variant-level_up      { --sys-hue: #4f8fd0; --sys-glow: rgba(79,143,208,0.55); }
+.system-panel.variant-arrival       { --sys-hue: #9a5fc9; --sys-glow: rgba(154,95,201,0.5); }
+
+/* ============================================================
+   Dialogue — an unfolding letter
+   ============================================================ */
+.dialogue-container {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: flex-end;
+}
+
+.dialogue-box {
+  background: var(--paper-raised);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.75rem 1.25rem;
+  min-height: 128px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+
+/* The horizontal crease of a page that was folded to be carried. */
+.dialogue-box::after {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(90, 68, 38, 0.10) 15%,
+    rgba(90, 68, 38, 0.14) 50%,
+    rgba(90, 68, 38, 0.10) 85%, transparent);
+  pointer-events: none;
+}
+
+.dialogue-speaker {
+  position: absolute; top: -13px; left: 20px;
+  background: var(--ink);
+  color: var(--paper-raised);
+  font-family: var(--font-rpg);
+  font-weight: 600; font-size: 0.72rem;
+  padding: 0.25rem 0.9rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase; letter-spacing: 0.14em;
+  box-shadow: var(--shadow-sm);
+}
+
+.dialogue-speaker.narrator { background: var(--ink-faded); }
+.dialogue-speaker.system { background: var(--ink-blue); }
+.dialogue-speaker.dragon { background: var(--seal-red); }
+.dialogue-speaker.sage { background: var(--plum); }
+
+.dialogue-text {
+  font-size: 1.15rem; line-height: 1.75;
+  color: var(--ink);
+  min-height: 62px;
+  position: relative; z-index: 1;
+}
+
+.dialogue-cursor {
+  display: inline-block; width: 8px; height: 2px;
+  background: var(--ink);
+  margin-left: 3px; vertical-align: baseline;
+  animation: blink 0.9s steps(1) infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.dialogue-controls {
+  display: flex; justify-content: flex-end;
+  margin-top: 1rem; position: relative; z-index: 1;
+}
+
+/* ============================================================
+   Buttons — pressed and stamped, not glowing
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 0.6rem 1.35rem;
+  min-height: 44px;  /* comfortable touch target */
+  border-radius: var(--radius-sm);
+  font-family: var(--font-rpg);
+  font-weight: 600; font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  cursor: pointer; border: 1px solid transparent;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--seal-red);
+  color: var(--paper-raised);
+  border-color: #7d2c22;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(1px); box-shadow: var(--shadow-press); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  border-color: var(--paper-edge);
+  box-shadow: var(--shadow-sm);
+}
+.btn-ghost:hover { background: var(--paper-raised); color: var(--ink); border-color: var(--gold); }
+.btn-ghost:active { transform: translateY(1px); box-shadow: var(--shadow-press); }
+
+/* ============================================================
+   Narrative & instructions
+   ============================================================ */
+/* A manuscript pull-quote: hairline margin rule and an indent, the way a
+   scribe would set it — not a coloured slab. */
+.narrative-box {
+  border-left: 1px solid rgba(176, 130, 47, 0.55);
+  padding: 0.4rem 0 0.4rem 1.35rem;
+  margin: 0 0 1.5rem 0.25rem;
+  font-size: 1.05rem; line-height: 1.7;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.instruction-list { list-style: none; margin-bottom: 1.5rem; }
+.instruction-list li {
+  position: relative; padding-left: 1.6rem;
+  margin-bottom: 0.6rem; color: var(--ink); font-size: 1rem;
+}
+.instruction-list li::before {
+  content: "❧"; position: absolute; left: 0;
+  color: var(--gold); font-weight: bold;
+}
+
+/* ============================================================
+   Code editor — a pasted-in slip of technical vellum
+   ============================================================ */
+.editor-container {
+  flex: 1; min-height: 0;
+  border-radius: var(--radius-sm); overflow: hidden;
+  border: 1px solid var(--paper-edge);
+  box-shadow: var(--shadow-press);
+  margin-bottom: 1rem;
+  background: var(--paper-raised);
+}
+
+/* ---- Output: a ruled results ledger ---- */
+.output-terminal {
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  font-family: var(--font-mono); font-size: 0.82rem;
+  color: var(--ink);
+  height: 180px; overflow-y: auto;
+  box-shadow: var(--shadow-press);
+}
+
+.output-header {
+  font-family: var(--font-rpg);
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-soft);
+  margin-bottom: 0.5rem; padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--paper-edge);
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.output-placeholder {
+  color: var(--ink-faded); font-style: italic;
+  text-align: center; padding-top: 2rem;
+  font-family: var(--font-sans);
+}
+
+.output-message { margin: 0.5rem 0; font-family: var(--font-sans); font-size: 0.95rem; }
+.output-message.is-success { color: var(--moss); }
+.output-message.is-error { color: var(--seal-red); }
+
+.output-stream {
+  margin-top: 0.6rem; border-top: 1px solid var(--paper-edge);
+  padding-top: 0.6rem;
+}
+.output-stream pre { white-space: pre-wrap; font-size: 0.82rem; color: var(--ink); }
+
+/* Each result is a ledger row marked in the margin, the way a clerk ticks
+   an entry — the glyph carries the verdict, not a coloured bar. */
+.test-result {
+  position: relative;
+  margin-bottom: 0.4rem; padding: 0.45rem 0.65rem 0.45rem 1.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(90, 68, 38, 0.05);
+  font-size: 0.8rem;
+}
+.test-result::before {
+  position: absolute; left: 0.6rem; top: 0.45rem;
+  font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.2;
+}
+.test-pass::before { content: '✓'; color: var(--moss); }
+.test-fail::before { content: '✗'; color: var(--seal-red); }
+
+/* ---- Status badges — wax stamps ---- */
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-rpg);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.status-success { background: rgba(77, 107, 63, 0.16); color: var(--moss); border: 1px solid rgba(77, 107, 63, 0.35); }
+.status-error { background: rgba(151, 55, 43, 0.14); color: var(--seal-red); border: 1px solid rgba(151, 55, 43, 0.3); }
+
+/* ============================================================
+   Overlays — a card set down on top of the page
+   ============================================================ */
+.reward-overlay, .dragon-overlay {
+  position: fixed; inset: 0;
+  background: rgba(58, 42, 24, 0.55);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+.dragon-overlay { background: rgba(48, 22, 12, 0.62); z-index: 1100; }
+
+.reward-card, .dragon-card {
+  background: var(--paper-raised);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-lift);
+  max-width: 440px; width: 90%;
+  animation: sealDrop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+
+/* Gilt rule just inside the deckled border. */
+.reward-card::before, .dragon-card::before {
+  content: '';
+  position: absolute; inset: 7px;
+  border: 1px solid rgba(176, 130, 47, 0.45);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.dragon-card { max-width: 520px; border-color: rgba(151, 55, 43, 0.4); }
+.dragon-card::before { border-color: rgba(151, 55, 43, 0.35); }
+
+.reward-title, .dragon-title {
+  font-family: var(--font-rpg);
+  font-size: 1.5rem;
+  color: var(--text-gold);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.04em;
+}
+.dragon-title { color: var(--seal-red); font-size: 1.6rem; }
+
+.dragon-text {
+  font-size: 1.05rem; line-height: 1.95;
+  color: var(--ink-soft);
+  white-space: pre-line;
+  margin-bottom: 1.5rem;
+}
+.dragon-text .dragon-quote { color: var(--seal-red); font-style: italic; }
+
+.reward-item {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem; margin-bottom: 0.7rem;
+  font-size: 1.1rem; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.reward-item .reward-icon { font-size: 1.2rem; filter: saturate(0.8); }
+.reward-xp { color: var(--plum); }
+.reward-gold { color: var(--text-gold); }
+.reward-int { color: var(--ink-blue); }
+.reward-wis { color: var(--plum); }
+.reward-dex { color: var(--moss); }
+
+.reward-achievement {
+  margin-top: 1.25rem; padding: 0.65rem 1rem;
+  background: rgba(176, 130, 47, 0.1);
+  border: 1px solid rgba(176, 130, 47, 0.4);
+  border-radius: var(--radius-sm);
+  color: var(--text-gold); font-weight: 600;
+  font-family: var(--font-rpg);
+  font-size: 0.85rem; letter-spacing: 0.05em;
+}
+.reward-achievement.is-warning {
+  background: rgba(151, 55, 43, 0.1);
+  border-color: rgba(151, 55, 43, 0.4);
+  color: var(--seal-red);
+}
+
+/* ============================================================
+   INTERACTIONS — the playable beats
+   ============================================================ */
+.interaction-stage {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.25rem; padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.interaction-title {
+  font-family: var(--font-rpg); font-size: 1.3rem;
+  color: var(--ink); text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.interaction-prompt {
+  font-size: 1.05rem; color: var(--ink-soft);
+  text-align: center; max-width: 60ch;
+  font-style: italic; margin-bottom: 0.25rem;
+}
+
+.interaction-progress {
+  font-family: var(--font-rpg); font-size: 0.72rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.interaction-footer {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.75rem; margin-top: 0.5rem;
+}
+
+.interaction-resolve {
+  font-size: 1.02rem; color: var(--moss);
+  text-align: center; max-width: 58ch;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ---- Chests ---- */
+.chest-grid {
+  display: flex; flex-wrap: wrap; gap: 1.25rem;
+  justify-content: center;
+}
+
+.chest {
+  width: 190px;
+  background: linear-gradient(var(--paper-raised), var(--paper-deep));
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0; cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  text-align: center;
+  font-family: inherit;
+}
+.chest:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.chest.is-open { cursor: default; }
+.chest.is-open:hover { transform: none; }
+
+.chest-lid {
+  background: var(--ink);
+  color: var(--paper-raised);
+  font-family: var(--font-mono); font-size: 0.85rem;
+  padding: 0.55rem 0.5rem;
+  letter-spacing: 0.02em;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: top center;
+  border-bottom: 2px solid var(--gold);
+}
+.chest.is-open .chest-lid { transform: rotateX(-18deg); }
+
+.chest-body {
+  padding: 1rem 0.75rem;
+  min-height: 92px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.4rem;
+}
+
+.chest-value {
+  font-family: var(--font-mono); font-size: 1.15rem;
+  color: var(--ink); font-weight: 500;
+  animation: valueRise 0.45s ease;
+}
+.chest-caption { font-size: 0.85rem; color: var(--ink-faded); font-style: italic; }
+.chest-sealed { font-size: 0.85rem; color: var(--ink-faded); letter-spacing: 0.1em; }
+
+/* ---- System scan ---- */
+.scan-sheet {
+  width: 100%; max-width: 620px;
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+}
+
+.scan-label {
+  font-family: var(--font-rpg); font-size: 0.7rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--paper-raised); background: var(--ink-blue);
+  padding: 0.5rem 1rem; text-align: center;
+}
+
+/* The scan line sweeping down the recovered record. */
+.scan-sheet::after {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 0; height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(176, 130, 47, 0.22), transparent);
+  animation: scanSweep 2.6s ease-in-out 3;
+  pointer-events: none;
+}
+
+.scan-line {
+  display: flex; flex-direction: column; gap: 0.3rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid rgba(90, 68, 38, 0.12);
+  cursor: pointer; text-align: left; width: 100%;
+  background: transparent; border-left: 1px solid transparent;
+  font-family: inherit;
+  transition: background 0.2s ease, border-left-color 0.2s ease;
+}
+.scan-line:last-child { border-bottom: none; }
+.scan-line:hover { background: rgba(176, 130, 47, 0.08); }
+.scan-line.is-read { border-left-color: var(--gold); background: rgba(176, 130, 47, 0.06); }
+
+.scan-code { font-family: var(--font-mono); font-size: 0.98rem; color: var(--ink); }
+.scan-note {
+  font-size: 0.92rem; color: var(--ink-soft); font-style: italic;
+  animation: fadeIn 0.35s ease;
+}
+.scan-note.accent-string { color: var(--ink-blue); }
+.scan-note.accent-int { color: var(--text-gold); }
+.scan-note.accent-float { color: var(--plum); }
+.scan-note.accent-bool { color: var(--moss); }
+
+/* ---- Sort into type bins ---- */
+.sort-tray {
+  display: flex; flex-wrap: wrap; gap: 0.7rem;
+  justify-content: center; max-width: 700px;
+  min-height: 58px;
+  padding: 0.6rem;
+  border: 1px dashed var(--paper-edge);
+  border-radius: var(--radius-sm);
+}
+
+.token {
+  font-family: var(--font-mono); font-size: 0.95rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  min-height: 40px;
+  display: inline-flex; align-items: center;
+  cursor: grab;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  color: var(--ink);
+}
+.token:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.token.is-selected {
+  border-color: var(--gold); background: rgba(176, 130, 47, 0.14);
+  box-shadow: var(--shadow-gold);
+}
+.token.is-wrong { animation: shake 0.4s ease; border-color: var(--seal-red); }
+
+.bin-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem; width: 100%; max-width: 760px;
+}
+
+.bin {
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 0.6rem;
+  min-height: 130px;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  box-shadow: var(--shadow-press);
+  transition: border-color 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+.bin.is-target { border-color: var(--gold); background: rgba(176, 130, 47, 0.09); }
+.bin.is-full { border-color: var(--moss); }
+
+.bin-label {
+  font-family: var(--font-rpg); font-size: 0.85rem;
+  letter-spacing: 0.08em; color: var(--ink);
+}
+.bin-hint { font-size: 0.78rem; color: var(--ink-faded); font-style: italic; }
+.bin-items { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: center; }
+/* Already-placed chips are labels, not targets — they need no touch size. */
+.bin-items .token {
+  font-size: 0.82rem; padding: 0.25rem 0.55rem;
+  min-height: 0; cursor: default;
+}
+
+/* ---- Build a statement from fragments ---- */
+.slot-row {
+  display: flex; gap: 0.75rem; align-items: flex-end;
+  justify-content: center; flex-wrap: wrap;
+}
+
+.slot {
+  min-width: 130px; min-height: 54px;
+  border: 2px dashed var(--paper-edge);
+  border-radius: var(--radius-sm);
+  background: var(--paper-raised);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0.4rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.slot:hover { border-color: var(--gold); }
+.slot.is-filled { border-style: solid; border-color: var(--moss); background: rgba(77, 107, 63, 0.08); }
+.slot-label {
+  font-size: 0.72rem; color: var(--ink-faded);
+  font-style: italic; letter-spacing: 0.04em;
+}
+.slot-value { font-family: var(--font-mono); font-size: 1.05rem; color: var(--ink); }
+
+/* ---- Value dial ---- */
+.dial-panel {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 1.75rem 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.dial-statement {
+  font-family: var(--font-mono); font-size: 1.35rem; color: var(--ink);
+}
+.dial-statement .dial-old {
+  color: var(--ink-faded); text-decoration: line-through;
+  margin-right: 0.5rem; opacity: 0.65;
+}
+.dial-statement .dial-new { color: var(--moss); font-weight: 500; }
+
+.dial-controls { display: flex; align-items: center; gap: 1.25rem; }
+.dial-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--paper-edge);
+  background: var(--paper-deep);
+  color: var(--ink); font-size: 1.4rem;
+  cursor: pointer; line-height: 1;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.dial-btn:hover { background: var(--paper); border-color: var(--gold); }
+.dial-btn:active { transform: translateY(1px); box-shadow: var(--shadow-press); }
+.dial-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.dial-readout {
+  font-family: var(--font-mono); font-size: 2rem;
+  min-width: 70px; text-align: center; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Predict the output ---- */
+.predict-card {
+  width: 100%; max-width: 620px;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+
+/* The pressed inset and mono face already read as "pasted-in code slip";
+   an accent bar would only be decoration. */
+.predict-code {
+  font-family: var(--font-mono); font-size: 0.98rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  white-space: pre-wrap; color: var(--ink);
+  box-shadow: var(--shadow-press);
+}
+
+.predict-options { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.predict-option {
+  text-align: left; width: 100%;
+  font-family: var(--font-mono); font-size: 0.95rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  cursor: pointer; color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.predict-option:hover:not(:disabled) { transform: translateX(3px); border-color: var(--gold); }
+.predict-option:disabled { cursor: default; }
+.predict-option.is-correct { border-color: var(--moss); background: rgba(77, 107, 63, 0.12); }
+.predict-option.is-wrong { border-color: var(--seal-red); background: rgba(151, 55, 43, 0.1); animation: shake 0.4s ease; }
+
+/* The Sage's marginal gloss: a hairline rule and an indent, matching the
+   pull-quote treatment used elsewhere. */
+.predict-explain {
+  font-family: var(--font-sans); font-style: italic;
+  font-size: 1rem; color: var(--ink-soft);
+  border-left: 1px solid rgba(176, 130, 47, 0.55);
+  padding: 0.4rem 0 0.4rem 1.1rem;
+  animation: fadeIn 0.35s ease;
+}
+
+/* ---- Floating XP grant ---- */
+.xp-float {
+  position: fixed; left: 50%; top: 22%;
+  transform: translateX(-50%);
+  font-family: var(--font-rpg); font-size: 1.5rem;
+  color: var(--text-gold);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  pointer-events: none; z-index: 1200;
+  animation: xpRise 1.6s ease forwards;
+}
+
+/* ============================================================
+   Animations — paper moves by settling, folding and lifting
+   ============================================================ */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sealDrop {
+  from { opacity: 0; transform: scale(1.08) translateY(-12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes valueRise {
+  from { opacity: 0; transform: translateY(10px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes scanSweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(250%); opacity: 0; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+@keyframes xpRise {
+  0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.9); }
+  20% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-40px); }
+}
+
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+.slide-up { animation: slideUp 0.5s ease forwards; }
+
+.loading-spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--paper-edge);
+  border-radius: 50%;
+  border-top-color: var(--gold);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Respect a reader who does not want the page moving. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Full-screen modes ---- */
+.fullscreen-narrative {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  flex: 1; padding: 2rem;
+}
+
+/* ---- Narrow screens: stack the two pages ---- */
+@media (max-width: 900px) {
+  .main-content { grid-template-columns: 1fr; overflow-y: auto; }
+  .bin-grid { grid-template-columns: repeat(2, 1fr); }
+  .app-container { padding: 0.75rem; }
+}

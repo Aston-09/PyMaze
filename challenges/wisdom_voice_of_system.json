@@ -1,0 +1,26 @@
+{
+  "challenge_id": "wisdom_voice_of_system",
+  "topic": "Variables and print()",
+  "difficulty": "easy",
+  "title": "Voice of the System",
+  "narrative": "The silver mirror reflects only darkness. It cannot read your thoughts — it can only repeat what you place inside print(). Speak your name, and then your health.",
+  "instructions": "Your character's own values are already in the chests:\n\n```python\nplayer_name = \"{{player_name}}\"\nhp = {{hp}}\n```\n\nYour task:\n- Print `player_name` to the mirror\n- Then print `hp` to the mirror\n\nExpected output:\n```\n{{player_name}}\n{{hp}}\n```",
+  "starting_code": "player_name = \"{{player_name}}\"\nhp = {{hp}}\n\n# Show the mirror your name:\n\n# Show the mirror your health:\n",
+  "test_type": "script_output",
+  "validation_tests": [
+    {
+      "input": null,
+      "expected_output": "{{player_name}}\n{{hp}}\n"
+    }
+  ],
+  "hints": [
+    "Use print() to display a value: print(player_name)",
+    "Call print() twice — once for player_name, once for hp.",
+    "Do not put quotes around the variable name. print(player_name) opens the chest; print(\"player_name\") just shows the words."
+  ],
+  "reward": {
+    "xp": 20,
+    "gold": 10,
+    "achievement": "VOICE OF THE SYSTEM"
+  }
+}

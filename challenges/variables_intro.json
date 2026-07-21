@@ -1,0 +1,33 @@
+{
+  "challenge_id": "variables_intro",
+  "topic": "Variables and Datatypes",
+  "difficulty": "tutorial",
+  "title": "Initialize Your Character",
+  "narrative": "The System demands your identity. Define yourself using Python variables to become real in this world.",
+  "instructions": "Create the following variables to initialize your character:\n- `player_name` — a string with your character's name\n- `hp` — an integer for your health points\n- `strength` — an integer for your physical power\n- `defense` — an integer for your damage resistance\n- `dexterity` — an integer for your agility\n- `mana` — an integer for your magical energy\n- `stamina` — an integer for your endurance\n- `class_name` — a string for your class (e.g. 'Warrior', 'Mage', 'Rogue')\n\nRemember: strings need quotes, numbers do not!",
+  "starting_code": "# Initialize your character!\n# Example: player_name = \"Aston\"\n\nplayer_name = \"\"\nhp = \nstrength = \ndefense = \ndexterity = \nmana = \nstamina = \nclass_name = \"\"\n",
+  "test_type": "variables",
+  "applies_stats": true,
+  "expected_variables": {
+    "player_name": "str",
+    "hp": "int",
+    "strength": "int",
+    "defense": "int",
+    "dexterity": "int",
+    "mana": "int",
+    "stamina": "int",
+    "class_name": "str"
+  },
+  "validation_tests": [],
+  "hints": [
+    "Strings must be wrapped in quotes: player_name = \"Hero\"",
+    "Numbers are written without quotes: hp = 100",
+    "Make sure you spell each variable name exactly as shown!"
+  ],
+  "reward": {
+    "xp": 25,
+    "gold": 0,
+    "title": "Awakened One",
+    "achievement": "FIRST PROGRAM"
+  }
+}

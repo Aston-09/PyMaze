@@ -1,0 +1,102 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+/**
+ * DialogueBox — RPG-style typewriter dialogue renderer.
+ *
+ * Characters are shown through the scene background rather than as cut-out
+ * portraits, so this component only ever draws the speaker's nameplate.
+ *
+ * Props:
+ *   dialogues: Array of { speaker, lines }
+ *   onComplete: called when all dialogue has been shown
+ */
+export default function DialogueBox({ dialogues, onComplete }) {
+  const [currentDialogueIdx, setCurrentDialogueIdx] = useState(0);
+  const [currentLineIdx, setCurrentLineIdx] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+  const timerRef = useRef(null);
+
+  const currentDialogue = dialogues[currentDialogueIdx];
+  const currentLine = currentDialogue?.lines[currentLineIdx] || '';
+
+  // Typewriter effect
+  useEffect(() => {
+    if (!currentLine) return;
+
+    setDisplayedText('');
+    setIsTyping(true);
+    let charIdx = 0;
+
+    timerRef.current = setInterval(() => {
+      charIdx++;
+      setDisplayedText(currentLine.slice(0, charIdx));
+      if (charIdx >= currentLine.length) {
+        clearInterval(timerRef.current);
+        setIsTyping(false);
+      }
+    }, 28);
+
+    return () => clearInterval(timerRef.current);
+  }, [currentDialogueIdx, currentLineIdx, currentLine]);
+
+  const handleContinue = () => {
+    // If still typing, complete instantly
+    if (isTyping) {
+      clearInterval(timerRef.current);
+      setDisplayedText(currentLine);
+      setIsTyping(false);
+      return;
+    }
+
+    // Move to next line in current dialogue
+    if (currentLineIdx < currentDialogue.lines.length - 1) {
+      setCurrentLineIdx(prev => prev + 1);
+      return;
+    }
+
+    // Move to next dialogue block
+    if (currentDialogueIdx < dialogues.length - 1) {
+      setCurrentDialogueIdx(prev => prev + 1);
+      setCurrentLineIdx(0);
+      return;
+    }
+
+    // All done
+    onComplete?.();
+  };
+
+  if (!currentDialogue) return null;
+
+  // Speaker → nameplate colour. Matched on substring so "System Sage" and
+  // "???" (the Sage before he lowers his hood) read as one voice.
+  const name = currentDialogue.speaker.toLowerCase();
+  const speakerClass =
+    name === 'narrator' ? 'narrator'
+    : name.includes('sage') || name === '???' ? 'sage'
+    : name.includes('system') ? 'system'
+    : name.includes('dragon') ? 'dragon'
+    : '';
+
+  return (
+    <div className="dialogue-container slide-up">
+      <div className="dialogue-box">
+        <div className={`dialogue-speaker ${speakerClass}`}>
+          {currentDialogue.speaker}
+        </div>
+        <div className="dialogue-text">
+          {displayedText}
+          {isTyping && <span className="dialogue-cursor" />}
+        </div>
+        <div className="dialogue-controls">
+          <button className="btn btn-ghost" onClick={handleContinue}>
+            {isTyping ? 'Skip ⏩' : (
+              currentDialogueIdx >= dialogues.length - 1 &&
+              currentLineIdx >= currentDialogue.lines.length - 1
+            ) ? 'Continue →' : 'Next →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,15 @@
+{
+  "interaction_id": "wisdom_open_chests",
+  "widget": "reveal_chests",
+  "title": "The Chests of Memory",
+  "prompt": "Open every chest. Each lid bears a name; each holds the value you gave it.",
+  "config": {
+    "chests": [
+      { "name": "player_name", "value": "\"{{player_name}}\"", "caption": "Your name, kept as text." },
+      { "name": "hp", "value": "{{hp}}", "caption": "Your health, kept as a whole number." },
+      { "name": "strength", "value": "{{strength}}", "caption": "Your power, kept as a whole number." },
+      { "name": "mana", "value": "{{mana}}", "caption": "Your magic, kept as a whole number." }
+    ]
+  },
+  "reward": { "xp": 10, "gold": 0 }
+}

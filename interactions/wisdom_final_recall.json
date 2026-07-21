@@ -1,0 +1,23 @@
+{
+  "interaction_id": "wisdom_final_recall",
+  "widget": "sort_types",
+  "title": "The Sage's Last Question",
+  "prompt": "One final sorting. Place each value with its family, and the door will open.",
+  "config": {
+    "bins": [
+      { "id": "str", "label": "String", "hint": "text in quotes" },
+      { "id": "int", "label": "Integer", "hint": "whole numbers" },
+      { "id": "float", "label": "Float", "hint": "decimal numbers" },
+      { "id": "bool", "label": "Boolean", "hint": "True or False" }
+    ],
+    "items": [
+      { "id": "r1", "text": "input(\"Name: \")", "bin": "str", "reveal": "input() always hands back text — never a number." },
+      { "id": "r2", "text": "{{strength}}", "bin": "int" },
+      { "id": "r3", "text": "1.0", "bin": "float", "reveal": "A decimal point makes it a Float, even when it looks whole." },
+      { "id": "r4", "text": "{{hp}} > 0", "bin": "bool", "reveal": "A comparison always answers True or False." },
+      { "id": "r5", "text": "\"{{class_name}}\"", "bin": "str" },
+      { "id": "r6", "text": "int(\"42\")", "bin": "int", "reveal": "int() converts text into a real number." }
+    ]
+  },
+  "reward": { "xp": 30, "gold": 15, "achievement": "SCHOLAR OF THE FOUR FAMILIES" }
+}

@@ -1,0 +1,16 @@
+{
+  "interaction_id": "wisdom_reassign",
+  "widget": "value_dial",
+  "title": "What Is Placed May Be Replaced",
+  "prompt": "You drank a healing draught. Set potion_count to its new value and watch the chest forget the old one.",
+  "config": {
+    "variable": "potion_count",
+    "initial": 3,
+    "target": 2,
+    "min": 0,
+    "max": 6,
+    "before_caption": "potion_count = 3",
+    "success": "The 3 dissolves. The chest holds only 2 — the old value is gone entirely."
+  },
+  "reward": { "xp": 10, "gold": 0 }
+}

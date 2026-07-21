@@ -1,0 +1,174 @@
+@scene chapter_2_trial_of_choice
+
+background: valley_vista.jpg
+music: mystery_forest.mp3
+
+dialogue:
+"You step through the doorway."
+"Behind you, the endless hall folds shut like a closing book."
+"The last of the Sage's floating chests wink out, one by one."
+"Warm air fills your lungs — real air, with weather in it."
+"And a whole world opens up beneath you."
+"Green valleys. A river threading between farmland. Mountains standing in the far haze."
+"After an eternity of shelves and lamplight, the sky feels impossibly wide."
+
+npc You:
+"So this is what was on the other side of the door."
+
+background: green_valley.jpg
+
+dialogue:
+"You follow the path down into the valley."
+"Long grass brushes your knees. Wildflowers lean out of the verge."
+"For a while there is nothing to do but walk, and it is the first easy thing that has happened to you."
+"Far ahead, a dark treeline waits at the valley's edge."
+
+npc You:
+"The Sage said someone was waiting."
+
+background: deep_forest.jpg
+
+dialogue:
+"The trees close over you, and the light goes green and dim."
+"Twisted branches lock overhead, casting long shadows across the forest floor."
+"A narrow path reveals itself between the trunks."
+"You take a cautious step forward."
+"Then another."
+"The silence is unsettling."
+"Not a bird sings."
+"Not a leaf rustles."
+"Only the sound of your own footsteps echoes through the woods."
+"..."
+"Suddenly—"
+
+npc Unknown:
+"AAAGH!"
+
+dialogue:
+"A cry of pain pierces the silence."
+"Without thinking, you sprint toward the voice."
+"Branches whip past your face as you race deeper into the forest."
+"The trees suddenly part..."
+
+background: forest_gate.png
+
+dialogue:
+"Before you stands an enormous stone gate, carved into the side of an ancient mountain."
+"The gate is covered in glowing runes that pulse with mysterious energy."
+"At its base lies an elderly man wrapped in a worn, tattered cloak."
+
+background: elder_mage.png
+
+dialogue:
+"He appears to be in his eighties."
+"His breathing is heavy."
+"He struggles to remain conscious."
+"You kneel beside him."
+
+npc You:
+"Sir! Are you alright?"
+
+dialogue:
+"The old man slowly opens his eyes."
+"A faint smile appears on his face."
+
+npc Old Man:
+"Traveller..."
+
+dialogue:
+"He coughs before continuing."
+
+npc Old Man:
+"Please... help me."
+"I have spent decades trying to open it..."
+"...but age has finally caught up with me."
+"If you help me unlock this gate..."
+"...I shall repay you with something far more valuable than treasure."
+
+dialogue:
+"He looks directly into your eyes."
+
+npc Old Man:
+"Knowledge."
+
+background: forest_gate.png
+
+dialogue:
+"The glowing runes across the gate suddenly begin to shine."
+"The ground trembles."
+"Ancient symbols appear before you."
+
+system notification:
+"NEW QUEST"
+"TRIAL OF CHOICE"
+"Teach the gate how to decide."
+
+dialogue:
+"The old man slowly rises to his feet, leaning on his wooden staff."
+"He places his hand upon the gate."
+"Three ancient symbols ignite."
+"🔥 Fire"
+"🌊 Water"
+"🌿 Nature"
+"The symbols float in the air, waiting."
+"The old man begins to explain."
+
+npc Old Man:
+"This is the Gate of Choices."
+"Unlike the trials before, strength alone cannot open it."
+"This gate obeys only one law..."
+"...the law of decisions."
+
+dialogue:
+"He traces three glowing lines in the air."
+"Each line connects to one of the symbols."
+
+npc Old Man:
+"You already carry the spells you need, {{player_name}}."
+"input() — to ask the traveller for a number."
+"print() — to declare which path opens."
+"What you lack is the power to CHOOSE between them."
+
+dialogue:
+"He taps the gate twice with his staff."
+
+npc Old Man:
+"The gate will present a number."
+"If the number is 1, the path of Fire must open."
+"If the number is 2, the path of Water must open."
+"If the number is 3, the path of Nature must open."
+
+dialogue:
+"He pauses."
+"The symbols suddenly dim."
+
+npc Old Man:
+"But beware..."
+"If the traveler enters any other number..."
+"...the gate must reject the choice."
+
+dialogue:
+"The ancient runes rearrange themselves into a glowing command."
+"[Enter a number between 1, 2 and 3.]"
+"The old man turns toward you."
+
+npc Old Man:
+"The gate cannot think for itself."
+"It follows only the instructions it is given."
+"You must teach it how to choose."
+
+dialogue:
+"The runes begin assembling into lines of unfinished code."
+
+system system:
+"MISSION"
+"Write an if / elif / else statement."
+"1 → Fire · 2 → Water · 3 → Nature"
+"Anything else → 'Enter number between 1, 2 and 3.'"
+
+dialogue:
+"The old man steps back."
+"The gate waits in silence."
+"Only your code can decide which path will open."
+
+mission: trial_of_choice

@@ -1,0 +1,11 @@
+{
+  "_comment": "Interaction widgets the frontend can render. Keys must match the registry in frontend/src/components/interactions/registry.jsx. The backend reads this only to warn at startup when a .scene references a widget the UI cannot draw — which would otherwise strand the learner on a blank beat.",
+  "widgets": [
+    "system_scan",
+    "reveal_chests",
+    "build_statement",
+    "value_dial",
+    "sort_types",
+    "predict_output"
+  ]
+}

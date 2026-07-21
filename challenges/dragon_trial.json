@@ -1,0 +1,44 @@
+{
+  "challenge_id": "dragon_trial",
+  "topic": "Algorithms / Sliding Window",
+  "difficulty": "boss",
+  "title": "Trial of the Dragon",
+  "narrative": "The dragon spreads his wings.\nThousands of villagers appear below.\nEach villager bears a name.\nSome names are unique.\nOthers appear many times.\nThe dragon speaks.\n\"Arrange the people into the longest procession possible.\"\n\"The procession must never contain two people with the same name.\"\n\"Tell me the greatest length such a procession may reach.\"\n\"Show me your code.\"",
+  "instructions": "Given a string `s`, find the length of the longest substring without repeating characters.\n\n- Define a function named `longest_substring`\n- It must take a single string parameter `s`\n- It must return an integer representing the maximum length\n\nExample 1:\nInput: `s = \"abcabcbb\"`\nOutput: `3` (The substring is \"abc\")\n\nExample 2:\nInput: `s = \"bbbbb\"`\nOutput: `1` (The substring is \"b\")\n\nExample 3:\nInput: `s = \"pwwkew\"`\nOutput: `3` (The substring is \"wke\")",
+  "starting_code": "def longest_substring(s: str) -> int:\n    # Write your solution here\n    pass\n",
+  "test_type": "function",
+  "function_name": "longest_substring",
+  "validation_tests": [
+    {
+      "input": "abcabcbb",
+      "expected": 3
+    },
+    {
+      "input": "bbbbb",
+      "expected": 1
+    },
+    {
+      "input": "pwwkew",
+      "expected": 3
+    },
+    {
+      "input": "",
+      "expected": 0
+    },
+    {
+      "input": "dvdf",
+      "expected": 3
+    }
+  ],
+  "hints": [
+    "A naive solution might check every possible substring, but that's too slow.",
+    "Think about using a 'sliding window' approach.",
+    "You can use a dictionary or a set to keep track of characters you've seen and their positions."
+  ],
+  "reward": {
+    "xp": 500,
+    "gold": 250,
+    "title": "Dragon Conqueror",
+    "achievement": "DRAGON CONQUEROR"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "challenge_id": "wisdom_listener_of_worlds",
+  "topic": "input() and print()",
+  "difficulty": "easy",
+  "title": "Listener of Worlds",
+  "narrative": "The crystal in the hall speaks: 'Choose your weapon.' But it waits in silence. The spell input() allows the world to speak back to you. Ask for a weapon, store the answer, then announce it.",
+  "instructions": "Write a program that:\n1. Asks the user: `Choose your weapon: ` (using `input()`)\n2. Stores their answer in a variable called `weapon`\n3. Prints: `You chose: ` followed by the weapon name\n\nExpected output (if user types `Sword`):\n```\nYou chose: Sword\n```\n\n**Hint:** `print(\"You chose:\", weapon)` prints the label and value separated by a space.",
+  "starting_code": "# Ask the player to choose a weapon and store it:\nweapon = input(\"Choose your weapon: \")\n\n# Print the chosen weapon:\n",
+  "test_type": "script_output",
+  "validation_tests": [
+    {
+      "input": "Sword",
+      "expected_output": "Choose your weapon: You chose: Sword\n"
+    },
+    {
+      "input": "Staff",
+      "expected_output": "Choose your weapon: You chose: Staff\n"
+    },
+    {
+      "input": "Bow",
+      "expected_output": "Choose your weapon: You chose: Bow\n"
+    }
+  ],
+  "hints": [
+    "Use weapon = input(\"Choose your weapon: \") to read the player's choice.",
+    "Use print(\"You chose:\", weapon) to display it.",
+    "Make sure the prompt text inside input() matches exactly: 'Choose your weapon: '"
+  ],
+  "reward": {
+    "xp": 30,
+    "gold": 15,
+    "achievement": "LISTENER OF WORLDS"
+  }
+}

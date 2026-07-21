@@ -1,0 +1,39 @@
+@scene chapter_1_dragon_trial
+
+background: dragon_celestial.jpg
+music: dragon_theme.mp3
+
+dialogue:
+"The dragon's eyes ignite with a terrifying golden fire."
+
+npc Dragon:
+"You..."
+"You would steal power you have not earned."
+"Then prove yourself."
+"Face the Trial of the Dragon."
+
+system warning:
+"WARNING"
+"DRAGON TRIAL INITIATED"
+"Failure will reset every stat you claimed."
+
+dialogue:
+"The dragon spreads his wings."
+"Thousands of glowing figures appear below."
+"Each figure bears a name, but some names repeat."
+
+npc Dragon:
+"Arrange these souls into the longest procession possible."
+"The procession must never contain two souls with the same name."
+"Tell me the greatest length such a procession may reach."
+"Show me your code."
+
+mission:
+dragon_trial
+
+reward:
+xp: 500
+title: Dragon Conqueror
+achievement: DRAGON CONQUEROR
+
+next: chapter_1b_wisdom_of_system

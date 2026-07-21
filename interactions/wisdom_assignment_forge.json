@@ -1,0 +1,24 @@
+{
+  "interaction_id": "wisdom_assignment_forge",
+  "widget": "build_statement",
+  "title": "Forge a Variable",
+  "prompt": "Drag the fragments into place to bind a value to a name.",
+  "config": {
+    "target": "gold_pouch = 40",
+    "slots": ["name", "operator", "value"],
+    "slot_labels": {
+      "name": "the chest's name",
+      "operator": "place inside",
+      "value": "what goes in"
+    },
+    "fragments": [
+      { "id": "f1", "text": "gold_pouch", "slot": "name" },
+      { "id": "f2", "text": "=", "slot": "operator" },
+      { "id": "f3", "text": "40", "slot": "value" },
+      { "id": "f4", "text": "==", "slot": null, "wrong_hint": "That asks a question. It does not store anything." },
+      { "id": "f5", "text": "\"40\"", "slot": null, "wrong_hint": "Quotes would make it text — you cannot spend text." }
+    ],
+    "success": "The lid snaps shut. gold_pouch now remembers 40."
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

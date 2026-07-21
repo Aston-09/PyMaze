@@ -1,0 +1,23 @@
+{
+  "interaction_id": "wisdom_input_flow",
+  "widget": "predict_output",
+  "title": "What the World Hands Back",
+  "prompt": "The crystal is asked a question and a traveller answers '7'. Predict what happens.",
+  "config": {
+    "rounds": [
+      {
+        "code": "age = input(\"Your age: \")\nprint(age + 1)",
+        "options": ["8", "an error", "71"],
+        "answer": 1,
+        "explain": "input() always returns Text. Text plus a number is not something Python can do — so it refuses."
+      },
+      {
+        "code": "age = int(input(\"Your age: \"))\nprint(age + 1)",
+        "options": ["8", "an error", "71"],
+        "answer": 0,
+        "explain": "int() converts the text \"7\" into the number 7. Now it can be added."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 5 }
+}

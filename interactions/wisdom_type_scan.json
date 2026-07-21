@@ -1,0 +1,15 @@
+{
+  "interaction_id": "wisdom_type_scan",
+  "widget": "system_scan",
+  "title": "System Analysis",
+  "prompt": "The Sage feeds each value into the scanner. Touch one to read its nature.",
+  "config": {
+    "scan_label": "SYSTEM ANALYSIS — DETERMINING TYPE",
+    "lines": [
+      { "code": "\"{{player_name}}\"", "note": "Type Detected: STRING — text, bounded by quotation marks.", "accent": "string" },
+      { "code": "{{hp}}", "note": "Type Detected: INTEGER — a whole number, never fractured.", "accent": "int" },
+      { "code": "12.5", "note": "Type Detected: FLOAT — a number carrying a decimal point.", "accent": "float" },
+      { "code": "True", "note": "Type Detected: BOOLEAN — truth, with only two faces.", "accent": "bool" }
+    ]
+  }
+}

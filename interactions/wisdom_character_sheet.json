@@ -1,0 +1,16 @@
+{
+  "interaction_id": "wisdom_character_sheet",
+  "widget": "system_scan",
+  "title": "Character Sheet Recovered",
+  "prompt": "The Sage's scan sweeps your Awakening. Touch each line to recall what you wrote.",
+  "config": {
+    "scan_label": "SYSTEM SCAN — RETRIEVING AWAKENING RECORD",
+    "lines": [
+      { "code": "player_name = \"{{player_name}}\"", "note": "The name you chose." },
+      { "code": "hp = {{hp}}", "note": "The health you claimed." },
+      { "code": "strength = {{strength}}", "note": "The power you claimed." },
+      { "code": "mana = {{mana}}", "note": "The magic you claimed." },
+      { "code": "class_name = \"{{class_name}}\"", "note": "The path you walk." }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "wisdom_predict_print",
+  "widget": "predict_output",
+  "title": "Speak Carefully",
+  "prompt": "The mirror will show exactly what print() is given. Choose what appears.",
+  "config": {
+    "rounds": [
+      {
+        "code": "player_name = \"{{player_name}}\"\nprint(player_name)",
+        "options": ["player_name", "{{player_name}}"],
+        "answer": 1,
+        "explain": "No quotes — so print() opens the chest and shows what is inside."
+      },
+      {
+        "code": "player_name = \"{{player_name}}\"\nprint(\"player_name\")",
+        "options": ["player_name", "{{player_name}}"],
+        "answer": 0,
+        "explain": "Quotes make it text. print() shows the words themselves, not the chest."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

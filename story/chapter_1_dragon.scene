@@ -1,0 +1,43 @@
+@scene chapter_1_dragon
+
+background: ruins.png
+music: dragon_theme.mp3
+
+npc System:
+"Chapter 1: The Dragon's Trial"
+
+dialogue:
+"You take your first step."
+"Your vision suddenly becomes blurry."
+"The world fades into darkness."
+"..."
+
+background: dragon_celestial.jpg
+
+dialogue:
+"A pair of enormous golden eyes open before you."
+"A dragon slowly descends from the sky."
+"The ancient creature studies you in silence."
+"Its voice echoes through your mind."
+
+npc Dragon:
+"HUMAN."
+"STATE YOUR PURPOSE."
+
+dialogue:
+"You cannot speak."
+"The dragon closes its eyes."
+
+npc Dragon:
+"Then..."
+"I shall judge your soul instead."
+
+system status:
+"SYSTEM SCANNING"
+"Evaluating soul of {{player_name}}."
+"HP {{hp}} · STR {{strength}} · DEF {{defense}} · MP {{mana}}"
+
+condition: player.story_flags.get('dragon_trial_required') == True
+next: chapter_1_dragon_trial
+
+next: chapter_1b_wisdom_of_system

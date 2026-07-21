@@ -1,0 +1,53 @@
+@scene awakening
+
+background: night_forest.avif
+music: awakening.mp3
+
+dialogue:
+"Darkness."
+"..."
+"You slowly open your eyes."
+"A cold wind brushes against your face."
+"Wet grass beneath your hands. The smell of earth and pine."
+"Above you, through black branches, hang stars in shapes you do not recognise."
+
+background: night_valley.avif
+
+dialogue:
+"You sit up."
+"The trees fall away below you into a valley you have never seen."
+"Mountains stand black against a sky the colour of deep water."
+"A thin crescent moon rests above them — too small, and the wrong shape."
+"You don't remember how you got here."
+"You don't remember anything before this moment."
+
+background: ruins.png
+
+dialogue:
+"You turn."
+"Behind you, half-swallowed by the hillside, stand ancient ruins."
+"Broken columns. Stone worn smooth by centuries of weather."
+"Something deep inside them is still faintly glowing."
+"Suddenly..."
+
+system arrival:
+"ISEKAI ARRIVAL"
+"You have been summoned to another world."
+
+system alarm:
+"SYSTEM INITIALIZING"
+"Welcome, Unknown Traveler."
+"Identity required."
+
+npc System:
+"Please initialize your character."
+
+mission:
+variables_intro
+
+reward:
+xp: 25
+title: Awakened One
+
+next:
+chapter_1_dragon

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "wisdom_quote_trap",
+  "widget": "predict_output",
+  "title": "The Boundary of Quotes",
+  "prompt": "The System will run this. Predict what the mirror shows.",
+  "config": {
+    "rounds": [
+      {
+        "code": "hp = {{hp}}\nprint(hp + 10)",
+        "options": ["{{hp}}10", "an error", "the sum of {{hp}} and 10"],
+        "answer": 2,
+        "explain": "hp holds a number, so + adds. The mirror shows the total."
+      },
+      {
+        "code": "hp = \"{{hp}}\"\nprint(hp + \"10\")",
+        "options": ["{{hp}}10", "the sum of {{hp}} and 10", "an error"],
+        "answer": 0,
+        "explain": "Inside quotes it is text. + does not add text — it joins it end to end."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 5 }
+}

@@ -1,0 +1,31 @@
+{
+  "challenge_id": "control_flow_intro",
+  "topic": "Control Flow (If / Else)",
+  "difficulty": "easy",
+  "title": "Path of Logic",
+  "narrative": "A fork in the road appears. You must use logic to determine the correct path.",
+  "instructions": "The variable `power_level` is already provided by the System — do not assign it yourself, or you will overwrite the reading being tested.\n\n- If `power_level` is greater than 9000, create a variable `status` and set it to `\"Over 9000!\"`.\n- Otherwise, set `status` to `\"Normal\"`.",
+  "starting_code": "# `power_level` is provided by the System (do not reassign it).\n\n# Write your if/else statement below:\n\n",
+  "test_type": "script_variable",
+  "input_variable": "power_level",
+  "output_variable": "status",
+  "validation_tests": [
+    {
+      "input": 9001,
+      "expected": "Over 9000!"
+    },
+    {
+      "input": 500,
+      "expected": "Normal"
+    }
+  ],
+  "hints": [
+    "Use 'if power_level > 9000:' followed by 'else:'",
+    "Remember to indent the code inside the if and else blocks."
+  ],
+  "reward": {
+    "xp": 75,
+    "gold": 30,
+    "achievement": "LOGIC GATEKEEPER"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "interaction_id": "wisdom_sort_types",
+  "widget": "sort_types",
+  "title": "The Four Families",
+  "prompt": "Drag each value into the family it belongs to.",
+  "config": {
+    "bins": [
+      { "id": "str", "label": "String", "hint": "text in quotes" },
+      { "id": "int", "label": "Integer", "hint": "whole numbers" },
+      { "id": "float", "label": "Float", "hint": "decimal numbers" },
+      { "id": "bool", "label": "Boolean", "hint": "True or False" }
+    ],
+    "items": [
+      { "id": "i1", "text": "\"{{player_name}}\"", "bin": "str" },
+      { "id": "i2", "text": "{{hp}}", "bin": "int" },
+      { "id": "i3", "text": "0.75", "bin": "float" },
+      { "id": "i4", "text": "True", "bin": "bool" },
+      { "id": "i5", "text": "\"250\"", "bin": "str", "reveal": "Quoted digits are still text — you cannot add them up." },
+      { "id": "i6", "text": "False", "bin": "bool" },
+      { "id": "i7", "text": "99.9", "bin": "float" },
+      { "id": "i8", "text": "\"Mage\"", "bin": "str" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}
