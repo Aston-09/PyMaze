@@ -1,16 +1,23 @@
-# PyBe
+# PyMaze
 
 **Learn Python by playing an RPG where code is your weapon.**
 
-PyBe is a scenario-driven Python learning engine. Instead of textbook exercises, learners write real Python to solve in-world problems — initialising a character's stats with variables, surviving a dragon's trial with an algorithm, teaching a gate to choose with `if`/`elif`/`else`.
+PyMaze is a scenario-driven Python learning engine. Instead of textbook exercises, learners write real Python to solve in-world problems — initialising a character's stats with variables, surviving a dragon's trial with an algorithm, teaching a gate to choose with `if`/`elif`/`else`.
 
 It is built as an **engine, not a game**. The engine is permanent; every scene, challenge, interaction and asset is loaded from external data files. Adding `story/chapter_18.scene` requires zero engine changes.
+
+### 🔥 Recent Upgrades
+- **Multi-User Authentication**: Full Login/Registration system using JWT tokens to secure your journey.
+- **MongoDB Atlas Integration**: Progress is safely persisted to the cloud instead of local memory.
+- **Player Profile & Heatmap**: Track your daily puzzle-solving streaks with a 90-day GitHub-style activity heatmap!
+- **Fast-Forward**: A new "Skip Scene" feature to instantly jump to the next interactive challenge or system popup.
+- **Robust Error Handling**: Graceful UI fallbacks for backend disconnections or database timeouts.
 
 ---
 
 ## Quick start
 
-**Requirements:** Python 3.11+ and Node.js 20+.
+**Requirements:** Python 3.11+, Node.js 20+, and a MongoDB Atlas Cluster.
 
 ```bash
 # 1. Backend  (terminal 1)
@@ -35,7 +42,7 @@ Startup prints any authoring problems it finds (missing backgrounds, unknown wid
 ## Project layout
 
 ```
-PyBe/
+PyMaze/
 ├── backend/app/
 │   ├── main.py              FastAPI routes
 │   ├── engine/              story_loader · challenge_loader · interaction_loader
@@ -65,7 +72,7 @@ PyBe/
 
 | Variable | Side | Default | Purpose |
 |---|---|---|---|
-| `PYBE_CORS_ORIGINS` | backend | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated origins allowed to call the API. |
+| `PYMAZE_CORS_ORIGINS` | backend | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated origins allowed to call the API. |
 | `VITE_API_BASE` | frontend | `http://localhost:8000` | Backend origin. Inlined at **build** time, not runtime. |
 
 Copy `frontend/.env.example` to `frontend/.env` to override locally.
@@ -81,7 +88,7 @@ The two halves deploy independently.
 ```bash
 pip install -r backend/requirements.txt
 cd backend
-PYBE_CORS_ORIGINS="https://your-frontend.example.com" \
+PYMAZE_CORS_ORIGINS="https://your-frontend.example.com" \
   uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
@@ -97,12 +104,11 @@ VITE_API_BASE="https://your-backend.example.com" npm run build
 
 ### Before going public
 
-Two things are single-player local defaults, not production behaviour:
+One thing is still a local default, not production behaviour:
 
-- **Saves are a single shared player.** `player_manager` holds one in-memory player and `saves/` writes flat JSON. Multi-user deployment needs sessions and a real datastore.
 - **Code execution is sandboxed by restricted globals**, which stops accidents, not a determined attacker. Untrusted public traffic wants an OS-level sandbox (container, gVisor, or a dedicated runner) and a wall-clock timeout.
 
-Both are fine for local use, a demo, or a trusted classroom.
+This is fine for local use, a demo, or a trusted classroom. (Note: The previous limitation of single-player local saves has been resolved with our new MongoDB and JWT Auth architecture!)
 
 ---
 
@@ -147,8 +153,10 @@ Full detail: [`docs/03_story_language.md`](docs/03_story_language.md) and [`docs
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/` | Health check; lists loaded scenes, challenges, interactions |
+| `POST`| `/api/auth/register` | Register a new user account |
+| `POST`| `/api/auth/login` | Authenticate and receive a JWT access token |
 | `GET` | `/api/scene/{scene_id}` | A parsed scene with its challenges and interactions, rendered for the live player |
-| `GET` | `/api/player` | Current player state |
+| `GET` | `/api/player` | Current player state (Requires Auth) |
 | `POST` | `/api/execute` | Run learner code against a challenge's validation rules |
 | `POST` | `/api/interaction/complete` | Grant an interaction reward (idempotent) |
 | `POST` | `/api/advance` | Advance to the next scene, evaluating conditions |

@@ -9,8 +9,9 @@ import React, { useState, useEffect, useRef } from 'react';
  * Props:
  *   dialogues: Array of { speaker, lines }
  *   onComplete: called when all dialogue has been shown
+ *   onSkipAll: called when the player wants to skip all dialogue in the scene
  */
-export default function DialogueBox({ dialogues, onComplete }) {
+export default function DialogueBox({ dialogues, onComplete, onSkipAll }) {
   const [currentDialogueIdx, setCurrentDialogueIdx] = useState(0);
   const [currentLineIdx, setCurrentLineIdx] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
@@ -89,6 +90,11 @@ export default function DialogueBox({ dialogues, onComplete }) {
           {isTyping && <span className="dialogue-cursor" />}
         </div>
         <div className="dialogue-controls">
+          {onSkipAll && (
+            <button className="btn btn-ghost" onClick={onSkipAll} style={{ opacity: 0.7, marginRight: 'auto' }}>
+              Skip Scene ⏭
+            </button>
+          )}
           <button className="btn btn-ghost" onClick={handleContinue}>
             {isTyping ? 'Skip ⏩' : (
               currentDialogueIdx >= dialogues.length - 1 &&

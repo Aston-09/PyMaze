@@ -8,7 +8,7 @@ import InteractionStage from './interactions/InteractionStage';
 import SceneBackground from './SceneBackground';
 import SystemPanel from './SystemPanel';
 
-import { API_URL } from '../config';
+import { apiFetch } from '../utils/api';
 
 /**
  * Collapse a scene's beat stream into playable segments.
@@ -67,7 +67,7 @@ export default function SceneManager({ player, setPlayer }) {
   const fetchScene = useCallback(async (sceneId) => {
     try {
       setMode('loading');
-      const res = await fetch(`${API_URL}/scene/${sceneId}`);
+      const res = await apiFetch(`/scene/${sceneId}`);
       if (!res.ok) {
         setMode('end');
         return;
@@ -95,9 +95,8 @@ export default function SceneManager({ player, setPlayer }) {
   const advanceToScene = useCallback(async (currentSceneId) => {
     try {
       setMode('loading');
-      const res = await fetch(`${API_URL}/advance`, {
+      const res = await apiFetch(`/advance`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ current_scene: currentSceneId }),
       });
       const data = await res.json();
@@ -133,6 +132,27 @@ export default function SceneManager({ player, setPlayer }) {
       setMode('end');
     }
   }, [segmentIdx, segments.length, scene, advanceToScene]);
+
+  /** Skip all dialogues to the next task, system panel, or end of scene. */
+  const skipToNextTask = useCallback(() => {
+    let nextIdx = segmentIdx + 1;
+    while (nextIdx < segments.length) {
+      const k = segments[nextIdx].kind;
+      if (k === 'mission' || k === 'interactive' || k === 'system') {
+        break;
+      }
+      nextIdx++;
+    }
+
+    if (nextIdx < segments.length) {
+      setSegmentIdx(nextIdx);
+      setMode('playing');
+    } else if (scene?.scene_id) {
+      advanceToScene(scene.scene_id);
+    } else {
+      setMode('end');
+    }
+  }, [segmentIdx, segments, scene, advanceToScene]);
 
   const handleChallengeSuccess = (result) => {
     if (result.player) setPlayer(result.player);
@@ -188,6 +208,7 @@ export default function SceneManager({ player, setPlayer }) {
               key={segmentIdx}
               dialogues={segment.dialogues}
               onComplete={nextSegment}
+              onSkipAll={skipToNextTask}
             />
           </div>
         </div>

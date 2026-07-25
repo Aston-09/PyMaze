@@ -1,40 +1,20 @@
 """
 Player Manager
 
-Manages the in-memory player state. Contains the Dragon's Judgment logic
-and handles stat updates from challenge completions.
+Stateless utility functions to mutate PlayerState.
 """
 from typing import Dict, Any, Tuple
+from datetime import date
 from app.models.player import PlayerState, BASE_STATS, MAX_STATS
 
-
-# In-memory player state (single-player prototype)
-_player: PlayerState = PlayerState()
-
-
-def get_player() -> PlayerState:
-    """Return the current player state."""
-    return _player
-
-
-def reset_player() -> PlayerState:
-    """Reset player to default state."""
-    global _player
-    _player = PlayerState()
-    return _player
-
-
-def update_player_from_variables(user_vars: Dict[str, Any]) -> PlayerState:
+def update_player_from_variables(player: PlayerState, user_vars: Dict[str, Any]) -> PlayerState:
     """After Chapter 0's 'variables' challenge, apply the user-defined
     stats to the player object."""
-    global _player
-
     if "player_name" in user_vars and isinstance(user_vars["player_name"], str):
-        _player.name = user_vars["player_name"]
+        player.name = user_vars["player_name"]
     if "class_name" in user_vars and isinstance(user_vars["class_name"], str):
-        _player.class_name = user_vars["class_name"]
+        player.class_name = user_vars["class_name"]
 
-    # Map user variables to player stats
     stat_mapping = {
         "hp": "hp",
         "strength": "strength",
@@ -46,31 +26,23 @@ def update_player_from_variables(user_vars: Dict[str, Any]) -> PlayerState:
 
     for var_name, attr_name in stat_mapping.items():
         if var_name in user_vars and isinstance(user_vars[var_name], (int, float)):
-            setattr(_player, attr_name, int(user_vars[var_name]))
+            setattr(player, attr_name, int(user_vars[var_name]))
 
-    return _player
+    return player
 
-
-def judge_stats() -> Tuple[str, str]:
-    """The Dragon's Judgment.
-
-    Returns:
-        (judgment, narrative):
-        - judgment: "weak", "balanced", or "overpowered"
-        - narrative: the dragon's dialogue
-    """
+def judge_stats(player: PlayerState) -> Tuple[str, str]:
     is_weak = False
     is_overpowered = False
 
     for stat_name, min_val in BASE_STATS.items():
         if stat_name in ("xp", "gold"):
             continue
-        current = getattr(_player, stat_name, min_val)
+        current = getattr(player, stat_name, min_val)
         if current < min_val:
             is_weak = True
 
     for stat_name, max_val in MAX_STATS.items():
-        current = getattr(_player, stat_name, 0)
+        current = getattr(player, stat_name, 0)
         if current > max_val:
             is_overpowered = True
 
@@ -99,77 +71,57 @@ def judge_stats() -> Tuple[str, str]:
             "\"I shall watch.\""
         )
 
-
-def apply_blessing() -> PlayerState:
-    """Rule 1: Raise all stats below minimums to the base values."""
-    global _player
+def apply_blessing(player: PlayerState) -> PlayerState:
     for stat_name, min_val in BASE_STATS.items():
         if stat_name in ("xp", "gold"):
             continue
-        if getattr(_player, stat_name) < min_val:
-            setattr(_player, stat_name, min_val)
+        if getattr(player, stat_name) < min_val:
+            setattr(player, stat_name, min_val)
 
-    if "DRAGON'S BLESSING" not in _player.achievements:
-        _player.achievements.append("DRAGON'S BLESSING")
-    return _player
+    if "DRAGON'S BLESSING" not in player.achievements:
+        player.achievements.append("DRAGON'S BLESSING")
+    return player
 
+def apply_recognition(player: PlayerState) -> PlayerState:
+    if "DRAGON'S RECOGNITION" not in player.achievements:
+        player.achievements.append("DRAGON'S RECOGNITION")
+    return player
 
-def apply_recognition() -> PlayerState:
-    """Rule 2: Stats are fine. Just grant the achievement."""
-    global _player
-    if "DRAGON'S RECOGNITION" not in _player.achievements:
-        _player.achievements.append("DRAGON'S RECOGNITION")
-    return _player
-
-
-def apply_reset() -> PlayerState:
-    """Rule 3 (failed trial): Reset all stats to base values."""
-    global _player
+def apply_reset(player: PlayerState) -> PlayerState:
     for stat_name, base_val in BASE_STATS.items():
-        setattr(_player, stat_name, base_val)
+        setattr(player, stat_name, base_val)
+    return player
 
-    return _player
+def award_xp(player: PlayerState, amount: int) -> PlayerState:
+    player.xp += amount
+    player.level = 1 + player.xp // 100
+    return player
 
+def award_gold(player: PlayerState, amount: int) -> PlayerState:
+    player.gold += amount
+    return player
 
-def award_xp(amount: int) -> PlayerState:
-    """Award XP and check for level-up."""
-    global _player
-    _player.xp += amount
-    # Simple leveling: every 100 XP = 1 level
-    _player.level = 1 + _player.xp // 100
-    return _player
+def award_stats(player: PlayerState, int_bonus: int = 0, wis_bonus: int = 0, dex_bonus: int = 0) -> PlayerState:
+    player.intelligence += int_bonus
+    player.wisdom += wis_bonus
+    player.dexterity += dex_bonus
+    return player
 
+def complete_mission(player: PlayerState, mission_id: str) -> PlayerState:
+    today_str = date.today().isoformat()
+    if not player.activity_log:
+        player.activity_log = {}
+    player.activity_log[today_str] = player.activity_log.get(today_str, 0) + 1
 
-def award_gold(amount: int) -> PlayerState:
-    global _player
-    _player.gold += amount
-    return _player
+    if mission_id not in player.completed_missions:
+        player.completed_missions.append(mission_id)
+    return player
 
+def unlock_achievement(player: PlayerState, name: str) -> PlayerState:
+    if name not in player.achievements:
+        player.achievements.append(name)
+    return player
 
-def award_stats(int_bonus: int = 0, wis_bonus: int = 0, dex_bonus: int = 0) -> PlayerState:
-    global _player
-    _player.intelligence += int_bonus
-    _player.wisdom += wis_bonus
-    # Note: dexterity is a combat stat; DEX bonus from coding maps to it
-    _player.dexterity += dex_bonus
-    return _player
-
-
-def complete_mission(mission_id: str) -> PlayerState:
-    global _player
-    if mission_id not in _player.completed_missions:
-        _player.completed_missions.append(mission_id)
-    return _player
-
-
-def unlock_achievement(name: str) -> PlayerState:
-    global _player
-    if name not in _player.achievements:
-        _player.achievements.append(name)
-    return _player
-
-
-def advance_scene(scene_id: str) -> PlayerState:
-    global _player
-    _player.current_scene = scene_id
-    return _player
+def advance_scene(player: PlayerState, scene_id: str) -> PlayerState:
+    player.current_scene = scene_id
+    return player
