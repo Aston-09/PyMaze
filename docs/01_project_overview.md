@@ -1,7 +1,7 @@
 # Project Overview
 
 ## Vision
-**PyBe** is a modular, scenario-driven Python learning engine. It is designed not as a hardcoded game, but as an extensible engine where all content is data-driven. The core vision is to abandon dry, textbook-style learning in favor of relatable, engaging, and high-stakes scenarios (ranging from fantasy RPG to slice-of-life comedy).
+**PyMaze** is a modular, scenario-driven Python learning engine. It is designed not as a hardcoded game, but as an extensible engine where all content is data-driven. The core vision is to abandon dry, textbook-style learning in favor of relatable, engaging, and high-stakes scenarios (ranging from fantasy RPG to slice-of-life comedy).
 
 ## Goals
 - Provide an interactive, narrative-driven learning experience.

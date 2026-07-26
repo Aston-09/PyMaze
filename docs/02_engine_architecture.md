@@ -1,11 +1,11 @@
 # Engine Architecture
 
 ## Objective
-Build PyBe as a modular game engine, rather than a hardcoded game. The engine must read story files, load referenced assets, execute coding challenges, update player state, and move to the next scene automatically.
+Build PyMaze as a modular game engine, rather than a hardcoded game. The engine must read story files, load referenced assets, execute coding challenges, update player state, and move to the next scene automatically.
 
 ## Recommended Folder Structure
 ```text
-PyBe/
+PyMaze/
 engine/
     story_loader.py
     asset_loader.py

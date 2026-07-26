@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 
-import { API_URL } from '../config';
+import { apiFetch } from '../utils/api';
 
 /**
  * Monaco styled as ink on vellum, so the editor reads as part of the page
@@ -49,9 +49,8 @@ export default function ChallengePanel({ challenge, onSuccess }) {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_URL}/execute`, {
+      const response = await apiFetch(`/execute`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code, challenge_id: challenge.challenge_id }),
       });
       const data = await response.json();
@@ -117,11 +116,11 @@ export default function ChallengePanel({ challenge, onSuccess }) {
           <Editor
             height="100%"
             defaultLanguage="python"
-            theme="pybe-parchment"
+            theme="pymaze-parchment"
             value={code}
             onChange={(val) => setCode(val || '')}
             beforeMount={(monaco) => {
-              monaco.editor.defineTheme('pybe-parchment', PARCHMENT_THEME);
+              monaco.editor.defineTheme('pymaze-parchment', PARCHMENT_THEME);
             }}
             options={{
               minimap: { enabled: false },

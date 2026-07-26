@@ -54,3 +54,4 @@ class PlayerState(BaseModel):
     achievements: List[str] = []
     inventory: List[str] = []
     story_flags: Dict[str, Any] = {}
+    activity_log: Dict[str, int] = {}

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import WIDGETS from './registry';
 
-import { API_URL } from '../../config';
+import { apiFetch } from '../../utils/api';
 
 /**
  * InteractionStage — frame around a single playable beat.
@@ -28,9 +28,8 @@ export default function InteractionStage({ interaction, onComplete, setPlayer })
     setSolved(true);
 
     try {
-      const res = await fetch(`${API_URL}/interaction/complete`, {
+      const res = await apiFetch(`/interaction/complete`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ interaction_id: interaction.interaction_id }),
       });
       const data = await res.json();

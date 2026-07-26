@@ -1,14 +1,14 @@
-# PyBe — Product Requirements Document
+# PyMaze — Product Requirements Document
 
 > **Version:** 1.1 · **Date:** July 21, 2026 · **Status:** Living document
 >
-> This document defines *what* PyBe is and *why*. For setup, deployment, API reference and file layout, see [`README.md`](README.md). For engine internals, see [`docs/`](docs/).
+> This document defines *what* PyMaze is and *why*. For setup, deployment, API reference and file layout, see [`README.md`](README.md). For engine internals, see [`docs/`](docs/).
 
 ---
 
 ## 1. Summary
 
-PyBe is a modular, scenario-driven Python learning engine that teaches programming through RPG narrative. Learners write real Python to solve in-world problems — initialising character stats with variables, surviving a dragon's trial with an algorithm — and progress through branching story driven by their coding proficiency.
+PyMaze is a modular, scenario-driven Python learning engine that teaches programming through RPG narrative. Learners write real Python to solve in-world problems — initialising character stats with variables, surviving a dragon's trial with an algorithm — and progress through branching story driven by their coding proficiency.
 
 It is architected as a **game engine, not a game**. The engine is permanent and stable; all narrative, challenges and assets load from external data files. This separation is what makes infinite content expansion possible without touching engine code, and it is the single most important constraint in the product.
 
@@ -23,7 +23,7 @@ Traditional Python instruction — video courses, textbooks, isolated exercises 
 - **Disconnected practice.** Exercises feel arbitrary and unrelated to each other.
 - **No consequence.** Mistakes carry no weight, so there is little incentive to think before typing.
 
-PyBe embeds Python education in a consequence-driven world where code is the player's primary weapon.
+PyMaze embeds Python education in a consequence-driven world where code is the player's primary weapon.
 
 ---
 
@@ -327,9 +327,9 @@ The architecture is intended to absorb all of these without structural rewrites.
 |---|---|
 | **Scene** | A narrative unit in a `.scene` file — dialogue, assets, challenges, transitions. |
 | **Beat** | A single step within a scene's parsed stream. |
-| **DSL** | PyBe's custom markup for `.scene` files. |
+| **DSL** | PyMaze's custom markup for `.scene` files. |
 | **Challenge** | A JSON-defined coding exercise, referenced by scenes, run by the executor. |
 | **Interaction** | A lightweight playable beat rendered by a frontend widget. |
 | **Dragon's Judgment** | The Chapter 0 stat-balancing mechanic. |
 | **Mana (MP)** | Coding energy that gates submission spam and rewards deliberate work. |
-| **Engine** | PyBe's permanent core — reads data files and orchestrates play, never contains story. |
+| **Engine** | PyMaze's permanent core — reads data files and orchestrates play, never contains story. |
