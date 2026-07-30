@@ -1,37 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import HUD from './components/HUD';
 import SceneManager from './components/SceneManager';
-import AppearancePicker from './components/AppearancePicker';
 
 import { API_URL } from './config';
 
-/**
- * App — Main shell for the application.
- *
- * Handles fetching the initial player state and rendering the HUD.
- * The actual scene logic, modes, and overlays are delegated to SceneManager.
- */
 function App() {
+  const { isAuthenticated, token, logout } = useContext(AuthContext);
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Fetch initial player state
   useEffect(() => {
     const fetchPlayer = async () => {
+      if (!isAuthenticated || !token) {
+        setPlayer(null);
+        return;
+      }
+      
+      setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/player`);
+        const res = await fetch(`${API_URL}/player`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
         if (res.ok) {
           const data = await res.json();
           setPlayer(data);
+          setError(null);
+        } else if (res.status === 401) {
+          logout();
+        } else {
+          setError(`Server Error (${res.status}): The backend couldn't be reached or had an internal error.`);
         }
       } catch (err) {
         console.error('Failed to fetch player:', err);
+        setError('Network Error: Could not connect to the backend server. Please make sure the server and database are running.');
       } finally {
         setLoading(false);
       }
     };
+    
     fetchPlayer();
-  }, []);
+  }, [isAuthenticated, token, logout]);
+
+  if (!isAuthenticated) {
+    return <LoginScreen />;
+  }
 
   if (loading) {
     return (
@@ -41,24 +60,21 @@ function App() {
     );
   }
 
-  // A brand-new player picks their look once, before anything else loads —
-  // every later scene that reflects the player back at them depends on it.
-  if (player && !player.gender) {
-    return (
-      <div className="app-container" style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <AppearancePicker onChosen={setPlayer} />
-      </div>
-    );
-  }
-
   return (
     <div className="app-container">
-      <HUD player={player} />
-      {/* 
-        We pass player and setPlayer to SceneManager so it can update the player
-        state globally (e.g. after earning rewards) which updates the HUD. 
-      */}
-      <SceneManager player={player} setPlayer={setPlayer} />
+      <HUD 
+        player={player} 
+        isSidebarOpen={isSidebarOpen} 
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+        onOpenProfile={() => setIsProfileOpen(true)}
+      />
+      
+      {isProfileOpen && <PlayerProfile player={player} onClose={() => setIsProfileOpen(false)} />}
+      
+      <div style={{ display: 'flex', flex: 1, gap: '1.5rem', minHeight: 0 }}>
+        {isSidebarOpen && <Sidebar player={player} />}
+        <SceneManager player={player} setPlayer={setPlayer} />
+      </div>
     </div>
   );
 }

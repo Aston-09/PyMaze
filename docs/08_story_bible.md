@@ -1,7 +1,7 @@
 # Story Bible
 
 ## World Lore
-The world of PyBe is a blend of ancient mysticism and computational systems. The universe operates on strict logic, and those who can manipulate the "underlying source code" (Python) wield immense power. The player awakens in ancient ruins with no memory, interacting with a seemingly omniscient digital System overlaying the physical world.
+The world of PyMaze is a blend of ancient mysticism and computational systems. The universe operates on strict logic, and those who can manipulate the "underlying source code" (Python) wield immense power. The player awakens in ancient ruins with no memory, interacting with a seemingly omniscient digital System overlaying the physical world.
 
 ## Key Characters
 - **The Player (Unknown Traveler)**: An amnesiac summoned to the world to master the Code.

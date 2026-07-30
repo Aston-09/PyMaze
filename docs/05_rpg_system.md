@@ -1,6 +1,6 @@
 # RPG System
 
-PyBe integrates traditional RPG progression mechanics tied directly to coding proficiency and story progression.
+PyMaze integrates traditional RPG progression mechanics tied directly to coding proficiency and story progression.
 
 ## Base Stats
 The player's character consists of canonical combat stats and programmer statistics. 

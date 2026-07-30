@@ -1,42 +1,27 @@
-"""
-Save System
-
-Persists and loads PlayerState as JSON files in the saves/ directory.
-"""
-import os
-import json
 from app.models.player import PlayerState
+from app.db import saves_collection
+from motor.motor_asyncio import AsyncIOMotorCollection
 
+async def save_game(player: PlayerState, username: str) -> bool:
+    """Save the player state to MongoDB."""
+    player_data = player.model_dump()
+    player_data["username"] = username
+    
+    await saves_collection.update_one(
+        {"username": username},
+        {"$set": player_data},
+        upsert=True
+    )
+    return True
 
-SAVES_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "saves")
-
-
-def save_game(player: PlayerState, slot: str = "autosave") -> str:
-    """Save the player state to a JSON file. Returns the filepath."""
-    os.makedirs(SAVES_DIR, exist_ok=True)
-    filepath = os.path.join(SAVES_DIR, f"{slot}.json")
-
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(player.model_dump(), f, indent=2)
-
-    return filepath
-
-
-def load_game(slot: str = "autosave") -> PlayerState | None:
-    """Load player state from a save file. Returns None if not found."""
-    filepath = os.path.join(SAVES_DIR, f"{slot}.json")
-
-    if not os.path.exists(filepath):
+async def load_game(username: str) -> PlayerState | None:
+    """Load player state from MongoDB. Returns None if not found."""
+    data = await saves_collection.find_one({"username": username})
+    if not data:
         return None
-
-    with open(filepath, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
+        
+    # Remove MongoDB's internal _id and our added username field before initializing PlayerState
+    data.pop("_id", None)
+    data.pop("username", None)
+    
     return PlayerState(**data)
-
-
-def list_saves() -> list[str]:
-    """List all available save slots."""
-    if not os.path.isdir(SAVES_DIR):
-        return []
-    return [f.replace(".json", "") for f in os.listdir(SAVES_DIR) if f.endswith(".json")]

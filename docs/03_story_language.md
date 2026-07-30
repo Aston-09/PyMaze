@@ -1,6 +1,6 @@
 # Story Language (DSL)
 
-To separate engine logic from story content, PyBe uses a custom lightweight DSL (Domain Specific Language) stored in `.scene` files.
+To separate engine logic from story content, PyMaze uses a custom lightweight DSL (Domain Specific Language) stored in `.scene` files.
 
 ## Tags and Syntax
 The engine must parse the following tags:

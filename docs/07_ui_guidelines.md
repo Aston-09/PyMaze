@@ -1,6 +1,6 @@
 # UI Guidelines
 
-The user interface of PyBe must balance the aesthetic of a modern web application with the immersion of an RPG.
+The user interface of PyMaze must balance the aesthetic of a modern web application with the immersion of an RPG.
 
 ## Overall Theme
 - **Aesthetic:** Premium Dark Theme.

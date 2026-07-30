@@ -16,7 +16,7 @@ Isolation model:
 
 ponytail: process-level isolation only. A determined learner can still read
 files via a whitelisted module or burn CPU until the timeout. That is an
-acceptable ceiling for a local single-player game. If PyBe is ever hosted
+acceptable ceiling for a local single-player game. If PyMaze is ever hosted
 multi-tenant, replace this with a container/gVisor/nsjail boundary — keep the
 same stdin/stdout JSON contract and executor.py will not need to change.
 """

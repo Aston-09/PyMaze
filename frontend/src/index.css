@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500&display=swap');
 
 /* ============================================================
-   PyBe — Handcrafted Paper Design System
+   PyMaze — Handcrafted Paper Design System
    Aged parchment, iron-gall ink, gold leaf and wax seals.
    Every surface is a page; every panel is something pressed,
    folded, or bound by hand.
@@ -227,6 +227,9 @@ strong { color: var(--ink); font-weight: 600; }
   gap: 1.25rem;
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+  padding-right: 0.5rem;
 }
 
 .panel {
@@ -411,7 +414,7 @@ strong { color: var(--ink); font-weight: 600; }
 /* ============================================================
    SYSTEM PANELS — the one intentional break from parchment
 
-   Everything else in PyBe is paper and ink because it is part of the
+   Everything else in PyMaze is paper and ink because it is part of the
    handcrafted world. The System is NOT part of that world; it is something
    overlaid on it. So its panels are dark, backlit and machine-precise:
    ornate corner filigree, a crowned icon, rules bracketing a letterspaced
@@ -566,7 +569,10 @@ strong { color: var(--ink); font-weight: 600; }
   font-size: 1.15rem; line-height: 1.75;
   color: var(--ink);
   min-height: 62px;
+  max-height: 35vh;
+  overflow-y: auto;
   position: relative; z-index: 1;
+  padding-right: 0.5rem;
 }
 
 .dialogue-cursor {
@@ -958,7 +964,9 @@ strong { color: var(--ink); font-weight: 600; }
   border: 1px solid var(--paper-edge);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 45vh;
   position: relative;
 }
 
