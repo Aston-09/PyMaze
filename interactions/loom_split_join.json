@@ -1,0 +1,23 @@
+{
+  "interaction_id": "loom_split_join",
+  "widget": "predict_output",
+  "title": "Cut, and Gather",
+  "prompt": "split cuts a ribbon into pieces. join gathers pieces into one ribbon. Predict each.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(\"a,b,c\".split(\",\"))",
+        "options": ["['a', 'b', 'c']", "'a,b,c'", "['a,b,c']", "abc"],
+        "answer": 0,
+        "explain": ".split(',') cuts the ribbon at every comma into a LIST of pieces: ['a', 'b', 'c']."
+      },
+      {
+        "code": "print(\"-\".join([\"x\", \"y\", \"z\"]))",
+        "options": ["x-y-z", "xyz", "['x', 'y', 'z']", "x, y, z"],
+        "answer": 0,
+        "explain": ".join glues a list back into one string, placing '-' between each piece: 'x-y-z'. join is split's mirror."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

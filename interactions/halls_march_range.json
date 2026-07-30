@@ -1,0 +1,23 @@
+{
+  "interaction_id": "halls_march_range",
+  "widget": "predict_output",
+  "title": "The Marching Stones",
+  "prompt": "The corridor's numbered stones light up in order. Predict how far the march goes.",
+  "config": {
+    "rounds": [
+      {
+        "code": "for i in range(1, 4):\n    print(i)",
+        "options": ["1 2 3 4", "1 2 3", "0 1 2 3", "1 2"],
+        "answer": 1,
+        "explain": "range(1, 4) stops BEFORE 4 — it gives 1, 2, 3. The end number is a wall you never step on."
+      },
+      {
+        "code": "for stone in range(3):\n    print(\"step\")",
+        "options": ["step (once)", "step step (twice)", "step step step (3 times)", "forever"],
+        "answer": 2,
+        "explain": "range(3) counts 0, 1, 2 — three numbers, so the body runs three times. A for loop repeats once per item."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

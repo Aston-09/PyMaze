@@ -1,0 +1,17 @@
+{
+  "interaction_id": "workshop_local_gone",
+  "widget": "predict_output",
+  "title": "Secrets Don't Leave the Room",
+  "prompt": "A name born inside a function dies with it. Predict what waits outside.",
+  "config": {
+    "rounds": [
+      {
+        "code": "def brew():\n    secret = 42\nbrew()\nprint(secret)",
+        "options": ["42", "an error — secret only lived inside brew()", "None"],
+        "answer": 1,
+        "explain": "`secret` was LOCAL to brew(). Once the function ended, it was gone — outside, the name doesn't exist at all, so reading it is an error."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

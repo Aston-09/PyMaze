@@ -1,0 +1,139 @@
+@scene chapter_2b_alchemists_scales
+
+background: green_valley.jpg
+music: wisdom_theme.mp3
+
+dialogue:
+"The path down from the Gate passes a crooked tower, leaning over the road like a curious neighbour."
+"Every window leaks a different colour of smoke."
+"A hand-painted sign reads: MEASUREMENTS TAKEN. TWICE. PROPERLY."
+
+background: ancient_library.png
+
+dialogue:
+"Inside, the tower is all balances and bottles."
+"Scales of every size hang from the rafters, each holding two small chests, each perfectly level."
+"A wiry man peers at you over a pair of spectacles, then over a second pair on top of the first."
+
+background: alchemist
+
+npc Alchemist:
+"Don't move. You'll disturb the readings."
+"...There. You weigh about what I expected. Disappointing. I do so love a surprise."
+
+npc You:
+"Are you going to help me, or weigh me?"
+
+npc Alchemist:
+"Child, those are the same activity. Everything is measurement. Watch, and I'll prove it."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE ALCHEMIST'S SCALES"
+"arithmetic · comparison · logic · precedence"
+
+dialogue:
+"— LESSON I — MIXING REAGENTS —"
+"He tips two vials together. The System's numbers swirl in the glass."
+
+npc Alchemist:
+"To combine two numbers is to mix two reagents. You know plus and minus and times already."
+"But three more earn their place on my shelf."
+"Whole division that keeps only the whole — that is slash-slash. The leftovers — that is the percent sign. And raising a thing to a power — two stars."
+
+interactive: scales_arithmetic
+
+npc Alchemist:
+"Good. Now mix three of them properly, on your own — a sum, a difference, a product. The System will check my scales against yours."
+
+system system:
+"MISSION"
+"Combine two numbers into a sum, a difference, and a product."
+
+mission: operators_intro
+
+npc Alchemist:
+"Balanced to the grain. You have the hands of a measurer, whether you like it or not."
+
+dialogue:
+"— LESSON II — THE BALANCE —"
+"He sets a great two-pan scale between you."
+
+npc Alchemist:
+"Now, the most misunderstood tool in this tower."
+"A single equals sign POURS a value into a chest. You did that at your Awakening."
+"But TWO equals signs do something entirely different. They WEIGH. They ask: are these two the same?"
+"And the answer is never a number. It is always a truth — True, or False."
+
+interactive: scales_weigh
+
+npc Alchemist:
+"Now build me a weighing. Not a pouring — a weighing. Mind the difference; it has bankrupted merchants."
+
+interactive: scales_pour_vs_weigh
+
+dialogue:
+"— LESSON III — COMBINING WARDS —"
+"He chalks three glowing wards onto the workbench."
+
+npc Alchemist:
+"Truths can be combined, as surely as reagents."
+"AND demands both wards hold. OR is content with either. NOT flips a ward to its opposite."
+"Learn their tempers."
+
+interactive: scales_wards
+
+npc Alchemist:
+"Now sort these. Tell me at a glance which way each one tips."
+
+interactive: scales_sort_true
+
+dialogue:
+"— LESSON IV — THE ORDER OF REAGENTS —"
+"He holds up a warning finger, stained with a dozen colours."
+
+npc Alchemist:
+"One last law, and the deadliest. Reagents added in the wrong ORDER ruin the mixture."
+"So it is with operators. Times comes before plus. Powers before either. And brackets — brackets go first of ALL."
+"Guess wrong here and your potion explodes. Or worse: it quietly gives the wrong number, and you never notice."
+
+interactive: scales_precedence
+
+dialogue:
+"— THE WARD THAT JUDGES —"
+"He leads you to a sealed inner door, humming with a ward far older than the rest."
+
+npc Alchemist:
+"This ward judges every traveller. It opens only for one strong ENOUGH, and carrying the proper key."
+"A weighing, and a ward, folded into a single verdict. Write it, and the door is yours."
+
+system system:
+"MISSION"
+"Return True only if level is at least 5 AND has_key is True."
+
+mission: alchemist_wards
+
+dialogue:
+"The ward reads your verdict, considers it, and clicks open onto a stair leading back down to the road."
+
+npc Alchemist:
+"Measured, weighed, and judged — all correct. Prove you hold the whole shelf, and I'll trouble you no further."
+
+interactive: scales_final_recall
+
+npc Alchemist:
+"Arithmetic, a balance, and a ward, in one clean line. Off with you."
+"You're bound for the chasm, I'd wager. Do give my regards to whatever's still broken down there."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Alchemist's Scales"
+"Mastered: arithmetic · comparison (== vs =) · and / or / not · precedence"
+
+reward:
+xp: 75
+gold: 40
+achievement: MASTER OF THE SCALES
+
+next:
+chapter_3_endless_bridge

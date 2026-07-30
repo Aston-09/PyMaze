@@ -1,0 +1,26 @@
+{
+  "interaction_id": "halls_forge_exit",
+  "widget": "build_statement",
+  "title": "Forge an Ending",
+  "prompt": "Build a while loop that watches for its own ending — not one that runs forever.",
+  "config": {
+    "target": "while steps > 0",
+    "slots": ["keyword", "counter", "compare", "limit"],
+    "slot_labels": {
+      "keyword": "repeat while",
+      "counter": "what we watch",
+      "compare": "the test",
+      "limit": "the ending"
+    },
+    "fragments": [
+      { "id": "f1", "text": "while", "slot": "keyword" },
+      { "id": "f2", "text": "steps", "slot": "counter" },
+      { "id": "f3", "text": ">", "slot": "compare" },
+      { "id": "f4", "text": "0", "slot": "limit" },
+      { "id": "f5", "text": "True", "slot": null, "wrong_hint": "while True never ends on its own — that IS the curse. Give the loop a test that can become false." },
+      { "id": "f6", "text": "=", "slot": null, "wrong_hint": "A single = stores a value. To COMPARE two things, you need >." }
+    ],
+    "success": "while steps > 0 — a loop that carries its own ending inside it."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "spellbook_defaults",
+  "widget": "predict_output",
+  "title": "The Optional Reagent",
+  "prompt": "A default argument makes a reagent optional — omit it, and the default fills in. Predict each call.",
+  "config": {
+    "rounds": [
+      {
+        "code": "def greet(name, word=\"Hail\"):\n    return word + \", \" + name\nprint(greet(\"Kae\"))",
+        "options": ["Hail, Kae", "Kae", "word, Kae", "error"],
+        "answer": 0,
+        "explain": "greet was called with only a name, so `word` falls back to its DEFAULT, 'Hail'."
+      },
+      {
+        "code": "def greet(name, word=\"Hail\"):\n    return word + \", \" + name\nprint(greet(\"Kae\", \"Yo\"))",
+        "options": ["Yo, Kae", "Hail, Kae", "error"],
+        "answer": 0,
+        "explain": "This time you supplied `word` yourself — 'Yo' — which overrides the default. Give it and it's used; omit it and the default fills in."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

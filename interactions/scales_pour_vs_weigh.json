@@ -1,0 +1,24 @@
+{
+  "interaction_id": "scales_pour_vs_weigh",
+  "widget": "build_statement",
+  "title": "Pour, or Weigh?",
+  "prompt": "One equals sign POURS into a chest. Two equals signs WEIGH two chests. Build the weighing.",
+  "config": {
+    "target": "gold == 40",
+    "slots": ["left", "operator", "right"],
+    "slot_labels": {
+      "left": "one chest",
+      "operator": "weigh them",
+      "right": "against this"
+    },
+    "fragments": [
+      { "id": "f1", "text": "gold", "slot": "left" },
+      { "id": "f2", "text": "==", "slot": "operator" },
+      { "id": "f3", "text": "40", "slot": "right" },
+      { "id": "f4", "text": "=", "slot": null, "wrong_hint": "A single = POURS 40 into gold. It changes the chest. To ASK whether they are equal, you need ==." },
+      { "id": "f5", "text": ">", "slot": null, "wrong_hint": "> asks which is heavier, not whether they match. For equality, use ==." }
+    ],
+    "success": "gold == 40 — the balance holds only if both sides weigh exactly the same."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

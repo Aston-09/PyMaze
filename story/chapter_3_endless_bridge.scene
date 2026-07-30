@@ -1,0 +1,97 @@
+@scene chapter_3_endless_bridge
+
+background: forest_gate.png
+music: mystery_forest.mp3
+
+dialogue:
+"Beyond the Gate of Choices, the forest thins."
+"The Old Man's gift still warms your hands — the power to decide, freely given."
+"But the path does not run far before it simply... stops."
+
+background: valley_vista.jpg
+
+dialogue:
+"The ground falls away into a chasm so deep its bottom is only a rumour."
+"On the far side, half-lost in drifting mist, the path resumes."
+"Between the two edges: nothing. No bridge. Only a single weathered pillar at the cliff's lip, carved with instructions worn almost smooth."
+
+npc You:
+"There's no way across."
+
+dialogue:
+"As you speak, the air near the pillar curdles."
+"A stain the colour of a healed-over wound clings to the stone — the same wrongness the System has warned of."
+"The Blight. Where it touches, things forget how to work."
+"Here, it has devoured the bridge itself."
+
+system notification:
+"NEW QUEST"
+"THE ENDLESS BRIDGE"
+"Build a path across the Blighted chasm."
+
+dialogue:
+"Far across the divide, you can just make out a figure."
+"A man in a warden's cloak, pacing — three steps forward, three steps back — along the same short stretch of stone."
+"He never gets anywhere. He never stops."
+"You call out. He does not seem to hear."
+
+npc System:
+"The bridge was not broken, Traveller. It was UNMADE."
+"It has forgotten how to repeat itself."
+"A bridge is only one plank — laid again, and again, and again, until it reaches the other side."
+
+dialogue:
+"The pillar's carvings flare to life."
+
+npc System:
+"To repeat an action is to LOOP."
+"Name a count — from one, up to the width of the gap."
+"And for each number in that count, lay a single plank."
+"Speak the loop, and the bridge will build itself, plank by numbered plank."
+
+dialogue:
+"The System sets the width of the chasm: a number, n."
+"You must lay a plank for every step from 1 to n — in order, none skipped, none repeated."
+
+system system:
+"MISSION"
+"Loop from 1 to n. Lay each plank, in order, into the bridge."
+
+mission: loops_intro
+
+dialogue:
+"You speak the loop."
+"A plank of light snaps into being at your feet — the first."
+"Then the second, laid on the echo of the first. Then the third."
+"The bridge unrolls itself across the chasm, one plank for every count, until it kisses the far edge."
+"You cross."
+
+background: deep_forest.jpg
+
+dialogue:
+"On the far side, the pacing warden still walks his three steps, back and forth, trapped in a loop that never learned to end."
+"He watches you pass with hollow, envious eyes."
+
+background: warden
+
+npc Warden:
+"You gave your loop a place to STOP, traveller."
+"I never did. Mine has no way out."
+"...Remember me, when someone finally teaches you the word 'break'."
+
+dialogue:
+"You want to help him. But you do not yet know how."
+"Not yet."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Endless Bridge"
+"Applied: for loops · range · building a sequence"
+
+reward:
+xp: 100
+gold: 40
+achievement: BRIDGE-BUILDER
+
+next:
+chapter_3b_echoing_halls

@@ -35,6 +35,8 @@ background: sage_reading.jpg
 dialogue:
 "At the center sits a robed figure, hooded, an open book resting across his knees."
 
+background: mysterious_figure
+
 npc ???:
 "Welcome, {{player_name}}."
 "You survived the Trial of the Dragon."
@@ -48,6 +50,8 @@ system skill_learned:
 "MODULE UNLOCKED"
 "WISDOM OF THE SYSTEM"
 "Variables · Data Types · print() · input()"
+
+background: system_sage
 
 npc System Sage:
 "I am the Sage of the System."
@@ -179,10 +183,14 @@ npc System Sage:
 
 mission: wisdom_voice_of_system
 
+background: player
+
 dialogue:
 "The mirror floods with light."
 "Your name blazes across its surface, then your health beneath it."
 "For the first time, the world has heard you."
+
+background: system_sage
 
 npc System Sage:
 "Well done. You have learned to speak."
@@ -196,6 +204,8 @@ dialogue:
 "— LESSON IV — LISTENING TO THE WORLD —"
 "The mirror vanishes."
 "A luminous crystal descends in its place."
+
+background: crystal
 
 npc Crystal:
 "Choose your weapon."
@@ -233,6 +243,8 @@ dialogue:
 "The crystal shatters into light."
 "A blade materializes and falls into your waiting hand."
 "It hums with a sound like a held breath."
+
+background: system_sage
 
 npc System Sage:
 "Excellent. You have learned to listen."

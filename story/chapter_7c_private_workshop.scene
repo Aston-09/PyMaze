@@ -1,0 +1,87 @@
+@scene chapter_7c_private_workshop
+
+background: ancient_library.png
+music: arcane_study.mp3
+
+dialogue:
+"The Enchanter waves a hand, and a narrow door opens in a wall you'd have sworn was solid shelving."
+"Beyond it: a small, cluttered workshop, quieter than the great room — as if sound itself is kept out."
+
+background: enchanter
+
+npc Enchanter:
+"My private bench. What happens here, stays here. That is not a house rule, {{player_name}}. It is a LAW of spells."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE PRIVATE WORKSHOP"
+"local vs global · reading out · why assigning surprises you"
+
+dialogue:
+"— LESSON I — READING THE HALL —"
+
+npc Enchanter:
+"A spell cast in here can still SEE what sits out in the main hall. Reading outward is allowed."
+
+interactive: workshop_read_global
+
+dialogue:
+"— LESSON II — THE SURPRISE —"
+
+npc Enchanter:
+"But the moment you set a name in here, you make a PRIVATE copy — on this bench, for this casting only."
+"Change it all you like. The thing of the same name out in the hall never feels a thing. This ruins more apprentices than any monster."
+
+interactive: workshop_shadow
+
+dialogue:
+"— LESSON III — SECRETS STAY —"
+
+npc Enchanter:
+"And what is BORN in here dies in here. Ask for it out in the hall and the world shrugs — it never heard the name."
+
+interactive: workshop_local_gone
+
+npc Enchanter:
+"So learn to tell, at a glance, which names live INSIDE a spell and which live out in the open."
+
+interactive: workshop_sort
+
+dialogue:
+"— PROVE IT — WORK ON YOUR OWN BENCH —"
+
+npc Enchanter:
+"Bind me a spell that does everything on its OWN bench and hands back the result. It reaches for nothing outside. Clean. Contained."
+
+system system:
+"MISSION"
+"Write brew(strength): make a local potion (strength * 3) and return it."
+
+mission: workshop_scope
+
+dialogue:
+"Your spell works entirely within itself, and passes back exactly one clean result."
+"The Enchanter nods, then — for the first time — his eyes flick toward the floor, and the amusement leaves his face."
+
+npc Enchanter:
+"Good. You bind, you keep your secrets, you leave no mess."
+"There was one last spell I meant to teach you slowly, over a warm winter."
+
+interactive: workshop_final_recall
+
+npc Enchanter:
+"But it is not going to be a warm winter."
+"Come back to the main room, {{player_name}}. Quickly. Something has followed you up the mountain."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Private Workshop"
+"Mastered: local vs global · reading a global · why assigning makes a local"
+
+reward:
+xp: 60
+gold: 30
+achievement: WHAT HAPPENS IN THE WORKSHOP
+
+next:
+chapter_7_enchanters_bargain

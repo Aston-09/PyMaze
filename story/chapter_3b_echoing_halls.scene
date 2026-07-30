@@ -1,0 +1,185 @@
+@scene chapter_3b_echoing_halls
+
+background: deep_forest.jpg
+music: mystery_forest.mp3
+
+dialogue:
+"The far side of the bridge narrows into a cleft in the rock, and the cleft becomes a corridor."
+"Stone walls close overhead. The daylight gives up behind you."
+"Ahead, the same short stretch of floor plays out again and again — footsteps that arrive without anyone walking."
+"The Echoing Halls."
+
+background: ruins.png
+
+dialogue:
+"And there he is. The warden from across the chasm."
+"Three steps forward. Three steps back. Three steps forward. His boots have worn a groove in the stone."
+
+background: warden
+
+npc Warden:
+"You crossed. Good for you."
+"I built this corridor to guard the pass. Set myself to patrol it — forever, I thought, nobly."
+"I never wrote myself a way to STOP. Now the corridor patrols ME."
+
+npc You:
+"...Can I get you out?"
+
+npc Warden:
+"Learn what I never did, traveller, and maybe. It is all here in the walls. I've had a long time to read them."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE ECHOING HALLS"
+"for · range · while · accumulation · break / continue"
+
+dialogue:
+"— LESSON I — THE MARCHING STONES —"
+"The Warden gestures, and a row of numbered stones lights up along the floor, one after another."
+
+npc Warden:
+"A loop is only DOING A THING, then doing it again."
+"To walk a known row of stones — a fixed count — you use a FOR loop."
+"And range gives you the count. But mind where range stops. It always halts one short of the number you name."
+
+interactive: halls_march_range
+
+npc Warden:
+"You see it. range(1, 4) never sets foot on 4. The last number is a wall, not a stone."
+
+dialogue:
+"— LESSON II — THE DOOR THAT WATCHES —"
+"A stone door ahead hangs half-open, trembling, as if held by a single thought."
+
+npc Warden:
+"Sometimes you do not know the count ahead of time. You only know a CONDITION."
+"A WHILE loop runs and runs — but only WHILE its condition stays true."
+"The moment the condition fails, the loop lets go. Watch what happens when it never can."
+
+interactive: halls_while_countdown
+
+npc Warden:
+"That second one. No hand ever lowered the count, so the condition never turned false."
+"That is my whole life, traveller, in three lines. A loop with no way to reach its end."
+"So build me a better one. A loop that carries its own ending inside it."
+
+interactive: halls_forge_exit
+
+npc Warden:
+"'while steps > 0.' When steps runs out, the loop is DONE. That is mercy, written in code."
+
+dialogue:
+"— LESSON III — THE RUNNING TOTAL —"
+"As the Warden paces, a faint number hangs over his head, ticking up with every step — then resetting as he turns back."
+
+npc Warden:
+"A loop can carry something that GROWS as it goes. A count. A sum. A tally."
+"Start it before the loop. Add to it each turn. When the loop ends, the total is yours."
+"They call it accumulation. It is how a hundred small steps become one large answer."
+
+interactive: halls_accumulate
+
+dialogue:
+"— LESSON IV — LEAVE, OR SKIP —"
+"The Warden stops mid-stride, for the first time."
+
+npc Warden:
+"Two words can bend any loop. Learn them well; one of them is my freedom."
+"BREAK leaves the loop entirely — done, out, gone."
+"CONTINUE only skips the rest of this one turn, then loops on. People confuse them and pay for it."
+
+interactive: halls_break_continue
+
+npc Warden:
+"Now forge the line I never had. The one that lets a walker LEAVE the moment he reaches the door."
+
+interactive: halls_forge_break
+
+npc Warden:
+"'if at_door: break.' One line. One line, and I could have gone home an age ago."
+
+dialogue:
+"— LESSON V — THE CURSE ITSELF —"
+"The walls around you flicker with loops — some bright and finite, some pulsing with a sick, endless light."
+
+npc Warden:
+"Here is the lesson the Blight would rather you never learned. A loop that can never end is not a loop. It is a CURSE."
+"'while True' with no break. A condition nothing can turn false. Sort them, so your eye learns the difference on sight."
+
+interactive: halls_curse_sort
+
+npc Warden:
+"Good. You can smell a trap now. That alone will save your life on the road ahead."
+
+dialogue:
+"— PROVE IT — THE CURSED DOOR —"
+"The corridor rearranges into a straight line of numbered doors, one of them marked with a dark, cursed zero."
+
+npc Warden:
+"Walk them. Count them. And when you reach the cursed door, do the thing I could not — STOP."
+
+system system:
+"MISSION"
+"Walk the doors, counting each. break the instant you reach a door equal to 0."
+
+mission: halls_doors_break
+
+dialogue:
+"You open door after door, and at the cursed zero you simply... stop."
+"The corridor exhales. It has never seen anyone stop before."
+
+npc Warden:
+"You used break, and the loop obeyed. Now. Do it for ME."
+
+dialogue:
+"— FREE THE WARDEN —"
+"The Warden steps back into his worn groove, and the endless corridor stretches out ahead of him, exactly as long as it always was."
+
+npc Warden:
+"My loop runs on 'while True.' It never stops because I gave it nothing that could ever become false."
+"So write me one that CAN end. Step me to the door — and let the condition run out when I arrive."
+
+system system:
+"MISSION"
+"Write a while loop that steps count up to steps_to_door, then ends on its own."
+
+mission: halls_free_warden
+
+dialogue:
+"You speak the loop."
+"The Warden takes a step. Then another. Then — where always before he would have turned back — the corridor simply ENDS."
+"He stands blinking at an open archway that was never there, and then always was."
+
+background: deep_forest.jpg
+
+npc Warden:
+"...It stopped. The loop STOPPED."
+"An age of pacing, and the whole of my prison was one missing condition."
+"Remember that, traveller, when you meet bigger loops than me. The Blight is only this — repetition that forgot how to end."
+
+dialogue:
+"He steps through the archway into daylight, and does not pace back."
+"Before he goes, he presses a worn iron whistle into your hand."
+
+background: warden
+
+npc Warden:
+"One last thing. Prove it's yours — the whole of it — in a single breath."
+
+interactive: halls_final_recall
+
+npc Warden:
+"While, a count that grows, and a break for the door. All of it, at once. It's yours."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Echoing Halls"
+"Mastered: for · range · while · accumulation · break / continue · the infinite-loop curse"
+
+reward:
+xp: 75
+gold: 40
+achievement: BREAKER OF CURSES
+
+next:
+chapter_4_quartermasters_caravan

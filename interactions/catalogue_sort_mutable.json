@@ -1,0 +1,21 @@
+{
+  "interaction_id": "catalogue_sort_mutable",
+  "widget": "sort_types",
+  "title": "What Can Be Changed?",
+  "prompt": "Sort each kind of thing: can you edit it in place, or is it sealed forever?",
+  "config": {
+    "bins": [
+      { "id": "mut", "label": "Can Change", "hint": "edit it in place" },
+      { "id": "immut", "label": "Sealed Forever", "hint": "never changes" }
+    ],
+    "items": [
+      { "id": "m1", "text": "a list  [1, 2]", "bin": "mut" },
+      { "id": "m2", "text": "a dict  {\"a\": 1}", "bin": "mut" },
+      { "id": "m3", "text": "a set  {1, 2}", "bin": "mut" },
+      { "id": "m4", "text": "a tuple  (1, 2)", "bin": "immut", "reveal": "A tuple is a sealed scroll — fixed the moment it is written." },
+      { "id": "m5", "text": "a string  \"hi\"", "bin": "immut", "reveal": "Strings cannot be changed in place either — every 'edit' makes a NEW string." },
+      { "id": "m6", "text": "a number  5", "bin": "immut" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

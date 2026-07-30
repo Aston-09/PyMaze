@@ -1,0 +1,26 @@
+{
+  "interaction_id": "spellbook_forge_def",
+  "widget": "build_statement",
+  "title": "Bind the Spell's Name",
+  "prompt": "Build the opening line that names a spell and names the reagent it takes.",
+  "config": {
+    "target": "def firebolt(power):",
+    "slots": ["keyword", "name", "params", "colon"],
+    "slot_labels": {
+      "keyword": "define",
+      "name": "the spell's name",
+      "params": "its reagent",
+      "colon": "begin"
+    },
+    "fragments": [
+      { "id": "f1", "text": "def", "slot": "keyword" },
+      { "id": "f2", "text": "firebolt", "slot": "name" },
+      { "id": "f3", "text": "(power)", "slot": "params" },
+      { "id": "f4", "text": ":", "slot": "colon" },
+      { "id": "f5", "text": "return", "slot": null, "wrong_hint": "return sends a value BACK — it does not begin a spell. To DEFINE one, start with def." },
+      { "id": "f6", "text": "()", "slot": null, "wrong_hint": "This spell needs a reagent. Name the parameter inside the brackets: (power)." }
+    ],
+    "success": "def firebolt(power): — the spell is named, its reagent declared, ready for its body."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

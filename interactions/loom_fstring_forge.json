@@ -1,0 +1,24 @@
+{
+  "interaction_id": "loom_fstring_forge",
+  "widget": "build_statement",
+  "title": "Weave a Name Into a Sentence",
+  "prompt": "Build an f-string that weaves the value of `name` and `rank` straight into the words.",
+  "config": {
+    "target": "f\"{name} the {rank}\"",
+    "slots": ["a", "b", "c"],
+    "slot_labels": {
+      "a": "weave the name",
+      "b": "plain word",
+      "c": "weave the rank"
+    },
+    "fragments": [
+      { "id": "f1", "text": "f\"{name}", "slot": "a" },
+      { "id": "f2", "text": "the", "slot": "b" },
+      { "id": "f3", "text": "{rank}\"", "slot": "c" },
+      { "id": "f4", "text": "\"{name}", "slot": null, "wrong_hint": "Without the leading f, the braces are just literal characters — it would print {name}, not the value. You need the f." },
+      { "id": "f5", "text": "+ name +", "slot": null, "wrong_hint": "You CAN glue with +, but an f-string is cleaner: drop the name right inside the braces." }
+    ],
+    "success": "f\"{name} the {rank}\" — the values woven straight into the sentence."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

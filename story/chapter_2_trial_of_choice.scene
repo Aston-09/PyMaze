@@ -172,3 +172,40 @@ dialogue:
 "Only your code can decide which path will open."
 
 mission: trial_of_choice
+
+background: forest_gate.png
+
+dialogue:
+"Your code settles into the runes and holds."
+"The gate considers it — then, with a sound like a long-held breath released, all three symbols blaze at once."
+"Fire, Water, Nature: each in its place, each obeying the choice you taught it."
+"The great stone doors shudder, and begin to part."
+
+npc Old Man:
+"After all these years..."
+"You taught it in a single sitting what I could not grasp in a lifetime of trying."
+
+dialogue:
+"He presses something into your hand — not gold, but a worn token etched with a single open eye."
+
+npc Old Man:
+"Knowledge, as I promised. The road ahead is long, and the Blight has walked it before you."
+"Bridges that will not hold. Caravans that have lost their order. Books that have forgotten their own names."
+"You have learned to CHOOSE, traveller. Now go, and learn to endure."
+
+dialogue:
+"Beyond the open gate, a forest path winds down toward a distant, mist-filled chasm."
+"You step through."
+
+system level_up:
+"CHAPTER COMPLETE"
+"Trial of Choice"
+"Mastered: if · elif · else"
+
+reward:
+xp: 100
+gold: 50
+achievement: MASTER OF CHOICES
+
+next:
+chapter_2b_alchemists_scales

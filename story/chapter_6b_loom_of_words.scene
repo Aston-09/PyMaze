@@ -1,0 +1,134 @@
+@scene chapter_6b_loom_of_words
+
+background: night_valley.avif
+music: wisdom_theme.mp3
+
+dialogue:
+"You have taken three steps toward the tower when the threads of the loom tighten, gentle but sure, around your wrist."
+
+background: riddle_weaver
+
+npc Riddle Weaver:
+"So soon? You cut ONE name from ONE ribbon and think the loom is read."
+"Sit. The lazy one keeps. He has kept for years; he will keep an hour more."
+"Words are the last thread before functions, and the finest. Learn the whole weave."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE LOOM OF WORDS"
+"index · slice · upper/lower · split/join · f-strings · immutability"
+
+dialogue:
+"— LESSON I — THE RIBBON —"
+"She lays a shining word across the loom, each rune a separate bead of light."
+
+npc Riddle Weaver:
+"A word is a ribbon of runes, numbered from zero — the same counting the Quartermaster drilled into you."
+"Take one rune by its number. Or take a whole run of them with a slice, stopping — as ever — one short of the end."
+
+interactive: loom_slice
+
+dialogue:
+"— LESSON II — RESHAPE THE THREAD —"
+"She runs a finger down the ribbon; the runes flare bright, then dim."
+
+npc Riddle Weaver:
+"A thread can be RAISED to capitals, or LOWERED to whispers. It can be TRIMMED of the empty space at its ends."
+"upper. lower. strip. Small spells, but they save a riddle from being misread."
+
+interactive: loom_methods
+
+dialogue:
+"— LESSON III — CUT AND GATHER —"
+"She snips a ribbon into pieces, then gathers the pieces onto a single new thread."
+
+npc Riddle Weaver:
+"split cuts a ribbon wherever you say, and leaves you a LIST of pieces."
+"join is its mirror — it gathers a list of pieces back onto one ribbon, with a thread of your choosing between them."
+
+interactive: loom_split_join
+
+dialogue:
+"— LESSON IV — THE TRUE WEAVE —"
+"Now she smiles, and the whole loom leans in."
+
+npc Riddle Weaver:
+"And here is the art I am known for. Do not merely SHOW a value beside your words — WEAVE it in."
+"Mark the ribbon with an f, and any name in braces is replaced by its value, right where it sits."
+"Build me one. A name and a rank, woven into a single line."
+
+interactive: loom_fstring_forge
+
+dialogue:
+"— LESSON V — THE THREAD REMEMBERS —"
+"She tries to recut a finished ribbon; it will not take the blade."
+
+npc Riddle Weaver:
+"One last truth, easily missed. A ribbon, once woven, cannot be UNPICKED in place."
+"Raise it, trim it, add to it — each spell spins a NEW thread and leaves the old one exactly as it was."
+"A string never changes. It is only ever replaced."
+
+interactive: loom_immutable
+
+npc Riddle Weaver:
+"So — thread, or bundle? Tell me at a glance what each spell leaves in your hand."
+
+interactive: loom_sort
+
+dialogue:
+"— PROVE IT — SAY IT LOUDER —"
+"She hands you a word so softly spun you can barely hear it."
+
+npc Riddle Weaver:
+"This one must open a door, and it hasn't the voice. Raise it to a shout — all capitals, an edge on the end."
+
+system system:
+"MISSION"
+"Return the word in all capitals with a single '!' added to the end."
+
+mission: loom_shout
+
+npc Riddle Weaver:
+"Louder. Better. Now the weave itself — the thing the gate ahead demands."
+
+dialogue:
+"— COMBINE IT — WEAVE A TITLE —"
+"She gestures up the mountain, to the sealed gate at the tower's foot."
+
+npc Riddle Weaver:
+"The gate answers only to a traveller named PROPERLY. Take the first name from a full one, and weave it into a title fit for a door."
+"Cut, take, and weave — all three threads at once."
+
+system system:
+"MISSION"
+"Take the first word of full_name and weave: <first> the <rank>."
+
+mission: loom_titlecard
+
+dialogue:
+"You cut the first name loose, weave it into a title, and speak it at the gate."
+"The runes rearrange to match your words, and the way to the tower's stair opens."
+
+background: night_forest.avif
+
+npc Riddle Weaver:
+"There. Cut, gathered, and woven true — the whole loom, in your hands now."
+"Go up. The lazy one is the last teacher on this road, and the strangest."
+"He will try to give you everything and climb out of doing so. Let him. It is his only real magic."
+
+dialogue:
+"The threads release your wrist."
+"High above, the single gold window waits, and the long climb begins in earnest."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Loom of Words"
+"Mastered: slicing · upper/lower · split/join · f-strings · immutability"
+
+reward:
+xp: 75
+gold: 45
+achievement: NAMED AND WOVEN
+
+next:
+chapter_7b_spellbook

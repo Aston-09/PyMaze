@@ -1,0 +1,28 @@
+{
+  "challenge_id": "loom_shout",
+  "topic": "Strings — a method plus concatenation",
+  "difficulty": "easy",
+  "title": "Say It Louder",
+  "narrative": "The loom's threads carry a word too softly to open anything. Raise it to a shout — all capitals, and an edge on the end.",
+  "instructions": "Write a function `shout(word)` that returns the word in ALL CAPITALS with a single `\"!\"` added to the end.\n\n- `shout(\"fire\")` returns `\"FIRE!\"`.",
+  "starting_code": "def shout(word):\n    # Return the word in all capitals, with a single \"!\" on the end.\n    return None\n",
+  "test_type": "function",
+  "function_name": "shout",
+  "validation_tests": [
+    { "input": "fire", "expected": "FIRE!" },
+    { "input": "run", "expected": "RUN!" },
+    { "input": "a", "expected": "A!" }
+  ],
+  "hints": [
+    "Raise the runes with `word.upper()`.",
+    "Add the edge by joining strings with +: `word.upper() + \"!\"`.",
+    "Return the whole thing: `return word.upper() + \"!\"`.",
+    ".upper() gives back a NEW string; the original word is untouched."
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 20,
+    "title": "Thread-Raiser",
+    "achievement": "LOUD AND CLEAR"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "catalogue_lookup_get",
+  "widget": "predict_output",
+  "title": "Ask by Name",
+  "prompt": "The grimoire answers to names, not positions. Predict what it hands back.",
+  "config": {
+    "rounds": [
+      {
+        "code": "spells = {\"fire\": \"Ignis\", \"water\": \"Aqua\"}\nprint(spells[\"fire\"])",
+        "options": ["Ignis", "fire", "Aqua", "error"],
+        "answer": 0,
+        "explain": "Ask the dictionary by its KEY and it hands you the value. spells[\"fire\"] is Ignis."
+      },
+      {
+        "code": "spells = {\"fire\": \"Ignis\"}\nprint(spells.get(\"earth\", \"Unknown\"))",
+        "options": ["Unknown", "error", "earth", "None"],
+        "answer": 0,
+        "explain": ".get returns your fallback when the key is missing — 'Unknown' instead of a crash. That is asking politely."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

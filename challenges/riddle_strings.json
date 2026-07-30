@@ -1,0 +1,28 @@
+{
+  "challenge_id": "riddle_strings",
+  "topic": "Strings (slicing and f-strings)",
+  "difficulty": "medium",
+  "title": "The Ribbon of Runes",
+  "narrative": "The Weaver's gate holds a name buried inside a longer ribbon of runes. Slice the name loose, then weave it into the words that open the way.",
+  "instructions": "Write a function `weave_name(runes)`.\n\n- `runes` is a string. The true name is its FIRST FOUR characters.\n- Slice those four runes loose, then weave them into this exact sentence and return it:\n\n`The gate opens for NAME.`\n\n(where NAME is the four runes). For example, `weave_name(\"KAELtharion\")` returns `\"The gate opens for KAEL.\"`",
+  "starting_code": "def weave_name(runes):\n    # The true name is the first 4 runes of `runes`.\n    # Return it woven into: The gate opens for {name}.\n    return None\n",
+  "test_type": "function",
+  "function_name": "weave_name",
+  "validation_tests": [
+    { "input": "KAELtharion", "expected": "The gate opens for KAEL." },
+    { "input": "LYRAveil", "expected": "The gate opens for LYRA." },
+    { "input": "MORNzhared", "expected": "The gate opens for MORN." }
+  ],
+  "hints": [
+    "Slice the first four characters with `runes[:4]`.",
+    "Store it: `name = runes[:4]`.",
+    "Weave it into a sentence with an f-string: `f\"The gate opens for {name}.\"`",
+    "Return the whole woven sentence — mind the full stop at the end, like a knot tied off."
+  ],
+  "reward": {
+    "xp": 100,
+    "gold": 50,
+    "title": "Riddle-Reader",
+    "achievement": "WEAVER OF NAMES"
+  }
+}

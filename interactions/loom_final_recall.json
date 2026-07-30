@@ -1,0 +1,17 @@
+{
+  "interaction_id": "loom_final_recall",
+  "widget": "predict_output",
+  "title": "Cut, Take, Raise",
+  "prompt": "Split a name into words, take the first, and raise it. Predict the woven result.",
+  "config": {
+    "rounds": [
+      {
+        "code": "full = \"Kael Ash\"\nprint(full.split()[0].upper())",
+        "options": ["KAEL", "Kael Ash", "ASH", "KAELASH"],
+        "answer": 0,
+        "explain": "Split into words gives ['Kael', 'Ash']. Take the first: 'Kael'. Raise it: 'KAEL'. Split, indexing, and a method — all at once."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

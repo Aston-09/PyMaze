@@ -1,0 +1,22 @@
+{
+  "interaction_id": "satchel_sort_bounds",
+  "widget": "sort_types",
+  "title": "Mind the End of the Line",
+  "prompt": "The satchel holds 3 crates — slots 0, 1, 2. Sort each reach: a real slot, or off the end?",
+  "config": {
+    "bins": [
+      { "id": "ok", "label": "In Range", "hint": "a real slot" },
+      { "id": "err", "label": "Out of Range", "hint": "the satchel screams" }
+    ],
+    "items": [
+      { "id": "b1", "text": "crates[0]", "bin": "ok" },
+      { "id": "b2", "text": "crates[2]", "bin": "ok" },
+      { "id": "b3", "text": "crates[3]", "bin": "err", "reveal": "Slots are 0, 1, 2. There is no slot 3 — 'Index out of range'." },
+      { "id": "b4", "text": "crates[-1]", "bin": "ok", "reveal": "-1 is the last crate — always a real slot, as long as the satchel isn't empty." },
+      { "id": "b5", "text": "crates[5]", "bin": "err" },
+      { "id": "b6", "text": "crates[-3]", "bin": "ok" },
+      { "id": "b7", "text": "crates[-4]", "bin": "err", "reveal": "-3 reaches the first crate; -4 falls off the front of the line." }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

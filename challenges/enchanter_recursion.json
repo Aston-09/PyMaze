@@ -1,0 +1,30 @@
+{
+  "challenge_id": "enchanter_recursion",
+  "topic": "Recursion (a function that calls itself)",
+  "difficulty": "medium",
+  "title": "The Spell That Casts Itself",
+  "narrative": "The deepest spell speaks its own name as its final word. It casts itself on a smaller power, and again, and again — until it reaches a seed so small it need not divide, and simply answers. Leave that seed out, and the spell falls forever.",
+  "instructions": "Write a recursive function `enchant(power)` that folds a power into itself, layer by layer:\n\n- `enchant(power)` = `power` × `enchant(power - 1)`\n- until the BASE CASE: a `power` of 0 or 1 just returns `1`.\n\nSo `enchant(3)` = 3 × 2 × 1 = `6`, and `enchant(5)` = `120`.\n\nThe base case is the whole art. It is the word that ends the echo. Without it, your spell never stops — and a spell that never stops is the Blight itself.",
+  "starting_code": "def enchant(power):\n    # BASE CASE — the seed the spell can't divide further.\n    if power <= 1:\n        return 1\n    # RECURSIVE CASE — this layer's power, folded into the SAME spell\n    # cast one layer smaller. Replace None with that recursive call.\n    return power * None\n",
+  "test_type": "function",
+  "function_name": "enchant",
+  "validation_tests": [
+    { "input": 1, "expected": 1 },
+    { "input": 0, "expected": 1 },
+    { "input": 3, "expected": 6 },
+    { "input": 5, "expected": 120 },
+    { "input": 6, "expected": 720 }
+  ],
+  "hints": [
+    "The recursive case calls `enchant` again — but on a SMALLER power, so it moves toward the base case.",
+    "Replace `None` with `enchant(power - 1)`.",
+    "Trace it: enchant(3) returns 3 * enchant(2); enchant(2) returns 2 * enchant(1); enchant(1) hits the base case and returns 1.",
+    "If it never stops (RecursionError), your recursive call isn't getting smaller, or your base case can't be reached."
+  ],
+  "reward": {
+    "xp": 150,
+    "gold": 75,
+    "title": "Recursor",
+    "achievement": "THE ECHO THAT ANSWERS ITSELF"
+  }
+}

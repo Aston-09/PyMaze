@@ -1,0 +1,81 @@
+@scene chapter_4_quartermasters_caravan
+
+background: green_valley.jpg
+music: mystery_forest.mp3
+
+dialogue:
+"The forest opens onto a trade road, and the trade road is a disaster."
+"A caravan sits stranded — wagons half-loaded, crates strewn across the verge in no order at all."
+"A broad, grizzled man stamps up and down the line, counting on his fingers and swearing at them."
+
+background: quartermaster
+
+npc Quartermaster:
+"Nine! No — eight. BAH."
+"Every crate in the wrong wagon, every wagon in the wrong place."
+"The Blight came through and scrambled my whole manifest. Now the satchels can't remember what sits WHERE."
+
+dialogue:
+"He notices you standing there."
+
+npc Quartermaster:
+"You. You've got the look of someone the System still talks to. Make yourself useful."
+
+system notification:
+"NEW QUEST"
+"THE QUARTERMASTER'S CARAVAN"
+"Restore order to the caravan's satchels."
+
+npc Quartermaster:
+"A satchel isn't a HEAP, traveller. It's a LINE."
+"First slot, second slot, third — order kept, always. That's a list. Things in a row, and the row remembers."
+
+dialogue:
+"He upends a satchel. Crates tumble out and snap into a neat, numbered line."
+
+npc Quartermaster:
+"Now here's the thing that trips up every soft-handed hero the System sends me."
+"The satchel counts from ZERO. Not one. ZERO."
+"Slot zero is the first crate. Slot one is the SECOND. And on it goes."
+"A traveller asks me for the third crate, I reach into slot TWO. Every single time."
+
+npc Quartermaster:
+"Get it wrong — reach past the end of the line — and the satchel SCREAMS at you. 'Index out of range.' I hear it in my nightmares."
+
+dialogue:
+"He shoves a loaded satchel into your arms."
+
+npc Quartermaster:
+"Travellers'll ask for a crate by its place in line — first, second, third — counting like people do."
+"You fetch it from the satchel, which counts from zero."
+"Mind the gap between the two. That gap has ended more careers than the Blight has."
+
+system system:
+"MISSION"
+"Return the crate a traveller asks for — remembering the satchel counts from 0."
+
+mission: caravan_lists
+
+dialogue:
+"You reach into slot after slot, each one place lower than the number asked."
+"Crate after crate lands in its proper wagon. The line remembers itself."
+"The Quartermaster watches, arms folded, and grunts what might — in a generous light — be approval."
+
+npc Quartermaster:
+"Huh. You counted from zero, and you didn't fall off the end."
+"That's more than I can say for the last six the System sent."
+"Go on. There's a blind archivist up the road who's been asking for hands that can count."
+"Tell her Gruff sent you. She won't remember the name, but she'll remember it's a name."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Quartermaster's Caravan"
+"Applied: lists · indexing from zero · order"
+
+reward:
+xp: 100
+gold: 45
+achievement: KEEPER OF ORDER
+
+next:
+chapter_4b_satchel_of_slots

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "catalogue_tuples",
+  "widget": "predict_output",
+  "title": "The Sealed Scroll",
+  "prompt": "A tuple is read like a list — but it is SEALED. Predict what happens.",
+  "config": {
+    "rounds": [
+      {
+        "code": "scroll = (10, 20, 30)\nprint(scroll[1])",
+        "options": ["10", "20", "30"],
+        "answer": 1,
+        "explain": "A tuple is read exactly like a list — scroll[1] is 20. The difference only appears when you try to CHANGE it."
+      },
+      {
+        "code": "scroll = (10, 20, 30)\nscroll[1] = 99\nprint(scroll)",
+        "options": ["(10, 99, 30)", "(10, 20, 30)", "an error — a tuple cannot be changed"],
+        "answer": 2,
+        "explain": "A tuple is a sealed scroll. Assigning into it raises an error. Once written, it never changes — that is the whole point of a tuple."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

@@ -1,0 +1,21 @@
+{
+  "interaction_id": "loom_sort",
+  "widget": "sort_types",
+  "title": "Thread, or Bundle?",
+  "prompt": "Each operation leaves you holding something. Sort them: still one thread, or a bundle of pieces?",
+  "config": {
+    "bins": [
+      { "id": "text", "label": "Still Text", "hint": "returns a string" },
+      { "id": "list", "label": "Now a List", "hint": "returns a list" }
+    ],
+    "items": [
+      { "id": "s1", "text": "\"a,b\".split(\",\")", "bin": "list", "reveal": "split cuts a string into a LIST of pieces." },
+      { "id": "s2", "text": "\"HI\".lower()", "bin": "text" },
+      { "id": "s3", "text": "\"hi\"[0]", "bin": "text", "reveal": "A single rune is still a string." },
+      { "id": "s4", "text": "\"a b c\".split()", "bin": "list" },
+      { "id": "s5", "text": "\"-\".join([\"a\", \"b\"])", "bin": "text", "reveal": "join glues a list back into one string." },
+      { "id": "s6", "text": "\"HELLO\"[1:3]", "bin": "text" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

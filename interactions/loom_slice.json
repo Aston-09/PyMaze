@@ -1,0 +1,23 @@
+{
+  "interaction_id": "loom_slice",
+  "widget": "predict_output",
+  "title": "The Ribbon of Runes",
+  "prompt": "A word is a ribbon of runes, counted from zero. Predict which runes you cut.",
+  "config": {
+    "rounds": [
+      {
+        "code": "word = \"FIRE\"\nprint(word[0])",
+        "options": ["F", "FIRE", "0", "E"],
+        "answer": 0,
+        "explain": "A string is a ribbon of runes, counted from 0. word[0] is the first rune: F."
+      },
+      {
+        "code": "word = \"FIRESTORM\"\nprint(word[:4])",
+        "options": ["FIRE", "FIR", "STORM", "FIRES"],
+        "answer": 0,
+        "explain": "A slice [:4] takes the first four runes — F, I, R, E — and stops before rune 4. FIRE."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

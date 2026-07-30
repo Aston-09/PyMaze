@@ -1,0 +1,17 @@
+{
+  "interaction_id": "workshop_final_recall",
+  "widget": "predict_output",
+  "title": "The Room Keeps Its Own",
+  "prompt": "A function works on its own private copy and hands back a gift. Predict what the outside keeps.",
+  "config": {
+    "rounds": [
+      {
+        "code": "count = 10\ndef add_one(n):\n    n = n + 1\n    return n\nadd_one(count)\nprint(count)",
+        "options": ["10", "11"],
+        "answer": 0,
+        "explain": "add_one worked on its own local `n` and returned 11 — but nobody stored the gift, and the global `count` was never touched. Still 10. Locals stay local."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

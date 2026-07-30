@@ -291,6 +291,12 @@ strong { color: var(--ink); font-weight: 600; }
 
 .scene-plate.is-current {
   opacity: 1;
+  /* Default is a plain cross-fade, used when swapping between the animation
+     frames of one location so the scene drifts without zooming. */
+  animation: plateFade 1.2s ease both;
+}
+/* A brand-new location pushes in instead of merely fading. */
+.scene-plate.is-current.is-enter {
   animation: plateEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .scene-plate.is-outgoing {
@@ -376,6 +382,12 @@ strong { color: var(--ink); font-weight: 600; }
 @keyframes plateEnter {
   from { opacity: 0; transform: scale(1.08); }
   to   { opacity: 1; transform: scale(1); }
+}
+
+/* Frame-to-frame swap within one location: opacity only, no zoom. */
+@keyframes plateFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes moteDrift {
@@ -787,6 +799,68 @@ strong { color: var(--ink); font-weight: 600; }
   background: rgba(151, 55, 43, 0.1);
   border-color: rgba(151, 55, 43, 0.4);
   color: var(--seal-red);
+}
+
+/* ============================================================
+   APPEARANCE PICKER — the one-time "choose your look" gate
+   ============================================================ */
+.appearance-gate { display: flex; justify-content: center; width: 100%; }
+
+.appearance-card {
+  background: var(--paper-raised);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-lift);
+  max-width: 560px; width: 90%;
+}
+
+.appearance-card h2 {
+  font-family: var(--font-rpg);
+  color: var(--text-gold);
+}
+
+.appearance-hint {
+  font-size: 0.95rem; font-style: italic;
+  margin-bottom: 1.75rem;
+}
+
+.appearance-options { display: flex; gap: 1.5rem; justify-content: center; }
+
+.appearance-option {
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.appearance-option:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--gold);
+}
+.appearance-option:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.appearance-portrait {
+  width: 140px; height: 140px;
+  border-radius: var(--radius-md);
+  background-size: cover;
+  background-position: top center;
+  border: 1px solid var(--paper-edge);
+  box-shadow: var(--shadow-press);
+}
+
+.appearance-label {
+  font-family: var(--font-rpg);
+  font-size: 0.85rem; letter-spacing: 0.06em;
+  color: var(--ink);
 }
 
 /* ============================================================

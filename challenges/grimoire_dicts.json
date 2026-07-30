@@ -1,0 +1,29 @@
+{
+  "challenge_id": "grimoire_dicts",
+  "topic": "Dictionaries (key -> value, .get with a default)",
+  "difficulty": "medium",
+  "title": "The Grimoire of Names",
+  "narrative": "The Cataloguer's spellbook cannot be read by position — only by name. Every spell-name points to its incantation. Ask by name, and ask kindly, so a name the book does not hold is a shrug, not a scream.",
+  "instructions": "Write a function `lookup(grimoire, spell_name)`.\n\n- `grimoire` is a dictionary mapping a spell-name (the key) to its incantation (the value).\n- `spell_name` is the name the traveller asks for.\n\nReturn the incantation stored under that name. If the grimoire does NOT contain the name, return the string `\"Unknown Spell\"` — do not let it crash.",
+  "starting_code": "def lookup(grimoire, spell_name):\n    # Fetch the incantation stored under `spell_name`.\n    # If the grimoire doesn't have it, return \"Unknown Spell\" (don't crash).\n    return None\n",
+  "test_type": "function",
+  "function_name": "lookup",
+  "validation_tests": [
+    { "input": [{ "fire": "Ignis", "water": "Aqua", "nature": "Silva" }, "fire"], "expected": "Ignis" },
+    { "input": [{ "fire": "Ignis", "water": "Aqua", "nature": "Silva" }, "nature"], "expected": "Silva" },
+    { "input": [{ "fire": "Ignis" }, "earth"], "expected": "Unknown Spell" },
+    { "input": [{}, "fire"], "expected": "Unknown Spell" }
+  ],
+  "hints": [
+    "Access a value by its key with square brackets: `grimoire[spell_name]` — but that CRASHES on a missing key.",
+    "Instead use `.get`, which lets you hand back a default: `grimoire.get(spell_name, \"Unknown Spell\")`.",
+    "Return that directly: `return grimoire.get(spell_name, \"Unknown Spell\")`.",
+    "The kindness of `.get` is the same lesson as `try/except` later — a missing thing should be handled, not fatal."
+  ],
+  "reward": {
+    "xp": 100,
+    "gold": 50,
+    "title": "Cataloguer's Apprentice",
+    "achievement": "SPEAKER OF NAMES"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "interaction_id": "catalogue_forge",
+  "widget": "build_statement",
+  "title": "Bind a Name to a Spell",
+  "prompt": "Build the line that files an incantation under its name in the grimoire.",
+  "config": {
+    "target": "grimoire[\"fire\"] = \"Ignis\"",
+    "slots": ["dict", "key", "assign", "value"],
+    "slot_labels": {
+      "dict": "the book",
+      "key": "under this name",
+      "assign": "file",
+      "value": "this incantation"
+    },
+    "fragments": [
+      { "id": "f1", "text": "grimoire", "slot": "dict" },
+      { "id": "f2", "text": "[\"fire\"]", "slot": "key" },
+      { "id": "f3", "text": "=", "slot": "assign" },
+      { "id": "f4", "text": "\"Ignis\"", "slot": "value" },
+      { "id": "f5", "text": "(\"fire\")", "slot": null, "wrong_hint": "Round brackets call a function. To pick a KEY, use square brackets: [\"fire\"]." },
+      { "id": "f6", "text": "==", "slot": null, "wrong_hint": "== asks whether two things are equal. To STORE a value under a key, use a single =." }
+    ],
+    "success": "grimoire[\"fire\"] = \"Ignis\" — the name now points to its incantation."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

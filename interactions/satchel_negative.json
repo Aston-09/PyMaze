@@ -1,0 +1,23 @@
+{
+  "interaction_id": "satchel_negative",
+  "widget": "predict_output",
+  "title": "Count From the End",
+  "prompt": "A negative index counts backward from the last crate. Predict the result.",
+  "config": {
+    "rounds": [
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\nprint(crates[-1])",
+        "options": ["Rope", "Bread", "error", "-1"],
+        "answer": 1,
+        "explain": "-1 is the LAST crate, however long the line is. Handy when you don't want to count the whole satchel."
+      },
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\nprint(crates[-2])",
+        "options": ["Rope", "Torch", "Bread"],
+        "answer": 1,
+        "explain": "-2 is the second crate from the end — Torch. Negative indices walk backward: -1, -2, -3."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

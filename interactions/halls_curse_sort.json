@@ -1,0 +1,22 @@
+{
+  "interaction_id": "halls_curse_sort",
+  "widget": "sort_types",
+  "title": "The Warden's Curse",
+  "prompt": "Sort each loop: can it ever end, or is it a curse that runs forever?",
+  "config": {
+    "bins": [
+      { "id": "exit", "label": "Finds the Exit", "hint": "this loop can end" },
+      { "id": "curse", "label": "The Warden's Curse", "hint": "runs forever" }
+    ],
+    "items": [
+      { "id": "c1", "text": "for s in path:", "bin": "exit" },
+      { "id": "c2", "text": "while True:  (no break)", "bin": "curse", "reveal": "while True with no break never stops. This is the corridor the Warden is trapped in." },
+      { "id": "c3", "text": "while n > 0:  n = n - 1", "bin": "exit" },
+      { "id": "c4", "text": "while True:  break", "bin": "exit", "reveal": "while True is safe the instant it holds a break — a way out." },
+      { "id": "c5", "text": "while True:  wait()", "bin": "curse" },
+      { "id": "c6", "text": "for i in range(10):", "bin": "exit" },
+      { "id": "c7", "text": "while count < 5:  (count never changes)", "bin": "curse", "reveal": "The test can never become false, so the loop can never reach its ending." }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

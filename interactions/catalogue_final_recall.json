@@ -1,0 +1,17 @@
+{
+  "interaction_id": "catalogue_final_recall",
+  "widget": "predict_output",
+  "title": "Count the Distinct",
+  "prompt": "Pull the values from a dictionary, drop the repeats with a set, and count. Predict the result.",
+  "config": {
+    "rounds": [
+      {
+        "code": "book = {\"a\": \"x\", \"b\": \"x\", \"c\": \"y\"}\nprint(len(set(book.values())))",
+        "options": ["3", "2", "1"],
+        "answer": 1,
+        "explain": "book.values() gives x, x, y. A set drops the repeat, leaving x and y. len counts 2 distinct incantations. Dict and set, together."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

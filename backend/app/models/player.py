@@ -31,6 +31,12 @@ class PlayerState(BaseModel):
     name: str = "Unknown Traveler"
     class_name: str = "Wanderer"
 
+    # Which of the two player sprite sets (assets/characters/player/<gender>/)
+    # to show wherever a scene reflects the player's own art. None until the
+    # one-time appearance picker runs; defaults to "male" at render time so
+    # an old save or a skipped picker never points at a missing folder.
+    gender: Optional[str] = None
+
     # Combat stats
     hp: int = BASE_STATS["hp"]
     strength: int = BASE_STATS["strength"]

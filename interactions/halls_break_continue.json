@@ -1,0 +1,23 @@
+{
+  "interaction_id": "halls_break_continue",
+  "widget": "predict_output",
+  "title": "Leave, or Skip?",
+  "prompt": "break LEAVES the loop. continue SKIPS one turn. See the difference.",
+  "config": {
+    "rounds": [
+      {
+        "code": "for n in [1, 2, 3, 4]:\n    if n == 3:\n        break\n    print(n)",
+        "options": ["1 2 3 4", "1 2", "1 2 4", "3"],
+        "answer": 1,
+        "explain": "break leaves the loop entirely. At n == 3 the march stops — 3 and 4 never print."
+      },
+      {
+        "code": "for n in [1, 2, 3, 4]:\n    if n == 3:\n        continue\n    print(n)",
+        "options": ["1 2 4", "1 2", "1 2 3 4", "4"],
+        "answer": 0,
+        "explain": "continue skips only the rest of THIS turn and moves on. 3 is skipped; the loop keeps running to the end."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

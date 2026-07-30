@@ -1,0 +1,23 @@
+{
+  "interaction_id": "scales_weigh",
+  "widget": "predict_output",
+  "title": "The Balance",
+  "prompt": "A comparison does not give a number — it puts two things on a balance and tells you the truth.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(5 > 3)",
+        "options": ["True", "False", "5", "3"],
+        "answer": 0,
+        "explain": "A comparison weighs, it doesn't count. 5 > 3 is not '2' — it is True."
+      },
+      {
+        "code": "print(\"5\" == 5)",
+        "options": ["True", "False", "5", "error"],
+        "answer": 1,
+        "explain": "The string \"5\" and the number 5 are different KINDS of thing, so they never balance. Quotes change the weight."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

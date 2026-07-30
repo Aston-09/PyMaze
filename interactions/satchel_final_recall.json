@@ -1,0 +1,17 @@
+{
+  "interaction_id": "satchel_final_recall",
+  "widget": "predict_output",
+  "title": "The Whole Satchel",
+  "prompt": "Add a crate, then reach for the last slot. Predict what you pull out.",
+  "config": {
+    "rounds": [
+      {
+        "code": "bag = [\"a\", \"b\", \"c\"]\nbag.append(\"d\")\nprint(bag[-1])",
+        "options": ["a", "d", "c", "4"],
+        "answer": 1,
+        "explain": "append puts 'd' on the end; bag[-1] reads the last slot — which is now 'd'. Indexing, negative index, and append, all at once."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

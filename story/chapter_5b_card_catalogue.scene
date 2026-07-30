@@ -1,0 +1,119 @@
+@scene chapter_5b_card_catalogue
+
+background: ancient_library.png
+music: wisdom_theme.mp3
+
+dialogue:
+"You have one foot toward the west door when the Cataloguer's voice stops you, gentle and certain."
+
+background: cataloguer
+
+npc Cataloguer:
+"A moment, child. You can OPEN my book now. You cannot yet KEEP one."
+"Sit with a blind woman a while. Let me show you how knowledge is filed when you cannot see the shelves."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE CARD CATALOGUE"
+"dict access · .get · in · keys/values · tuples · sets"
+
+dialogue:
+"— LESSON I — ASK BY NAME —"
+"She turns the grimoire toward you. Names glow along the margins, each roped to an incantation."
+
+npc Cataloguer:
+"A dictionary is pairs. A name, and what the name points to. Say the name in square brackets; receive the value."
+"And when you fear the book may not know a name, ask with GET, and hand it a word for its ignorance. Then a gap is a shrug, not a scream."
+
+interactive: catalogue_lookup_get
+
+dialogue:
+"— LESSON II — WHAT THE BOOK HOLDS —"
+
+npc Cataloguer:
+"Sometimes you needn't fetch a thing at all. You need only ask: is it HERE?"
+"The word 'in' asks the book of its names. And 'len' tells you how many pairs it keeps."
+
+interactive: catalogue_membership
+
+npc Cataloguer:
+"Now file one yourself. A name, and the incantation it should summon. Bind them."
+
+interactive: catalogue_forge
+
+dialogue:
+"— LESSON III — THE SEALED SCROLL —"
+"She lifts a slim scroll bound in wax, and will not let you break the seal."
+
+npc Cataloguer:
+"Not everything should be changeable. Some records must be FIXED, or they are worthless."
+"This is a tuple. Read it like a list — but try to change it, and it refuses. A sealed scroll. Once written, forever."
+
+interactive: catalogue_tuples
+
+npc Cataloguer:
+"Learn which of your tools bend, and which are sealed. Confuse them and you will corrupt a record you meant to keep safe."
+
+interactive: catalogue_sort_mutable
+
+dialogue:
+"— LESSON IV — THE UNREPEATING ROSTER —"
+"She spreads a guild roster on the desk. Where two names match, one quietly fades."
+
+npc Cataloguer:
+"And last — the roster that keeps no one twice. A set."
+"Drop a hundred names in; only the distinct remain. You met this at the Dragon's Trial, though you did not know its name: no two souls the same."
+
+interactive: catalogue_sets
+
+dialogue:
+"— PROVE IT — DOES THE BOOK KNOW IT? —"
+"She slides a closed grimoire toward you and names a spell."
+
+npc Cataloguer:
+"Before you fetch, you ask. Tell me true — does the book hold this name, or not?"
+
+system system:
+"MISSION"
+"Return True if the grimoire holds a spell under `name`, else False."
+
+mission: catalogue_lookup
+
+npc Cataloguer:
+"Just so. Now the question that has been troubling me."
+
+dialogue:
+"— COMBINE IT — HOW MANY, TRULY? —"
+"She taps the swollen spine of the great book."
+
+npc Cataloguer:
+"My book has grown fat, and I suspect half its names point to the SAME incantation."
+"Pull every incantation, drop the repeats, and count what truly remains. Dict, and set, in one breath."
+
+system system:
+"MISSION"
+"Return how many distinct incantations (values) the grimoire holds."
+
+mission: catalogue_distinct
+
+dialogue:
+"You gather the values, let the set swallow the duplicates, and speak the count."
+"The Cataloguer exhales, as if a long-held worry has finally been filed away."
+
+npc Cataloguer:
+"Fewer than I feared, and now I KNOW. You've the makings of an archivist, child."
+"Go west now, truly. The loom-woman is waiting, and she'll not make it easy — she never speaks plainly."
+"Listen past her riddles. The lesson underneath is always kind."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Card Catalogue"
+"Mastered: dict access · .get · in · len · tuples (sealed) · sets (distinct)"
+
+reward:
+xp: 75
+gold: 45
+achievement: NO TWO THE SAME
+
+next:
+chapter_6_riddle_weaver

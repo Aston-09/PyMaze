@@ -1,0 +1,23 @@
+{
+  "interaction_id": "loom_immutable",
+  "widget": "predict_output",
+  "title": "The Thread Cannot Be Recut",
+  "prompt": "Reshaping a string never changes the original — it spins a NEW thread. Predict what stays.",
+  "config": {
+    "rounds": [
+      {
+        "code": "word = \"fire\"\nbig = word.upper()\nprint(word)",
+        "options": ["fire", "FIRE"],
+        "answer": 0,
+        "explain": ".upper() does not change the original — it makes a NEW string. word is still 'fire'; big is 'FIRE'. Strings never change in place."
+      },
+      {
+        "code": "word = \"hi\"\nword = word + \"!\"\nprint(word)",
+        "options": ["hi", "hi!", "hi + !"],
+        "answer": 1,
+        "explain": "You didn't edit the old string — you built a new one ('hi!') and pointed word at it. That is how strings 'grow'."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

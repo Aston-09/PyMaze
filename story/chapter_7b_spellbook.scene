@@ -1,0 +1,152 @@
+@scene chapter_7b_spellbook
+
+background: night_forest.avif
+music: arcane_study.mp3
+
+dialogue:
+"The climb is long, and the road gives out halfway, so the last of it is hands and knees over bare rock."
+"By dusk the mountain narrows to a single leaning tower."
+"It leans — not from ruin, but from reluctance, as though it could not be bothered to stand up straight."
+"A single window burns gold near the top."
+
+npc You:
+"Someone's home."
+
+background: ancient_library.png
+
+dialogue:
+"Inside, the tower is one enormous room that should not fit within its walls."
+"Shelves spiral up past sight. Ladders hang unused."
+"Every book, every scroll, every jar of powdered starlight has been dragged into arm's reach of a single deep chair — so that nothing, ever, need be fetched twice."
+"In the chair sits a man who has clearly not stood in some time."
+
+background: enchanter
+
+npc Enchanter:
+"Don't tell me. Another traveller, come to be taught."
+"Sit. Or don't. The chair opposite fetches itself, if you ask it nicely."
+
+dialogue:
+"He does not get up. He raises one finger, and across the room a second chair slides itself to you."
+
+npc Enchanter:
+"I am the Enchanter. I am, by wide agreement, the laziest man alive."
+"People say it as an insult. I have never understood why."
+
+npc You:
+"They told me you were a genius."
+
+npc Enchanter:
+"Those are the same sentence, {{player_name}}. Nobody clever does a thing twice."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE SPELLBOOK"
+"def · parameters · arguments · return · default arguments"
+
+dialogue:
+"— LESSON I — BIND IT ONCE —"
+
+npc Enchanter:
+"Watch. A boy in the village throws a firebolt. Good for him."
+"To throw a second, he thinks the whole thought again — every word, every gesture, from nothing. He'll be an old man before he's thrown a hundred."
+
+dialogue:
+"The Enchanter raises the same finger. A thread of fire loops out of the air, curls into a knot, and hangs there — waiting."
+
+npc Enchanter:
+"I thought the thought ONCE. I tied it into a knot and gave the knot a NAME."
+"Now I do not cast the spell. I CALL it — by name, as many times as I like."
+"That knot is a function. Bind the thought once; reuse it forever."
+
+interactive: spellbook_call
+
+dialogue:
+"— LESSON II — THE GIFT —"
+
+npc Enchanter:
+"A spell that does its work in silence and hands nothing back is worthless. You want the GIFT."
+"return is the gift — the value the spell places back in your hand. Forget it, and the spell gives you nothing. Literally: None."
+
+interactive: spellbook_return_vs_print
+
+npc Enchanter:
+"Now name a spell yourself. The word that binds, the name, the reagent it takes, and the colon that opens its heart."
+
+interactive: spellbook_forge_def
+
+dialogue:
+"— LESSON III — RECIPE AND REAGENT —"
+
+npc Enchanter:
+"Two words travellers muddle forever. The name in the recipe is a PARAMETER — a blank waiting to be filled."
+"The value you actually pour in, when you call, is an ARGUMENT. Recipe, and reagent. Learn the difference."
+
+interactive: spellbook_params_args
+
+dialogue:
+"— LESSON IV — THE OPTIONAL REAGENT —"
+
+npc Enchanter:
+"And because I am lazy, I hate providing a reagent I nearly always want the same way."
+"So I give it a DEFAULT. Provide it, and mine's ignored. Omit it, and the default fills in. Fewer keystrokes. A beautiful thing."
+
+interactive: spellbook_defaults
+
+dialogue:
+"— PROVE IT — THE FIREBOLT —"
+"He flicks the waiting knot of fire toward you. It hovers, unfinished, wanting its law."
+
+npc Enchanter:
+"Bind it. Give it a name and what it needs — a power, and a number of targets — and tell it what to give BACK."
+
+system system:
+"MISSION"
+"Define cast_spell(power, targets) that returns the total damage."
+
+mission: enchanter_spellbind
+
+dialogue:
+"The knot pulls taut and holds. Somewhere in your chest a new name settles, ready to be called."
+
+npc Enchanter:
+"Good. Now one with an optional edge — the kind of laziness I respect."
+
+dialogue:
+"— COMBINE IT — THE OPTIONAL EDGE —"
+
+npc Enchanter:
+"Bind a spell to enchant a blade. Most take the standard edge. But let me ASK for a sharper one, on the rare day I care."
+
+system system:
+"MISSION"
+"Define enchant_blade(damage, sharpness=2) — sharpness defaults to 2."
+
+mission: spellbook_default
+
+dialogue:
+"You bind the blade-spell, its edge optional, and cast it both ways — plain, then sharpened."
+"The Enchanter watches two blades bloom from one incantation and sighs happily."
+
+npc Enchanter:
+"One spell. Two blades. That is the whole of my religion."
+"Prove you hold it — bound, and called, and gifted back — in a single breath."
+
+interactive: spellbook_final_recall
+
+npc Enchanter:
+"Bound once, called clean. You have the makings of a properly lazy genius."
+"Now come to the back room. There is a thing about spells that ruins more apprentices than any monster — and it is about SECRETS."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Spellbook"
+"Mastered: def · parameters vs arguments · return · default arguments"
+
+reward:
+xp: 100
+gold: 50
+achievement: BIND ONCE, CALL MANY
+
+next:
+chapter_7c_private_workshop

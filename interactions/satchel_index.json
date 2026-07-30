@@ -1,0 +1,23 @@
+{
+  "interaction_id": "satchel_index",
+  "widget": "predict_output",
+  "title": "Reach Into a Slot",
+  "prompt": "The satchel counts from zero. Predict which crate each slot holds.",
+  "config": {
+    "rounds": [
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\nprint(crates[0])",
+        "options": ["Rope", "Torch", "0", "Bread"],
+        "answer": 0,
+        "explain": "Slot 0 is the FIRST crate. A list always counts from zero."
+      },
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\nprint(crates[2])",
+        "options": ["Torch", "Bread", "Rope", "error"],
+        "answer": 1,
+        "explain": "Slot 2 is the THIRD crate — because slot 0 was the first. The index is always one behind the count."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

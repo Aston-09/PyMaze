@@ -1,0 +1,21 @@
+{
+  "interaction_id": "spellbook_params_args",
+  "widget": "sort_types",
+  "title": "Recipe, or Reagent?",
+  "prompt": "The name in the recipe is a PARAMETER. The value you pour in when you call is an ARGUMENT. Sort them.",
+  "config": {
+    "bins": [
+      { "id": "param", "label": "Parameter (in the recipe)", "hint": "named in the def" },
+      { "id": "arg", "label": "Argument (poured in)", "hint": "given in the call" }
+    ],
+    "items": [
+      { "id": "p1", "text": "power  in  def cast(power):", "bin": "param", "reveal": "A parameter is the name written in the recipe — a blank to be filled." },
+      { "id": "p2", "text": "30  in  cast(30)", "bin": "arg", "reveal": "An argument is the actual value poured in when you call the spell." },
+      { "id": "p3", "text": "name  in  def greet(name):", "bin": "param" },
+      { "id": "p4", "text": "\"Kae\"  in  greet(\"Kae\")", "bin": "arg" },
+      { "id": "p5", "text": "targets  in  def hit(targets):", "bin": "param" },
+      { "id": "p6", "text": "5  in  hit(5)", "bin": "arg" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

@@ -1,0 +1,21 @@
+{
+  "interaction_id": "workshop_sort",
+  "widget": "sort_types",
+  "title": "Inside, or Outside?",
+  "prompt": "Sort each name: does it live INSIDE a function (local), or out in the main hall (global)?",
+  "config": {
+    "bins": [
+      { "id": "local", "label": "Lives Inside (local)", "hint": "only within the function" },
+      { "id": "global", "label": "Lives Outside (global)", "hint": "in the main hall" }
+    ],
+    "items": [
+      { "id": "w1", "text": "a parameter, like x in def f(x):", "bin": "local", "reveal": "Parameters are born inside the function and die with it." },
+      { "id": "w2", "text": "a variable assigned inside a function", "bin": "local" },
+      { "id": "w3", "text": "a variable set at the top of the file", "bin": "global" },
+      { "id": "w4", "text": "a name every function can read", "bin": "global" },
+      { "id": "w5", "text": "total, built inside a loop in a function", "bin": "local" },
+      { "id": "w6", "text": "a value defined outside any function", "bin": "global" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

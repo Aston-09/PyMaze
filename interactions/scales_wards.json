@@ -1,0 +1,29 @@
+{
+  "interaction_id": "scales_wards",
+  "widget": "predict_output",
+  "title": "Combining Wards",
+  "prompt": "and, or, and not combine truths the way the Alchemist combines protective wards.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(True and False)",
+        "options": ["True", "False"],
+        "answer": 1,
+        "explain": "and needs BOTH sides true. One broken ward breaks the seal — the result is False."
+      },
+      {
+        "code": "print(True or False)",
+        "options": ["True", "False"],
+        "answer": 0,
+        "explain": "or needs only ONE side true. A single standing ward is enough — True."
+      },
+      {
+        "code": "print(not True)",
+        "options": ["True", "False"],
+        "answer": 1,
+        "explain": "not simply flips it. not True becomes False."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

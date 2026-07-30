@@ -1,0 +1,22 @@
+{
+  "interaction_id": "satchel_forge",
+  "widget": "build_statement",
+  "title": "Add to the Line",
+  "prompt": "Build the command that adds one more crate to the end of the satchel.",
+  "config": {
+    "target": "satchel.append(crate)",
+    "slots": ["obj", "method"],
+    "slot_labels": {
+      "obj": "the satchel",
+      "method": "grow it by one"
+    },
+    "fragments": [
+      { "id": "f1", "text": "satchel", "slot": "obj" },
+      { "id": "f2", "text": ".append(crate)", "slot": "method" },
+      { "id": "f3", "text": ".pop()", "slot": null, "wrong_hint": "pop() REMOVES the last crate. To ADD one to the end, use .append(crate)." },
+      { "id": "f4", "text": "[crate]", "slot": null, "wrong_hint": "Square brackets look up or replace a slot — they don't grow the list. append does." }
+    ],
+    "success": "satchel.append(crate) — one more crate on the end of the line."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

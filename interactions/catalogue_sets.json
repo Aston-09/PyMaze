@@ -1,0 +1,23 @@
+{
+  "interaction_id": "catalogue_sets",
+  "widget": "predict_output",
+  "title": "The Unrepeating Roster",
+  "prompt": "A set keeps no duplicates — every member appears once. Predict the count.",
+  "config": {
+    "rounds": [
+      {
+        "code": "roster = {1, 1, 2, 3, 3, 3}\nprint(len(roster))",
+        "options": ["6", "3", "1"],
+        "answer": 1,
+        "explain": "A set is the unrepeating roster — duplicates simply vanish. Six written, three kept: 1, 2, 3. No two souls the same."
+      },
+      {
+        "code": "names = [\"ana\", \"bo\", \"ana\"]\nprint(len(set(names)))",
+        "options": ["3", "2", "1"],
+        "answer": 1,
+        "explain": "set(names) throws away the repeat. Three names, two distinct — 2. A quick way to count uniques."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

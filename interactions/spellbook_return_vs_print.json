@@ -1,0 +1,23 @@
+{
+  "interaction_id": "spellbook_return_vs_print",
+  "widget": "predict_output",
+  "title": "The Spell's Gift",
+  "prompt": "A spell that computes but never RETURNS gives back nothing. Predict the result.",
+  "config": {
+    "rounds": [
+      {
+        "code": "def add(a, b):\n    a + b\nprint(add(2, 3))",
+        "options": ["5", "None", "2 3", "error"],
+        "answer": 1,
+        "explain": "The function works out a + b but never RETURNS it — so it hands back None. A spell with no return gives nothing."
+      },
+      {
+        "code": "def add(a, b):\n    return a + b\nprint(add(2, 3))",
+        "options": ["5", "None", "error"],
+        "answer": 0,
+        "explain": "With return, the result comes back: 5. return is the spell's gift to whoever called it."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

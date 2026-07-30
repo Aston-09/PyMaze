@@ -1,0 +1,29 @@
+{
+  "challenge_id": "workshop_scope",
+  "topic": "Scope — work with locals, return the result",
+  "difficulty": "easy",
+  "title": "Keep It in the Workshop",
+  "narrative": "The Enchanter's rule: a spell does its work on its OWN private bench, then hands back the result. It reaches for nothing outside and leaves no mess behind.",
+  "instructions": "Write a function `brew(strength)` that does all its work locally and returns the result.\n\n- Inside the function, make a local potion worth `strength` times 3.\n- Return it.\n\n`brew(2)` returns `6`. Everything the function needs, it receives as a parameter or makes locally — it touches no outside variable.",
+  "starting_code": "def brew(strength):\n    # Do the work on your own bench: a LOCAL potion, strength times 3.\n    # Then return it. Reach for nothing outside the function.\n    return None\n",
+  "test_type": "function",
+  "function_name": "brew",
+  "validation_tests": [
+    { "input": 2, "expected": 6 },
+    { "input": 0, "expected": 0 },
+    { "input": 5, "expected": 15 },
+    { "input": 1, "expected": 3 }
+  ],
+  "hints": [
+    "Make a local variable: `potion = strength * 3`.",
+    "Then hand it back: `return potion`.",
+    "You could also skip the local entirely and `return strength * 3` — both keep the work inside the function.",
+    "`strength` is a parameter, so it is already local — you never need anything from outside."
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 25,
+    "title": "Keeper of Secrets",
+    "achievement": "WHAT HAPPENS IN THE WORKSHOP"
+  }
+}

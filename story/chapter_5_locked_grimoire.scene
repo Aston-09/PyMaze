@@ -1,0 +1,82 @@
+@scene chapter_5_locked_grimoire
+
+background: ancient_library.png
+music: wisdom_theme.mp3
+
+dialogue:
+"The road climbs to a squat stone archive, half-swallowed by ivy."
+"Inside, shelves run off in every direction, and not one of them is in any order you can see."
+"An old woman sits at the centre, eyes clouded white, her hands moving over a great locked book as though reading a face."
+
+background: cataloguer
+
+npc Cataloguer:
+"Come in, come in. Mind the third shelf — it bites."
+"You're the one Gruff sent. He counts from zero. I don't count at all."
+
+npc You:
+"You're... blind. How do you find anything in here?"
+
+npc Cataloguer:
+"By its NAME, child. Never by where it sits."
+
+system notification:
+"NEW QUEST"
+"THE LOCKED GRIMOIRE"
+"Open the spellbook that answers only to names."
+
+npc Cataloguer:
+"Your Quartermaster's satchels are fine things — if you can SEE which slot you want."
+"But I cannot. Numbers on a shelf are no use to a blind woman."
+"So I keep my knowledge another way. Not a line — a set of PAIRS."
+"Every spell has a name, and every name points to its incantation."
+
+dialogue:
+"She lays her palm flat on the grimoire. Its iron lock clicks open."
+
+npc Cataloguer:
+"That is a dictionary, traveller. You never ask it 'what is in slot two?'"
+"You ask it 'what answers to the name FIRE?' — and it hands you the answer, wherever the thing happens to sit."
+"A key. A value. Say the key; receive the value."
+
+npc Cataloguer:
+"But be gentle with it. Ask for a name the book does not hold, and a lesser book would shriek and slam its covers shut."
+"Mine is kinder — if you ask it kindly. Ask with GET, and hand it a word to say when it knows nothing."
+"Then a missing spell is not a catastrophe. It is only a shrug."
+
+dialogue:
+"She slides the open grimoire toward you. Names shimmer along its margins, each tied by a thread of light to an incantation somewhere in the pages."
+
+npc Cataloguer:
+"A traveller will name the spell they need. Fetch its incantation by that name."
+"And if the book has never held it — do not let it scream. Have it answer 'Unknown Spell,' and move on."
+
+system system:
+"MISSION"
+"Look up a spell by name. Use .get so an unknown name returns 'Unknown Spell' instead of crashing."
+
+mission: grimoire_dicts
+
+dialogue:
+"You speak a name. A thread of light pulls taut, and the matching incantation rises off the page and hangs glowing in the air."
+"Then you speak a name the book has never held — and instead of shrieking, it simply murmurs, 'Unknown Spell,' and waits."
+"The Cataloguer smiles at the sound."
+
+npc Cataloguer:
+"There. You've learned to ask by name — and to ask kindly."
+"That second part matters more than the first. The Blight, when you get right down to it, is only unhandled screaming."
+"Go west, to the old loom. A weaver waits there who speaks in nothing but riddles."
+"She'll teach your words to bend. You'll need it — the lazy one on the mountain won't repeat himself."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Locked Grimoire"
+"Applied: dictionaries · key → value · .get with a default"
+
+reward:
+xp: 100
+gold: 50
+achievement: SPEAKER OF NAMES
+
+next:
+chapter_5b_card_catalogue

@@ -1,0 +1,17 @@
+{
+  "interaction_id": "halls_final_recall",
+  "widget": "predict_output",
+  "title": "The Warden, Freed",
+  "prompt": "Everything at once — while, a count that grows, and a break for the exit. Predict the result.",
+  "config": {
+    "rounds": [
+      {
+        "code": "count = 0\nwhile True:\n    if count == 3:\n        break\n    count = count + 1\nprint(count)",
+        "options": ["0", "3", "forever", "4"],
+        "answer": 1,
+        "explain": "while True would run forever — but break gives it an exit. It counts 0, 1, 2, 3, breaks at 3, and prints 3. That is the Warden, freed."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

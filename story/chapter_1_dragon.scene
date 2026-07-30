@@ -20,6 +20,8 @@ dialogue:
 "The ancient creature studies you in silence."
 "Its voice echoes through your mind."
 
+background: dragon
+
 npc Dragon:
 "HUMAN."
 "STATE YOUR PURPOSE."

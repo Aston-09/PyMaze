@@ -1,0 +1,26 @@
+{
+  "interaction_id": "halls_forge_break",
+  "widget": "build_statement",
+  "title": "Forge the Escape",
+  "prompt": "Build the line that lets the Warden LEAVE the loop the moment he reaches the door.",
+  "config": {
+    "target": "if at_door : break",
+    "slots": ["guard", "condition", "colon", "action"],
+    "slot_labels": {
+      "guard": "test if",
+      "condition": "he's arrived",
+      "colon": "then",
+      "action": "the escape"
+    },
+    "fragments": [
+      { "id": "f1", "text": "if", "slot": "guard" },
+      { "id": "f2", "text": "at_door", "slot": "condition" },
+      { "id": "f3", "text": ":", "slot": "colon" },
+      { "id": "f4", "text": "break", "slot": "action" },
+      { "id": "f5", "text": "continue", "slot": null, "wrong_hint": "continue only skips to the next step — the Warden needs to LEAVE the loop. That is break." },
+      { "id": "f6", "text": "print", "slot": null, "wrong_hint": "Printing describes the door. It does not open it or free anyone." }
+    ],
+    "success": "if at_door: break — the one line the Warden's own loop was missing."
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

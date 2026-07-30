@@ -1,0 +1,28 @@
+{
+  "challenge_id": "satchel_pack",
+  "topic": "Lists — append + len",
+  "difficulty": "easy",
+  "title": "Pack the Satchel",
+  "narrative": "One more crate for the road. Add it to the end of the satchel and report how many crates it now carries.",
+  "instructions": "Write a function `pack(satchel, item)`.\n\n- Add `item` to the END of the `satchel` list.\n- Then return how many crates the satchel now holds.",
+  "starting_code": "def pack(satchel, item):\n    # Add `item` to the end of the satchel, then return how many crates it holds.\n    return None\n",
+  "test_type": "function",
+  "function_name": "pack",
+  "validation_tests": [
+    { "input": [["Rope", "Torch"], "Bread"], "expected": 3 },
+    { "input": [[], "Lantern"], "expected": 1 },
+    { "input": [["Salt"], "Water"], "expected": 2 }
+  ],
+  "hints": [
+    "Add to the end with `satchel.append(item)`.",
+    "Count the crates with `len(satchel)`.",
+    "Do them in order: append first, then `return len(satchel)`.",
+    "append changes the list in place — you don't need to reassign it."
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 20,
+    "title": "Satchel-Packer",
+    "achievement": "EVERY CRATE IN ITS SLOT"
+  }
+}

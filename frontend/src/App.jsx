@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HUD from './components/HUD';
 import SceneManager from './components/SceneManager';
+import AppearancePicker from './components/AppearancePicker';
 
 import { API_URL } from './config';
 
@@ -36,6 +37,16 @@ function App() {
     return (
       <div className="app-container" style={{ justifyContent: 'center', alignItems: 'center' }}>
         <div className="loading-spinner" style={{ width: 40, height: 40 }} />
+      </div>
+    );
+  }
+
+  // A brand-new player picks their look once, before anything else loads —
+  // every later scene that reflects the player back at them depends on it.
+  if (player && !player.gender) {
+    return (
+      <div className="app-container" style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <AppearancePicker onChosen={setPlayer} />
       </div>
     );
   }

@@ -1,0 +1,17 @@
+{
+  "interaction_id": "workshop_shadow",
+  "widget": "predict_output",
+  "title": "What Happens in the Workshop",
+  "prompt": "Assigning a name INSIDE a function makes a new, private copy. Predict what the outside still holds.",
+  "config": {
+    "rounds": [
+      {
+        "code": "power = 100\ndef drain():\n    power = 5\ndrain()\nprint(power)",
+        "options": ["5", "100"],
+        "answer": 1,
+        "explain": "Assigning `power` inside drain() made a NEW local that vanished when the function ended. The global outside is still 100 — this is the surprise scope sets for beginners."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

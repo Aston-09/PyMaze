@@ -1,0 +1,29 @@
+{
+  "challenge_id": "caravan_lists",
+  "topic": "Lists (order and indexing from 0)",
+  "difficulty": "easy",
+  "title": "The Numbered Satchel",
+  "narrative": "The Quartermaster's satchels keep their crates in a line — and that line counts from zero. A traveller asks for a crate by its place; you must fetch it from the right slot.",
+  "instructions": "Write a function `crate_at(supplies, position)`.\n\n- `supplies` is a list of crates, kept in order.\n- `position` is the crate the traveller asks for, counting like a person: 1 means the FIRST crate, 2 the second, and so on.\n- The satchel, though, counts from 0. So the first crate lives at index 0.\n\nReturn the crate the traveller actually asked for. Mind the gap between counting-from-1 and indexing-from-0.",
+  "starting_code": "def crate_at(supplies, position):\n    # The traveller counts from 1. The satchel counts from 0.\n    # Return the crate at the right slot.\n    return None\n",
+  "test_type": "function",
+  "function_name": "crate_at",
+  "validation_tests": [
+    { "input": [["Rope", "Torch", "Bread"], 1], "expected": "Rope" },
+    { "input": [["Rope", "Torch", "Bread"], 3], "expected": "Bread" },
+    { "input": [["Salt", "Water"], 2], "expected": "Water" },
+    { "input": [["Lantern"], 1], "expected": "Lantern" }
+  ],
+  "hints": [
+    "The first crate a traveller asks for (position 1) lives at index 0.",
+    "So the index you want is always `position - 1`.",
+    "Return `supplies[position - 1]`.",
+    "That single `- 1` is the whole off-by-one lesson. Get it wrong and you fetch the neighbour — or fall off the end of the satchel."
+  ],
+  "reward": {
+    "xp": 100,
+    "gold": 45,
+    "title": "Quartermaster's Hand",
+    "achievement": "KEEPER OF ORDER"
+  }
+}

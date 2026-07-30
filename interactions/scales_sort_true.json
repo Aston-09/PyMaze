@@ -1,0 +1,23 @@
+{
+  "interaction_id": "scales_sort_true",
+  "widget": "sort_types",
+  "title": "Which Way Does It Tip?",
+  "prompt": "Drop each expression on the scale. Does it balance True, or tip False?",
+  "config": {
+    "bins": [
+      { "id": "true", "label": "Balances True", "hint": "the scale holds" },
+      { "id": "false", "label": "Tips False", "hint": "the scale falls" }
+    ],
+    "items": [
+      { "id": "t1", "text": "5 > 3", "bin": "true" },
+      { "id": "t2", "text": "10 == 9", "bin": "false" },
+      { "id": "t3", "text": "not False", "bin": "true" },
+      { "id": "t4", "text": "3 >= 5", "bin": "false" },
+      { "id": "t5", "text": "True and False", "bin": "false", "reveal": "and needs both sides true; one false sinks it." },
+      { "id": "t6", "text": "True or False", "bin": "true", "reveal": "or needs only one true side." },
+      { "id": "t7", "text": "7 != 7", "bin": "false", "reveal": "!= means 'not equal'. 7 IS equal to 7, so 'not equal' is False." },
+      { "id": "t8", "text": "'a' == 'a'", "bin": "true" }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

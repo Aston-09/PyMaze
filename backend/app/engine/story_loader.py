@@ -138,6 +138,26 @@ def _parse_block(scene_id: str, lines: List[str]) -> ParsedScene:
             if val:
                 beats.append(SceneBeat(type="interactive", ref=val))
 
+        # choice:  — branching the player drives, not the engine.
+        #   "Label the player reads" -> target_scene_id
+        # Unlike condition:/next: (which routes on stats), a choice is a real
+        # decision beat: the client shows the labels and jumps to whichever
+        # target is picked. That's what gives a chapter multiple endings keyed
+        # to what the player *chooses*, not what their stats happen to be.
+        elif line.startswith("choice:"):
+            options: List[Dict[str, str]] = []
+            i += 1
+            while i < len(lines):
+                ol = lines[i].strip()
+                m = re.match(r'^"(.*)"\s*->\s*(\S+)$', ol)
+                if not m:
+                    break
+                options.append({"label": m.group(1), "target": m.group(2)})
+                i += 1
+            if options:
+                beats.append(SceneBeat(type="choice", options=options))
+            continue
+
         # reward: block
         elif line.startswith("reward:"):
             i += 1
@@ -222,3 +242,38 @@ def load_all_scenes(story_dir: str) -> Dict[str, ParsedScene]:
                 scenes[scene.scene_id] = scene
 
     return scenes
+
+
+def _selfcheck() -> None:
+    """Assert the choice: beat parses. Run: python -m app.engine.story_loader"""
+    import tempfile
+    sample = (
+        "@scene t\n"
+        "dialogue:\n"
+        '"The path forks."\n'
+        "choice:\n"
+        '"Go left." -> scene_left\n'
+        '"Take the coward\'s road." -> scene_right\n'
+        "dialogue:\n"
+        '"(unreachable — choices jump away)"\n'
+    )
+    with tempfile.NamedTemporaryFile("w", suffix=".scene", delete=False, encoding="utf-8") as f:
+        f.write(sample)
+        path = f.name
+    try:
+        [scene] = parse_scene_file(path)
+    finally:
+        os.remove(path)
+
+    choices = [b for b in scene.beats if b.type == "choice"]
+    assert len(choices) == 1, f"expected 1 choice beat, got {len(choices)}"
+    opts = choices[0].options
+    assert opts == [
+        {"label": "Go left.", "target": "scene_left"},
+        {"label": "Take the coward's road.", "target": "scene_right"},
+    ], opts
+    print("story_loader: choice parsing ok")
+
+
+if __name__ == "__main__":
+    _selfcheck()

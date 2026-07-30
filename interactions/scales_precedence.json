@@ -1,0 +1,23 @@
+{
+  "interaction_id": "scales_precedence",
+  "widget": "predict_output",
+  "title": "Order of Reagents",
+  "prompt": "Add the reagents in the wrong order and the mixture is ruined. Operators have an order too.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(2 + 3 * 4)",
+        "options": ["20", "14", "24", "9"],
+        "answer": 1,
+        "explain": "Multiplication happens before addition. 3 * 4 = 12 first, then + 2 = 14 — not 20."
+      },
+      {
+        "code": "print((2 + 3) * 4)",
+        "options": ["20", "14", "24"],
+        "answer": 0,
+        "explain": "Brackets go first, always. (2 + 3) = 5, then times 4 = 20. Parentheses let you force the order you want."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

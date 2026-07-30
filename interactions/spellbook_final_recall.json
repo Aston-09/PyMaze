@@ -1,0 +1,17 @@
+{
+  "interaction_id": "spellbook_final_recall",
+  "widget": "predict_output",
+  "title": "One Spell, Bound and Called",
+  "prompt": "Define once, with an optional reagent, then call it short. Predict the gift it returns.",
+  "config": {
+    "rounds": [
+      {
+        "code": "def power_up(base, mult=3):\n    return base * mult\nprint(power_up(4))",
+        "options": ["12", "4", "7", "error"],
+        "answer": 0,
+        "explain": "power_up(4) leaves `mult` at its default of 3: 4 * 3 = 12. Bind once, call with or without the optional reagent."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

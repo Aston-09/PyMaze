@@ -6,6 +6,8 @@ music: dragon_theme.mp3
 dialogue:
 "The dragon's eyes ignite with a terrifying golden fire."
 
+background: dragon
+
 npc Dragon:
 "You..."
 "You would steal power you have not earned."

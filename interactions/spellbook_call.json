@@ -1,0 +1,23 @@
+{
+  "interaction_id": "spellbook_call",
+  "widget": "predict_output",
+  "title": "Call It by Name",
+  "prompt": "A function, once bound, is CALLED by name with a value to work on. Predict what comes back.",
+  "config": {
+    "rounds": [
+      {
+        "code": "def double(x):\n    return x * 2\nprint(double(5))",
+        "options": ["10", "5", "x * 2", "double"],
+        "answer": 0,
+        "explain": "double(5) runs the spell with x = 5 and RETURNS 10. Calling it by name is all it takes."
+      },
+      {
+        "code": "def greet(name):\n    return \"Hi \" + name\nprint(greet(\"Kae\"))",
+        "options": ["Hi Kae", "Hi name", "greet", "name"],
+        "answer": 0,
+        "explain": "The value \"Kae\" fills the parameter `name`, and the spell returns 'Hi Kae'."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

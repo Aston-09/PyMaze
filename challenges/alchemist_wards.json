@@ -1,0 +1,30 @@
+{
+  "challenge_id": "alchemist_wards",
+  "topic": "Operators — comparison + logical, returning a bool",
+  "difficulty": "easy",
+  "title": "The Ward That Judges",
+  "narrative": "The Alchemist's inner door is sealed by a ward that judges every traveller. It opens only for those strong enough AND carrying the proper key. Combine a weighing and a ward into a single verdict.",
+  "instructions": "Write a function `can_enter(level, has_key)` that returns a single True/False verdict.\n\nThe ward opens only when BOTH are true:\n- `level` is at least 5 (5 or more), AND\n- `has_key` is True.\n\nReturn the combined result directly (it will be True or False).",
+  "starting_code": "def can_enter(level, has_key):\n    # The ward opens only if level is at least 5 AND the traveller has the key.\n    # Combine a comparison and a logical 'and' into one verdict.\n    return None\n",
+  "test_type": "function",
+  "function_name": "can_enter",
+  "validation_tests": [
+    { "input": [5, true], "expected": true },
+    { "input": [4, true], "expected": false },
+    { "input": [9, false], "expected": false },
+    { "input": [5, false], "expected": false },
+    { "input": [10, true], "expected": true }
+  ],
+  "hints": [
+    "The strength test is a comparison: `level >= 5`.",
+    "Both conditions must hold, so join them with `and`: `level >= 5 and has_key`.",
+    "Return that expression directly — it already evaluates to True or False.",
+    "`return level >= 5 and has_key`"
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 25,
+    "title": "Ward-Reader",
+    "achievement": "MASTER OF THE SCALES"
+  }
+}

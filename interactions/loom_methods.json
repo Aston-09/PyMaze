@@ -1,0 +1,23 @@
+{
+  "interaction_id": "loom_methods",
+  "widget": "predict_output",
+  "title": "Reshape the Thread",
+  "prompt": "Words can be raised, lowered, and trimmed. Predict the reshaped thread.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(\"fire\".upper())",
+        "options": ["fire", "FIRE", "Fire"],
+        "answer": 1,
+        "explain": ".upper() raises every rune to a capital. 'fire' becomes 'FIRE'."
+      },
+      {
+        "code": "print(\"LOUD\".lower())",
+        "options": ["LOUD", "loud", "Loud"],
+        "answer": 1,
+        "explain": ".lower() drops every rune to lowercase. 'LOUD' becomes 'loud'."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

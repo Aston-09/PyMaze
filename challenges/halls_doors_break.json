@@ -1,0 +1,29 @@
+{
+  "challenge_id": "halls_doors_break",
+  "topic": "Loops — break (stop early)",
+  "difficulty": "easy",
+  "title": "The Cursed Door",
+  "narrative": "The corridor is a line of numbered doors. You open them in order — but a door marked 0 is cursed, and the moment you reach one you must STOP. Count how many you opened before the curse.",
+  "instructions": "Write a function `doors_until_curse(doors)`.\n\n- `doors` is a list of numbers, walked in order.\n- Open them one by one, counting each.\n- The instant you reach a door equal to `0` (cursed), STOP with `break` — do not count it.\n\nReturn how many doors you opened before the curse (or all of them, if there is no cursed door).",
+  "starting_code": "def doors_until_curse(doors):\n    opened = 0\n    for door in doors:\n        # If this door is cursed (equals 0), STOP: break out of the loop.\n        # Otherwise, count it as opened.\n        pass  # replace this\n    return opened\n",
+  "test_type": "function",
+  "function_name": "doors_until_curse",
+  "validation_tests": [
+    { "input": [[3, 5, 0, 9]], "expected": 2 },
+    { "input": [[0]], "expected": 0 },
+    { "input": [[1, 2, 3]], "expected": 3 },
+    { "input": [[7, 0, 0]], "expected": 1 }
+  ],
+  "hints": [
+    "Inside the loop, check the cursed door first: `if door == 0:` then `break`.",
+    "If it is not cursed, count it: `opened = opened + 1`.",
+    "break leaves the loop immediately, so a door that comes AFTER the curse is never counted.",
+    "Order matters: check for the curse BEFORE you count, or you'll count the cursed door by mistake."
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 20,
+    "title": "Corridor-Walker",
+    "achievement": "THE FIRST EXIT"
+  }
+}

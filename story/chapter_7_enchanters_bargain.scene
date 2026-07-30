@@ -1,0 +1,171 @@
+@scene chapter_7_enchanters_bargain
+
+background: ancient_library.png
+music: arcane_study.mp3
+
+dialogue:
+"Back in the great cluttered room at the top of the tower, the Enchanter waves you toward the chair that fetches itself."
+"You can bind a spell now, and keep a workshop's secrets close."
+"He looks almost proud — which, on his face, resembles indigestion."
+
+background: enchanter
+
+npc Enchanter:
+"You bind well, {{player_name}}. And you keep your whispers where they belong. Most travellers never get this far."
+"I had half a mind to take the rest slowly. A whole warm winter of it, spell by spell."
+
+system notification:
+"NEW QUEST"
+"THE ENCHANTER'S BARGAIN"
+"Learn the last spell — before the Blight finishes climbing the tower."
+
+background: ruins.png
+
+dialogue:
+"Then the floor shudders."
+"At the base of the tower, between the stones, something the colour of a healed-over wound begins to seep upward."
+"The books nearest the wall curl to ash without burning."
+"The Enchanter watches it come. For the first time, he does not look amused."
+
+npc Enchanter:
+"Ah. It found me too."
+"The Blight. Every spell ever left unfinished. Every loop that never learned to stop."
+"I always meant to deal with it. Tomorrow. You understand."
+
+dialogue:
+"He turns to you, and there is something behind the laziness now that was always there, only hidden."
+
+npc Enchanter:
+"There is one spell left that I have never taught. The deepest, and the simplest."
+"A spell whose final word is its own name."
+
+npc You:
+"A spell that casts itself?"
+
+npc Enchanter:
+"A spell that casts itself — on a smaller power than before. And again, smaller. And again."
+"Until it reaches a seed so small it need not divide, and simply answers."
+"That last, un-dividing answer is the whole art, {{player_name}}. They call it the base case."
+"Leave it out, and the spell falls forever. That falling — that is the thing you see climbing my walls."
+
+system system:
+"MISSION"
+"Write a recursive spell."
+"It must call itself on a smaller power — and it must know when to stop."
+
+dialogue:
+"He presses the last knot into your hands. It is already trying to unravel."
+
+mission: enchanter_recursion
+
+background: ancient_library.png
+
+dialogue:
+"The recursive spell settles in your chest and keeps settling — layer under layer, all the way down to the small bright seed of itself."
+"When you look up, the Enchanter has sunk deeper into his chair."
+"The Blight has stopped climbing. But it has not left. It waits at the edge of the lamplight, patient as arithmetic."
+
+npc Enchanter:
+"That's it. That's everything I have."
+"I am too old and — let us be honest — too lazy to carry it out of here."
+"So here is the bargain, traveller. The knowledge is yours."
+"What you DO with it is the only part I cannot do for you."
+
+dialogue:
+"He closes his eyes."
+"The choice is yours, and the tower waits to see what kind of person picked up its last spell."
+
+choice:
+"Promise to carry his spells on — and bind them for whoever comes next." -> chapter_7_end_heir
+"Take the recursion for yourself. Seal the door behind you." -> chapter_7_end_hoarder
+"Cast his own spell back on him — teach the teacher, and give the rest away." -> chapter_7_end_kindled
+
+
+@scene chapter_7_end_heir
+
+background: ancient_library.png
+music: arcane_study.mp3
+
+npc You:
+"I'll carry them. All of them. And I'll bind them, so the next traveller doesn't start from nothing."
+
+dialogue:
+"The Enchanter opens one eye."
+
+background: enchanter
+
+npc Enchanter:
+"A promise. Do you know what a function really is, {{player_name}}?"
+"It is a promise. Named — and kept — and kept again, long after the one who made it has gone to sleep."
+
+dialogue:
+"He settles back, and this time the smile stays."
+"The shelves lean toward you, offering. The tower has decided that you'll do."
+"You do not defeat the Blight tonight. But every spell you carry out of here is one more thing it will never get to finish for you."
+
+system notification:
+"PATH — THE HEIR"
+"You bound the Enchanter's work into promises the world can keep."
+"A function is a promise. You make them now."
+
+
+@scene chapter_7_end_hoarder
+
+background: ruins.png
+music: arcane_study.mp3
+
+npc You:
+"Mine. All of it. And no one takes it from me."
+
+dialogue:
+"You gather the last knot to your chest and turn for the door."
+"Behind you, the Enchanter says nothing. There is nothing left in him to argue with."
+"You seal the tower as you go — a spell that guards only itself, calling only its own name, over and over."
+
+npc System:
+"WARNING."
+"A spell that calls only itself, with nothing left to answer, has no base case."
+"That shape has a name, Traveller. You are standing inside it."
+
+dialogue:
+"The Blight does not chase you. It doesn't need to."
+"You have built it a home in the shape of your own held breath — a recursion with no end, and no one you will let end it."
+"You leave with everything. That is exactly the problem."
+
+system notification:
+"PATH — THE HOARDER"
+"You kept the power whole, and let it call only itself."
+"A recursion with no base case is the Blight's own shape."
+
+
+@scene chapter_7_end_kindled
+
+background: night_valley.avif
+music: arcane_study.mp3
+
+npc You:
+"You taught me a spell that casts itself smaller. Watch what it does cast the other way."
+
+dialogue:
+"You turn the recursion around."
+"You cast it not downward toward the seed, but outward — onto the Enchanter himself."
+"His own base case answers from somewhere very deep, and the tired old knot in him loosens."
+
+background: enchanter
+
+npc Enchanter:
+"...oh. Oh, that's clever. You wretched, generous child."
+
+dialogue:
+"You do not seal the tower. You leave every door standing open."
+"On the way down the mountain you teach the first spell to a shepherd. He will teach the next person. She will teach two more."
+"Each one taught becomes one who teaches — the same call, made smaller and passed on, with no end that anyone is afraid of."
+
+npc System:
+"A recursion has been opened that does not terminate."
+"For once, this is not an error."
+
+system notification:
+"PATH — THE KINDLED"
+"You taught the one who taught you, and gave the rest away."
+"The base case of kindness is that there isn't one."

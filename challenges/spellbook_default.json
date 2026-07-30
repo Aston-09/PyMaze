@@ -1,0 +1,30 @@
+{
+  "challenge_id": "spellbook_default",
+  "topic": "Functions — default arguments",
+  "difficulty": "medium",
+  "title": "The Blade With an Optional Edge",
+  "narrative": "Bind a spell that enchants a blade. Most blades take the standard edge — but the Enchanter wants to be able to ask for a sharper one when he bothers to care.",
+  "instructions": "Write a function `enchant_blade(damage, sharpness=2)` that returns the blade's total power: `damage` multiplied by `sharpness`.\n\n- `sharpness` should DEFAULT to `2` when the caller doesn't provide it.\n- `enchant_blade(10)` returns `20` (10 * 2).\n- `enchant_blade(10, 3)` returns `30`.",
+  "starting_code": "def enchant_blade(damage, sharpness=2):\n    # Return damage times sharpness.\n    # sharpness defaults to 2 when the caller doesn't pass it.\n    return None\n",
+  "test_type": "function",
+  "function_name": "enchant_blade",
+  "validation_tests": [
+    { "input": [10], "expected": 20 },
+    { "input": [10, 3], "expected": 30 },
+    { "input": [5], "expected": 10 },
+    { "input": [4, 5], "expected": 20 },
+    { "input": [0], "expected": 0 }
+  ],
+  "hints": [
+    "The default is already written for you in the header: `sharpness=2`.",
+    "The body is just the product: `return damage * sharpness`.",
+    "When a call omits sharpness, Python uses 2 automatically — you don't check for it yourself.",
+    "`return damage * sharpness`"
+  ],
+  "reward": {
+    "xp": 75,
+    "gold": 30,
+    "title": "Spell-Binder",
+    "achievement": "BIND ONCE, CALL MANY"
+  }
+}

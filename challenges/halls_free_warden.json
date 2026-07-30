@@ -1,0 +1,29 @@
+{
+  "challenge_id": "halls_free_warden",
+  "topic": "Loops — while + condition + accumulation",
+  "difficulty": "easy",
+  "title": "Free the Warden",
+  "narrative": "The Warden's own loop had no ending, so he has paced for an age. Give him one. Write the loop that walks him step by step to the door — and, unlike his curse, actually stops when he arrives.",
+  "instructions": "Write a function `free_warden(steps_to_door)`.\n\n- Start a counter `count` at 0.\n- Using a WHILE loop, take one step at a time — add 1 to `count` each step.\n- Keep going only WHILE `count` is less than `steps_to_door`, so the loop ENDS when he reaches the door.\n\nReturn `count` — the number of steps it took. A loop that can end is the whole difference between a path and a prison.",
+  "starting_code": "def free_warden(steps_to_door):\n    count = 0\n    # Walk the Warden to the door: keep stepping WHILE count < steps_to_door.\n    # Add 1 to count on each step. When count reaches steps_to_door, the\n    # condition becomes false and the loop ends on its own.\n    # (Write the while loop below.)\n    return count\n",
+  "test_type": "function",
+  "function_name": "free_warden",
+  "validation_tests": [
+    { "input": 3, "expected": 3 },
+    { "input": 0, "expected": 0 },
+    { "input": 1, "expected": 1 },
+    { "input": 10, "expected": 10 }
+  ],
+  "hints": [
+    "Write the loop header: `while count < steps_to_door:`",
+    "Inside the loop, take a step: `count = count + 1`.",
+    "Because count grows toward steps_to_door, the condition eventually becomes false — that is the exit his curse never had.",
+    "When steps_to_door is 0, the condition is false from the very start, so the loop never runs and count stays 0. That is correct."
+  ],
+  "reward": {
+    "xp": 50,
+    "gold": 25,
+    "title": "Warden's Liberator",
+    "achievement": "WARDEN FREED"
+  }
+}

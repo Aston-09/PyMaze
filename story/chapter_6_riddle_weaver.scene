@@ -1,0 +1,86 @@
+@scene chapter_6_riddle_weaver
+
+background: night_valley.avif
+music: mystery_forest.mp3
+
+dialogue:
+"West, as the Cataloguer said, the land turns strange and soft."
+"Threads of light hang in the air like spider-silk, and every one is strung with tiny glowing runes."
+"At the centre of the web sits a woman at an enormous loom, weaving the threads into sentences and unpicking them again."
+
+background: riddle_weaver
+
+npc Riddle Weaver:
+"A traveller of letters, letter by letter, arrives —"
+"— though not yet lettered enough to read the letters, I'd wager."
+
+npc You:
+"...I didn't understand a single word of that."
+
+npc Riddle Weaver:
+"No. Not yet. But you will — thread by thread."
+
+system notification:
+"NEW QUEST"
+"THE RIDDLE WEAVER"
+"Weave a name from the ribbon of runes."
+
+npc Riddle Weaver:
+"Words are not LUMPS, child. They are RIBBONS."
+"A ribbon of runes, each in its place — first rune, second, third — a line you can cut."
+
+dialogue:
+"She plucks a single thread from the loom. Runes run along its length, bright and small and ordered."
+
+npc Riddle Weaver:
+"Take only the runes you want. A SLICE, from here to there, and the rest falls away."
+"The first few runes of a long word — cut them free, and you may hold a truer, shorter name hidden inside it."
+
+npc Riddle Weaver:
+"And when you have your name, you do not merely SHOW it, cold and bare."
+"You WEAVE it — into a sentence, a greeting, a key. A thread of your own words wrapped snug around the name you found."
+
+dialogue:
+"Ahead, a final gate stands sealed. Across its face, a long ribbon of runes waits to be read."
+
+npc Riddle Weaver:
+"The gate hides a name inside a longer word — its first four runes, no more."
+"Slice the name loose. Then weave it into the words that open the way:"
+"'The gate opens for —' and then the name, and then a full stop, like a knot tied off."
+
+system system:
+"MISSION"
+"Slice the first 4 runes as the name, then weave it into: The gate opens for {name}."
+
+mission: riddle_strings
+
+dialogue:
+"You cut the first four runes loose. They hang shining in the air — a name, at last."
+"Then you wrap your own words around them and speak the woven sentence aloud."
+"The runes across the gate rearrange themselves to match — and the gate, at last, swings open."
+
+background: night_forest.avif
+
+dialogue:
+"Beyond it, far up a leaning tower on the bare rock, a single window burns gold."
+
+npc Riddle Weaver:
+"There. Cut, and woven, and spoken true."
+"The lazy one lives up there — the Enchanter. He'll not thank you for climbing all this way."
+"But he holds one last art none of the rest of us could teach: how to never do a thing twice."
+
+dialogue:
+"You set your eyes on the golden window high above, and begin to climb."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Riddle Weaver"
+"Applied: string slicing · f-strings"
+
+reward:
+xp: 100
+gold: 50
+achievement: WEAVER OF NAMES
+
+next:
+chapter_6b_loom_of_words

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "halls_accumulate",
+  "widget": "predict_output",
+  "title": "The Running Total",
+  "prompt": "A loop can carry a value that grows as it goes. Predict the total.",
+  "config": {
+    "rounds": [
+      {
+        "code": "total = 0\nfor coin in [5, 3, 2]:\n    total = total + coin\nprint(total)",
+        "options": ["3", "10", "5 3 2", "0"],
+        "answer": 1,
+        "explain": "total starts at 0 and each coin is added in turn: 0 + 5 + 3 + 2 = 10. That growing sum is called accumulation."
+      },
+      {
+        "code": "count = 0\nfor stone in [\"a\", \"b\", \"c\", \"d\"]:\n    count = count + 1\nprint(count)",
+        "options": ["4", "1", "a b c d", "0"],
+        "answer": 0,
+        "explain": "count rises by 1 for every stone. Four stones means 4 — you can accumulate a COUNT, not only a sum."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

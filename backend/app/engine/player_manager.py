@@ -173,3 +173,12 @@ def advance_scene(scene_id: str) -> PlayerState:
     global _player
     _player.current_scene = scene_id
     return _player
+
+
+def set_appearance(gender: str) -> PlayerState:
+    """One-time cosmetic pick: which player sprite set (male/female) renders
+    wherever a scene reflects the player's own art."""
+    global _player
+    if gender in ("male", "female"):
+        _player.gender = gender
+    return _player

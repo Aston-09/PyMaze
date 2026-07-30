@@ -47,6 +47,8 @@ function toSegments(beats = []) {
       segments.push({ kind: 'interactive', background, ref: beat.ref });
     } else if (beat.type === 'mission') {
       segments.push({ kind: 'mission', background, ref: beat.ref });
+    } else if (beat.type === 'choice') {
+      segments.push({ kind: 'choice', background, options: beat.options || [] });
     }
   }
 
@@ -175,7 +177,7 @@ export default function SceneManager({ player, setPlayer }) {
   // The world is shown behind narration only. Coding and puzzle beats keep a
   // clean page so nothing competes with the work. System panels keep it too —
   // they read as an overlay on the world, so the world stays visible.
-  const showBackground = segment?.kind === 'dialogue' || segment?.kind === 'system';
+  const showBackground = segment?.kind === 'dialogue' || segment?.kind === 'system' || segment?.kind === 'choice';
 
   return (
     <>
@@ -201,6 +203,35 @@ export default function SceneManager({ player, setPlayer }) {
             lines={segment.lines}
             onComplete={nextSegment}
           />
+        </div>
+      )}
+
+      {mode === 'playing' && segment?.kind === 'choice' && (
+        <div className="main-content" style={{ gridTemplateColumns: '1fr' }}>
+          <div className="narration-frame">
+            <div className="dialogue-container slide-up">
+              <div className="dialogue-box">
+                <div className="dialogue-speaker">Your choice</div>
+                <div className="dialogue-controls" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+                  {/* ponytail: choices route client-side via fetchScene, so the
+                      pick isn't persisted to the player's current_scene — a reload
+                      mid-ending restarts the chapter. Fine for a single-player
+                      story branch; if it needs to survive reloads, POST the chosen
+                      target through /advance so it saves like every other hop. */}
+                  {segment.options.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      className="btn btn-ghost"
+                      style={{ textAlign: 'left', whiteSpace: 'normal', height: 'auto', padding: '12px 16px' }}
+                      onClick={() => fetchScene(opt.target)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -1,0 +1,23 @@
+{
+  "interaction_id": "satchel_methods",
+  "widget": "predict_output",
+  "title": "Load and Unload",
+  "prompt": "append adds to the end, pop takes from the end, len counts. Predict each.",
+  "config": {
+    "rounds": [
+      {
+        "code": "crates = [\"Rope\", \"Torch\"]\ncrates.append(\"Bread\")\nprint(len(crates))",
+        "options": ["2", "3", "1", "Bread"],
+        "answer": 1,
+        "explain": "append adds one crate to the end. len then counts the satchel: 3."
+      },
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\ncrates.pop()\nprint(crates)",
+        "options": ["['Rope', 'Torch']", "['Torch', 'Bread']", "['Rope', 'Torch', 'Bread']"],
+        "answer": 0,
+        "explain": "pop() removes the LAST crate and hands it back. The satchel is left one shorter."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

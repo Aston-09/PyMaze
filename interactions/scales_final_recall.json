@@ -1,0 +1,17 @@
+{
+  "interaction_id": "scales_final_recall",
+  "widget": "predict_output",
+  "title": "One Last Measure",
+  "prompt": "Arithmetic, a weighing, and a ward — all in a single line. Predict the truth.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(10 > 5 and 2 ** 3 == 8)",
+        "options": ["True", "False"],
+        "answer": 0,
+        "explain": "Weigh both sides: 10 > 5 is True, and 2 ** 3 equals 8 is also True. True and True is True. Maths, comparison, and logic, measured together."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

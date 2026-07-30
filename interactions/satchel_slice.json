@@ -1,0 +1,23 @@
+{
+  "interaction_id": "satchel_slice",
+  "widget": "predict_output",
+  "title": "Take a Run of Crates",
+  "prompt": "A slice takes a whole run of crates at once. Predict what comes out.",
+  "config": {
+    "rounds": [
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\", \"Water\"]\nprint(crates[1:3])",
+        "options": ["['Torch', 'Bread']", "['Rope', 'Torch', 'Bread']", "['Torch', 'Bread', 'Water']", "['Rope', 'Torch']"],
+        "answer": 0,
+        "explain": "A slice [1:3] takes from slot 1 up to — but NOT including — slot 3. So slots 1 and 2: Torch and Bread."
+      },
+      {
+        "code": "crates = [\"Rope\", \"Torch\", \"Bread\", \"Water\"]\nprint(crates[:2])",
+        "options": ["['Rope', 'Torch']", "['Rope', 'Torch', 'Bread']", "['Torch', 'Bread']"],
+        "answer": 0,
+        "explain": "Leaving the start blank means 'from the beginning'. [:2] is the first two crates."
+      }
+    ]
+  },
+  "reward": { "xp": 20, "gold": 10 }
+}

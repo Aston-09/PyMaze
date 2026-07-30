@@ -1,0 +1,30 @@
+{
+  "challenge_id": "enchanter_spellbind",
+  "topic": "Functions (def, parameters, return)",
+  "difficulty": "easy",
+  "title": "Bind the Spell",
+  "narrative": "The Enchanter refuses to cast the same spell twice. Bind the thought once, give it a name, and it can be called forever after.",
+  "instructions": "Define a function called `cast_spell` that takes two parameters, `power` and `targets`, and RETURNS the total damage — the power dealt to each of the targets.\n\n- `cast_spell(10, 3)` should return `30`.\n- `cast_spell(5, 5)` should return `25`.\n\nA function that returns nothing is a spell that does nothing — don't forget `return`.",
+  "starting_code": "def cast_spell(power, targets):\n    # TODO: return the total damage.\n    # Each of the `targets` takes `power` damage.\n    return None\n",
+  "test_type": "function",
+  "function_name": "cast_spell",
+  "validation_tests": [
+    { "input": [10, 3], "expected": 30 },
+    { "input": [5, 5], "expected": 25 },
+    { "input": [7, 1], "expected": 7 },
+    { "input": [0, 4], "expected": 0 },
+    { "input": [2, 6], "expected": 12 }
+  ],
+  "hints": [
+    "Start with `def cast_spell(power, targets):` — the two names in the brackets are the parameters.",
+    "The total is `power` multiplied by `targets`.",
+    "Use `return power * targets` — `return` is how a spell gives something back.",
+    "The engine casts your spell many times with different arguments. You only write it once. That's the whole point."
+  ],
+  "reward": {
+    "xp": 100,
+    "gold": 50,
+    "title": "Spellbinder",
+    "achievement": "BIND ONCE, REUSE FOREVER"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "interaction_id": "scales_arithmetic",
+  "widget": "predict_output",
+  "title": "Mixing Reagents",
+  "prompt": "The Alchemist mixes numbers the way he mixes reagents. Predict what each blend yields.",
+  "config": {
+    "rounds": [
+      {
+        "code": "print(7 // 2)",
+        "options": ["3", "3.5", "4", "1"],
+        "answer": 0,
+        "explain": "// is floor division — it divides and throws the remainder away. 7 // 2 is 3, not 3.5."
+      },
+      {
+        "code": "print(7 % 2)",
+        "options": ["0", "1", "3", "3.5"],
+        "answer": 1,
+        "explain": "% is the remainder, or modulo. 7 split into 2s leaves 1 left over."
+      },
+      {
+        "code": "print(2 ** 3)",
+        "options": ["6", "8", "9", "23"],
+        "answer": 1,
+        "explain": "** is power. 2 ** 3 means 2 times 2 times 2 = 8."
+      }
+    ]
+  },
+  "reward": { "xp": 15, "gold": 5 }
+}

@@ -1,0 +1,122 @@
+@scene chapter_4b_satchel_of_slots
+
+background: green_valley.jpg
+music: wisdom_theme.mp3
+
+dialogue:
+"You have barely turned toward the road when a bark stops you."
+
+background: quartermaster
+
+npc Quartermaster:
+"Oi. OI. Where do you think you're going, half-taught?"
+"You fetched ONE crate right and think you know a satchel? Sit."
+"I'll not have the archivist telling folk Gruff sends her amateurs. Come here."
+
+system skill_learned:
+"MODULE UNLOCKED"
+"THE SATCHEL OF MANY SLOTS"
+"index · negative index · slice · append / pop / len"
+
+dialogue:
+"— LESSON I — EVERY SLOT NUMBERED —"
+"He upends a satchel. Crates land in a numbered row, a glowing figure floating over each: 0, 1, 2."
+
+npc Quartermaster:
+"Slot zero. First crate. Say it back to me — ZERO is FIRST."
+"Reach into a slot by its number and the crate is yours. Reach for the wrong number, you get the wrong crate. Simple. And where everyone goes wrong."
+
+interactive: satchel_index
+
+dialogue:
+"— LESSON II — FROM THE OTHER END —"
+"He taps the last crate in the line."
+
+npc Quartermaster:
+"Sometimes you don't care how long the line is. You just want the LAST one."
+"Count backward with a minus. Minus one is the last crate. Minus two, the one before. Never have to count the whole satchel again."
+
+interactive: satchel_negative
+
+dialogue:
+"— LESSON III — A RUN OF CRATES —"
+"He draws two fingers across a stretch of the line, and those crates glow together."
+
+npc Quartermaster:
+"Want a whole RUN of them? That's a slice. From here, up to — but not INTO — there."
+"The end number's a wall, same as range. Slot you name at the end, you never actually take."
+
+interactive: satchel_slice
+
+dialogue:
+"— LESSON IV — LOAD AND UNLOAD —"
+"He hefts a fresh crate and drops it onto the end of the line, then yanks one back off."
+
+npc Quartermaster:
+"append puts a crate on the END. pop takes the last one back off. len tells you how many you've got."
+"That's the whole job, traveller. Everything else is knowing WHICH slot."
+
+interactive: satchel_methods
+
+npc Quartermaster:
+"Now. The thing that ends careers. Reach PAST the end of the line and the satchel screams blue murder."
+"Three crates means slots zero, one, two. Ask for slot three and it's 'index out of range' and me doing your paperwork for a week."
+"Sort these. Learn where the edge IS before you fall off it."
+
+interactive: satchel_sort_bounds
+
+npc Quartermaster:
+"Good eye. Now build me the one command every caravan runs a hundred times a day."
+
+interactive: satchel_forge
+
+dialogue:
+"— PROVE IT — ONE FOR THE ROAD —"
+"He shoves a half-full satchel and a spare crate at you."
+
+npc Quartermaster:
+"Load it. Then tell me — without counting on your fingers — how many it holds now."
+
+system system:
+"MISSION"
+"Append the item to the satchel, then return how many crates it holds."
+
+mission: satchel_pack
+
+npc Quartermaster:
+"Ha! Loaded and counted, no fingers. Now the fiddly one."
+
+dialogue:
+"— COMBINE IT — EVERYTHING BUT THE ENDS —"
+"He lays out a satchel where the first crate is a decoy and the last is a wax seal."
+
+npc Quartermaster:
+"First crate's a decoy, last one's the seal. I want everything BETWEEN. One slice. No fumbling."
+
+system system:
+"MISSION"
+"Return the list with the first and last crates removed, using one slice."
+
+mission: satchel_middle
+
+dialogue:
+"You cut the slice clean — first and last gone, the middle intact."
+"The Quartermaster inspects it, sniffs, and finally — grudgingly — nods."
+
+npc Quartermaster:
+"...Right. NOW you know a satchel. Zero to the end and back again."
+"Go on to the archivist. Tell her Gruff finally sent someone who can count."
+"And tell her the third shelf still bites. She'll know."
+
+system level_up:
+"CHAPTER COMPLETE"
+"The Satchel of Many Slots"
+"Mastered: indexing from 0 · negative index · slicing · append / pop / len"
+
+reward:
+xp: 75
+gold: 40
+achievement: EVERY CRATE IN ITS SLOT
+
+next:
+chapter_5_locked_grimoire

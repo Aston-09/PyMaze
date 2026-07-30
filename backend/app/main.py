@@ -106,18 +106,85 @@ else:
     print(f"[asset warning] assets directory not found: {ASSETS_DIR}")
 
 
+def _folder_frames(folder: str) -> List[str]:
+    """Sorted animation-frame filenames directly inside `folder`, or []."""
+    if not os.path.isdir(folder):
+        return []
+    return sorted(
+        f for f in os.listdir(folder)
+        if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"))
+    )
+
+
+def _art_frame_map() -> Dict[str, List[str]]:
+    """Every animated stem the client can ask for, background or character,
+    mapped to its ordered frame paths relative to ASSETS_DIR.
+
+    A location lives at backgrounds/<stem>/frame_*.jpg; an NPC portrait at
+    characters/<stem>/frame_*.jpg — the same `background:` tag in a .scene
+    file reaches either, so switching a chapter to a character's own art is
+    no different from switching it to a new place. The player is one folder
+    deeper still, split by the appearance the learner picked at the start of
+    the game: characters/player/<gender>/. Same drop-a-file philosophy
+    throughout: no build step, no code change to add a new location or face.
+    """
+    out: Dict[str, List[str]] = {}
+
+    bg_dir = os.path.join(ASSETS_DIR, "backgrounds")
+    if os.path.isdir(bg_dir):
+        for stem in os.listdir(bg_dir):
+            frames = _folder_frames(os.path.join(bg_dir, stem))
+            if frames:
+                out[stem] = [f"backgrounds/{stem}/{f}" for f in frames]
+
+    char_dir = os.path.join(ASSETS_DIR, "characters")
+    if os.path.isdir(char_dir):
+        for stem in os.listdir(char_dir):
+            folder = os.path.join(char_dir, stem)
+            if not os.path.isdir(folder):
+                continue
+            if stem == "player":
+                for gender in ("male", "female"):
+                    frames = _folder_frames(os.path.join(folder, gender))
+                    if frames:
+                        out[f"player_{gender}"] = [
+                            f"characters/player/{gender}/{f}" for f in frames
+                        ]
+                continue
+            frames = _folder_frames(folder)
+            if frames:
+                out[stem] = [f"characters/{stem}/{f}" for f in frames]
+
+    return out
+
+
+def _resolve_player_art(ref: Optional[str], player) -> Optional[str]:
+    """`background: player` is gender-agnostic in the .scene file; resolve it
+    to whichever sprite set the learner actually picked. Every other ref
+    (a location, or an NPC's own name) passes through untouched."""
+    if ref and os.path.splitext(ref)[0] == "player":
+        return f"player_{player.gender or 'male'}"
+    return ref
+
+
 def _missing_backgrounds() -> List[str]:
-    """Backgrounds a scene asks for that aren't on disk.
+    """Backgrounds (or character art) a scene asks for that aren't on disk.
 
     A missing file is a silent black screen at runtime, so it is worth one
     line at startup.
     """
+    frame_map = _art_frame_map()
     bg_dir = os.path.join(ASSETS_DIR, "backgrounds")
     missing = []
     for scene in SCENES.values():
         wanted = {scene.background} | {b.ref for b in scene.beats if b.type == "background"}
         for name in wanted:
-            if name and not os.path.isfile(os.path.join(bg_dir, name)):
+            if not name:
+                continue
+            stem = os.path.splitext(name)[0]
+            if stem in frame_map or stem == "player":
+                continue  # animated folder, or gender-resolved at request time
+            if not os.path.isfile(os.path.join(bg_dir, name)):
                 missing.append(f"{scene.scene_id}: background '{name}' not found")
     return missing
 
@@ -138,6 +205,10 @@ class AdvanceRequest(BaseModel):
 
 class InteractionCompleteRequest(BaseModel):
     interaction_id: str
+
+
+class AppearanceRequest(BaseModel):
+    gender: str
 
 
 # --- Routes ---
@@ -171,6 +242,15 @@ async def get_scene(scene_id: str):
     scene = SCENES[scene_id]
     player = player_manager.get_player()
     response = render_for(scene.model_dump(), player)
+
+    # A scene author writes `background: player` once, gender-agnostic; it
+    # resolves here, against the live player, to whichever sprite set was
+    # actually picked — same seam player_name templating already uses.
+    if response.get("background"):
+        response["background"] = _resolve_player_art(response["background"], player)
+    for beat in response.get("beats", []):
+        if beat.get("type") == "background":
+            beat["ref"] = _resolve_player_art(beat.get("ref"), player)
 
     # Attach every definition the beat stream refers to.
     missions = [b.ref for b in scene.beats if b.type == "mission" and b.ref in CHALLENGES]
@@ -226,6 +306,33 @@ async def complete_interaction(request: InteractionCompleteRequest):
 async def get_player():
     """Return the current player state."""
     return player_manager.get_player().model_dump()
+
+
+@app.post("/api/player/appearance")
+async def set_player_appearance(request: AppearanceRequest):
+    """One-time cosmetic pick: which player sprite set (male/female) shows
+    up wherever a scene reflects the player's own art (`background: player`,
+    e.g. the Sage's mirror). Not a stat, not taught by any mission — purely
+    which of the two pre-drawn sprite sets to use."""
+    if request.gender not in ("male", "female"):
+        raise HTTPException(status_code=400, detail="gender must be 'male' or 'female'")
+    player = player_manager.set_appearance(request.gender)
+    save_game(player)
+    return {"player": player.model_dump()}
+
+
+@app.get("/api/backgrounds/frames")
+async def background_frames():
+    """Ordered animation frames for any scenario that has a folder of them —
+    a location under backgrounds/, an NPC's own portrait under characters/,
+    or the player's chosen appearance under characters/player/<gender>/.
+
+    A folder like backgrounds/ancient_library/ holding frame_1.jpg, frame_2.jpg…
+    is played as a looping cross-fade in the client. Same drop-a-file, no-build
+    philosophy throughout — a stem with no folder just falls back to its
+    single loose image under backgrounds/.
+    """
+    return _art_frame_map()
 
 
 @app.post("/api/execute")

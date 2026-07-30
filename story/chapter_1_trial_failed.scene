@@ -7,6 +7,8 @@ dialogue:
 "The dragon roars."
 "The sound shakes the very foundations of the ruins."
 
+background: dragon
+
 npc Dragon:
 "Power without wisdom..."
 "...is nothing."
@@ -25,6 +27,8 @@ dialogue:
 "You wait for the world to end."
 "It does not."
 "The dragon's enormous eye settles on you, and the fury in it has cooled."
+
+background: dragon
 
 npc Dragon:
 "You are not being punished, {{player_name}}."

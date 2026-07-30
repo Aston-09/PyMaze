@@ -30,10 +30,11 @@ class SceneBeat(BaseModel):
     mission". That ordering is what lets a chapter teach, interact, teach,
     then test — and it is why a single scene can hold more than one mission.
     """
-    type: str                          # "dialogue" | "system" | "interactive" | "mission" | "background"
+    type: str                          # "dialogue" | "system" | "interactive" | "mission" | "background" | "choice"
     speaker: Optional[str] = None      # dialogue only
     lines: List[str] = []              # dialogue: prose. system: [title, ...body]
     ref: Optional[str] = None          # interaction_id, challenge_id, background filename, or system variant
+    options: List[Dict[str, str]] = [] # choice only: [{"label", "target"}] — the player picks one, jumps to its target scene
 
 
 class ParsedScene(BaseModel):
