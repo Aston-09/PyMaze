@@ -33,9 +33,12 @@ pnpm-debug.log*
 !.env.example
 
 # --- Game state ---
-# Saves are per-player runtime data, not source.
-saves/*
-!saves/.gitkeep
+# Saves are per-player runtime data, not source. A pattern with a slash in it
+# is anchored to this file's directory, so it has to name the real path —
+# plain `saves/*` silently missed backend/saves/ and left the local database
+# (with password hashes in it) showing up as untracked.
+backend/saves/*
+!backend/saves/.gitkeep
 
 # --- Tool caches ---
 .impeccable/

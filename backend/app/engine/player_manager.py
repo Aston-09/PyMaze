@@ -122,7 +122,32 @@ def unlock_achievement(player: PlayerState, name: str) -> PlayerState:
         player.achievements.append(name)
     return player
 
-def advance_scene(scene_id: str) -> PlayerState:
-    global _player
-    _player.current_scene = scene_id
-    return _player
+def advance_scene(player: PlayerState, scene_id: str) -> PlayerState:
+    player.current_scene = scene_id
+    return player
+
+
+def demo() -> None:
+    """Self-check: the mutations every route depends on."""
+    p = PlayerState()
+
+    advance_scene(p, "chapter_2_trial_of_choice")
+    assert p.current_scene == "chapter_2_trial_of_choice"
+
+    award_xp(p, 250)
+    assert p.xp == 250 and p.level == 3
+
+    complete_mission(p, "variables_intro")
+    complete_mission(p, "variables_intro")
+    assert p.completed_missions == ["variables_intro"]
+
+    # Overspending on stats is what summons the Trial; a default sheet is not.
+    assert judge_stats(PlayerState())[0] == "balanced"
+    over = PlayerState(**{k: v * 100 for k, v in MAX_STATS.items()})
+    assert judge_stats(over)[0] == "overpowered"
+
+    print("player_manager: all checks passed")
+
+
+if __name__ == "__main__":
+    demo()

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import { ASSET_URL, API_URL } from '../config';
+import { ASSET_URL } from '../config';
+import { apiFetch } from '../utils/api';
 
 const FRAME_MS = 2600;   // how long each frame holds before cross-fading to the next
 
@@ -13,7 +14,7 @@ const FRAME_MS = 2600;   // how long each frame holds before cross-fading to the
 let framesMapPromise = null;
 function loadFramesMap() {
   if (!framesMapPromise) {
-    framesMapPromise = fetch(`${API_URL}/backgrounds/frames`)
+    framesMapPromise = apiFetch('/backgrounds/frames')
       .then((r) => (r.ok ? r.json() : {}))
       .catch(() => ({}));
   }
@@ -30,6 +31,13 @@ function framesFor(src, map) {
   const frames = map[stem];
   if (frames && frames.length) return frames;
   return [`backgrounds/${src}`];
+}
+
+// Where the art lives says what it is. Character folders hold transparent
+// cutouts meant to stand in a location; background folders hold the location
+// itself. The .scene file just names a stem either way.
+function isCharacter(frames) {
+  return frames[0]?.startsWith('characters/');
 }
 
 // encodeURIComponent per segment so "stem/frame_1.jpg" keeps its slash but a
@@ -90,12 +98,14 @@ function chooseFit(imageWidth, imageHeight) {
  *        null for none.
  */
 export default function SceneBackground({ src }) {
-  const [layers, setLayers] = useState([]);   // [{ src, key, fit }]
+  const [layers, setLayers] = useState([]);   // [{ src, key, fit }] — the place
+  const [cutout, setCutout] = useState(null); // the character standing in it
   const counter = useRef(0);
 
   useEffect(() => {
     if (!src) {
       setLayers([]);
+      setCutout(null);
       return;
     }
 
@@ -128,6 +138,22 @@ export default function SceneBackground({ src }) {
       if (cancelled) return;
       const frames = framesFor(src, map);
       let i = 0;
+
+      // A character is a cutout with real transparency, so it goes *in* the
+      // place rather than replacing it: the location keeps playing underneath
+      // and only this top layer changes. A location swaps the plates as before.
+      if (isCharacter(frames)) {
+        setCutout({ src: frames[0], key: (counter.current += 1) });
+        if (frames.length > 1) {
+          timer = setInterval(() => {
+            i = (i + 1) % frames.length;
+            setCutout((prev) => (prev ? { ...prev, src: frames[i] } : prev));
+          }, FRAME_MS);
+        }
+        return;
+      }
+
+      setCutout(null);
       push(frames[0], true);
       // More than one frame → drift the location by cross-fading through them.
       if (frames.length > 1) {
@@ -159,6 +185,16 @@ export default function SceneBackground({ src }) {
           </div>
         );
       })}
+
+      {/* Above the place, below the air and the grade — so the character is
+          lit and toned by the same pass as everything behind them. */}
+      {cutout && (
+        <div
+          key={cutout.key}
+          className="scene-character"
+          style={{ backgroundImage: `url("${frameUrl(cutout.src)}")` }}
+        />
+      )}
 
       <div className="scene-motes" />
       <div className="scene-background-scrim" />

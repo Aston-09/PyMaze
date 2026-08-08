@@ -17,7 +17,7 @@ It is built as an **engine, not a game**. The engine is permanent; every scene, 
 
 ## Quick start
 
-**Requirements:** Python 3.11+, Node.js 20+, and a MongoDB Atlas Cluster.
+**Requirements:** Python 3.11+, Node.js 20+, and (optionally) a MongoDB Atlas cluster.
 
 ```bash
 # 1. Backend  (terminal 1)
@@ -25,6 +25,7 @@ cd backend
 python -m venv venv
 venv/Scripts/activate         # Windows;  source venv/bin/activate on macOS/Linux
 pip install -r requirements.txt
+cp .env.example .env          # then set JWT_SECRET_KEY — the app refuses to start without it
 uvicorn app.main:app --reload --port 8000
 
 # 2. Frontend (terminal 2)
@@ -45,10 +46,12 @@ Startup prints any authoring problems it finds (missing backgrounds, unknown wid
 PyMaze/
 ├── backend/app/
 │   ├── main.py              FastAPI routes
+│   ├── auth.py              password hashing + JWT
+│   ├── db.py                MongoDB, or a local JSON store when unconfigured
 │   ├── engine/              story_loader · challenge_loader · interaction_loader
 │   │                        executor · sandbox · scoring · templating
 │   │                        player_manager · save_system · content
-│   └── models/              Pydantic models (player, scene, challenge, interaction)
+│   └── models/              Pydantic models (player, user, scene, challenge, interaction)
 ├── frontend/src/
 │   ├── App.jsx              Root shell (HUD + SceneManager)
 │   ├── config.js            Backend origin (VITE_API_BASE)
@@ -60,7 +63,6 @@ PyMaze/
 ├── interactions/            *.json    — interactive beats
 ├── assets/                  backgrounds · characters · music · sound · animations
 ├── config/                  widgets.json and other tunables
-├── saves/                   runtime player saves (gitignored)
 └── docs/                    engine documentation
 ```
 
@@ -72,10 +74,19 @@ PyMaze/
 
 | Variable | Side | Default | Purpose |
 |---|---|---|---|
+| `JWT_SECRET_KEY` | backend | **none — required** | Signs session tokens. Startup fails without it, because a shared default would let anyone mint a token for any account. |
+| `MONGODB_URI` | backend | *(empty)* | Where users and saves live. Empty runs off a local JSON file under `backend/saves/` — single machine only. |
+| `MONGODB_DB` | backend | `pymaze` | Database name within the cluster. |
+| `JWT_ALGORITHM` | backend | `HS256` | Token signing algorithm. |
+| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | backend | `1440` | Session lifetime. |
 | `PYMAZE_CORS_ORIGINS` | backend | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated origins allowed to call the API. |
 | `VITE_API_BASE` | frontend | `http://localhost:8000` | Backend origin. Inlined at **build** time, not runtime. |
 
-Copy `frontend/.env.example` to `frontend/.env` to override locally.
+Copy `backend/.env.example` to `backend/.env` and `frontend/.env.example` to `frontend/.env` to set these locally. Generate a key with:
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
 
 ---
 
@@ -88,9 +99,15 @@ The two halves deploy independently.
 ```bash
 pip install -r backend/requirements.txt
 cd backend
+MONGODB_URI="mongodb+srv://..." \
+JWT_SECRET_KEY="<32 random bytes, hex>" \
 PYMAZE_CORS_ORIGINS="https://your-frontend.example.com" \
   uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
+
+The app pings the database and creates its indexes at startup, so a bad URI or
+an Atlas IP allowlist that doesn't include the host fails immediately with the
+reason, rather than at the first login.
 
 The working directory must be `backend/`, and `story/`, `challenges/`, `interactions/`, `assets/` and `config/` must be present one level up — the engine resolves them relative to the repo root and serves `assets/` straight off disk.
 

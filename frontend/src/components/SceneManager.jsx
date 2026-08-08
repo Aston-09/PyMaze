@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import DialogueBox from './DialogueBox';
 import ChallengePanel from './ChallengePanel';
 import RewardPopup from './RewardPopup';
@@ -66,8 +66,13 @@ export default function SceneManager({ player, setPlayer }) {
   const segments = useMemo(() => toSegments(scene?.beats), [scene]);
   const segment = segments[segmentIdx];
 
+  // What is actually on screen. Compared against the player's `current_scene`
+  // below so the same scene is never fetched twice.
+  const loadedScene = useRef(null);
+
   const fetchScene = useCallback(async (sceneId) => {
     try {
+      loadedScene.current = sceneId;
       setMode('loading');
       const res = await apiFetch(`/scene/${sceneId}`);
       if (!res.ok) {
@@ -84,15 +89,18 @@ export default function SceneManager({ player, setPlayer }) {
     }
   }, []);
 
+  // Load whatever scene the player is standing in — on mount, and again if
+  // something outside this component moves them. `advanceToScene` already
+  // fetched the scene it moved to, so re-fetching on that same player update
+  // would duplicate the request and tear down the Dragon's Judgment overlay
+  // mid-play. The guard means this only fires on a genuine jump.
   useEffect(() => {
-    if (player?.current_scene) {
-      fetchScene(player.current_scene);
-    } else {
-      setMode('end');
+    const target = player?.current_scene;
+    if (target && target !== loadedScene.current) {
+      fetchScene(target);
     }
-    // Only on mount — later scene changes go through advanceToScene.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [player?.current_scene, fetchScene]);
+
 
   const advanceToScene = useCallback(async (currentSceneId) => {
     try {

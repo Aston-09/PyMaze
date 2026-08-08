@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ASSET_URL, API_URL } from '../config';
+import { ASSET_URL } from '../config';
+import { apiFetch } from '../utils/api';
 
 /**
  * AppearancePicker — the one-time "choose your look" gate.
@@ -18,11 +19,11 @@ export default function AppearancePicker({ onChosen }) {
   const choose = async (gender) => {
     setSaving(true);
     try {
-      const res = await fetch(`${API_URL}/player/appearance`, {
+      const res = await apiFetch('/player/appearance', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gender }),
       });
+      if (!res.ok) throw new Error(`appearance save failed (${res.status})`);
       const data = await res.json();
       onChosen(data.player);
     } catch (err) {

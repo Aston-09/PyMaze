@@ -1,9 +1,8 @@
 from app.models.player import PlayerState
 from app.db import saves_collection
-from motor.motor_asyncio import AsyncIOMotorCollection
 
 async def save_game(player: PlayerState, username: str) -> bool:
-    """Save the player state to MongoDB."""
+    """Save the player state to the configured store."""
     player_data = player.model_dump()
     player_data["username"] = username
     
@@ -15,7 +14,7 @@ async def save_game(player: PlayerState, username: str) -> bool:
     return True
 
 async def load_game(username: str) -> PlayerState | None:
-    """Load player state from MongoDB. Returns None if not found."""
+    """Load player state from the configured store. Returns None if not found."""
     data = await saves_collection.find_one({"username": username})
     if not data:
         return None

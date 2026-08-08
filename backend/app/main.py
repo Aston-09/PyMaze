@@ -4,12 +4,15 @@ PyMaze Backend API
 Data-driven API that loads all content from external .scene and .json files.
 """
 import os
+import re
 import json
+from contextlib import asynccontextmanager
+from functools import lru_cache
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from typing import Optional, Dict, Any, List
+from typing import Dict, List, Literal
 
 from app.engine.story_loader import load_all_scenes
 from app.engine.challenge_loader import load_all_challenges, validate_challenges
@@ -23,10 +26,22 @@ from app.engine.save_system import save_game, load_game
 from app.models.player import PlayerState
 from app.routers import auth
 from app.auth import get_current_user
+from app import db
 
 # --- App Setup ---
-app = FastAPI(title="PyMaze Engine API")
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Fail at boot on a store that doesn't work, not at the first login."""
+    print(f"[db] connected: {await db.connect()}")
+    yield
+
+
+app = FastAPI(title="PyMaze Engine API", lifespan=lifespan)
+
+# Where the browser app is served from. Deployments set PYMAZE_CORS_ORIGINS to
+# their own origin; the default covers `npm run dev`.
 CORS_ORIGINS = [
     o.strip()
     for o in os.environ.get(
@@ -93,6 +108,58 @@ else:
     print(f"[asset warning] assets directory not found: {ASSETS_DIR}")
 
 
+IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
+
+
+def _frame_files(folder: str) -> List[str]:
+    """The frame_N images in one art folder, in playing order.
+
+    Sorted on the number rather than the name, so frame_10 follows frame_9
+    instead of frame_1.
+    """
+    names = [
+        n for n in os.listdir(folder)
+        if os.path.splitext(n)[1].lower() in IMAGE_EXTS
+    ]
+    def order(name: str):
+        match = re.search(r"(\d+)", os.path.splitext(name)[0])
+        return (int(match.group(1)) if match else 0, name)
+    return sorted(names, key=order)
+
+
+@lru_cache(maxsize=1)
+def _art_frame_map() -> Dict[str, List[str]]:
+    """{stem: [paths under /assets]} for every folder of animation frames.
+
+    A `background:` tag in a .scene file names a stem — a location
+    ("ancient_library") or a character ("warden") — and the frontend animates
+    whichever it finds here, with no per-character code. The player's own
+    sprites live one level deeper, split by gender, and are keyed
+    "player_male"/"player_female" for the request-time pick in
+    `/api/backgrounds/frames`.
+    """
+    frames: Dict[str, List[str]] = {}
+    for group in ("backgrounds", "characters"):
+        root = os.path.join(ASSETS_DIR, group)
+        if not os.path.isdir(root):
+            continue
+        for stem in sorted(os.listdir(root)):
+            folder = os.path.join(root, stem)
+            if not os.path.isdir(folder):
+                continue
+            if files := _frame_files(folder):
+                frames[stem] = [f"{group}/{stem}/{n}" for n in files]
+                continue
+            # No images directly inside → a folder of variants (player/male, ...).
+            for variant in sorted(os.listdir(folder)):
+                sub = os.path.join(folder, variant)
+                if os.path.isdir(sub) and (files := _frame_files(sub)):
+                    frames[f"{stem}_{variant}"] = [
+                        f"{group}/{stem}/{variant}/{n}" for n in files
+                    ]
+    return frames
+
+
 def _missing_backgrounds() -> List[str]:
     """Backgrounds a scene asks for that aren't on disk.
 
@@ -100,6 +167,7 @@ def _missing_backgrounds() -> List[str]:
     line at startup.
     """
     bg_dir = os.path.join(ASSETS_DIR, "backgrounds")
+    frame_map = _art_frame_map()
     missing = []
     for scene in SCENES.values():
         wanted = {scene.background} | {b.ref for b in scene.beats if b.type == "background"}
@@ -134,6 +202,9 @@ class AdvanceRequest(BaseModel):
 
 class InteractionCompleteRequest(BaseModel):
     interaction_id: str
+
+class AppearanceRequest(BaseModel):
+    gender: Literal["male", "female"]
 
 
 # --- Routes ---
@@ -195,9 +266,31 @@ async def complete_interaction(request: InteractionCompleteRequest, username: st
     }
 
 @app.get("/api/player")
-async def get_player():
+async def get_player(username: str = Depends(get_current_user), player: PlayerState = Depends(get_player_state)):
     """Return the current player state."""
-    return player_manager.get_player().model_dump()
+    return player.model_dump()
+
+
+@app.post("/api/player/appearance")
+async def set_appearance(request: AppearanceRequest, username: str = Depends(get_current_user), player: PlayerState = Depends(get_player_state)):
+    """Pick which player sprite set this learner sees for the rest of the run."""
+    player.gender = request.gender
+    await save_game(player, username)
+    return {"player": player.model_dump()}
+
+
+@app.get("/api/backgrounds/frames")
+async def background_frames(username: str = Depends(get_current_user), player: PlayerState = Depends(get_player_state)):
+    """Every animated art folder, as {stem: [paths under /assets]}.
+
+    "player" resolves here rather than in the .scene file, so a chapter can
+    say `background: player` and each learner sees their own sprite.
+    """
+    frames = dict(_art_frame_map())
+    chosen = frames.get(f"player_{player.gender or 'male'}")
+    if chosen:
+        frames["player"] = chosen
+    return frames
 
 
 @app.post("/api/execute")
@@ -333,4 +426,10 @@ async def load(username: str = Depends(get_current_user), player: PlayerState = 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    # PORT is what most hosts inject; reload is for the developer's machine only.
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000)),
+        reload=os.environ.get("PYMAZE_RELOAD", "1") == "1",
+    )
