@@ -255,26 +255,50 @@ def _parse_block(scene_id: str, lines: List[str]) -> ParsedScene:
     )
 
 
-# Section keywords that close a raw `code:` block. Anything at column 0 that
-# reads like one of these ends the block; everything else is starter code.
+# Section keywords that close a block. Anything at column 0 that reads like
+# one of these starts the next section; everything else belongs to the
+# current one. Requiring the colon keeps ordinary starter code — `title = x`,
+# `tests = []` — from silently truncating a `code:` block.
 _SECTION_RE = re.compile(
     r"^(?:topic|difficulty|title|tests|test|narrative|instructions|code|hints"
-    r"|variables|reward|@scene|@challenge)(?::|\s|$)"
+    r"|variables|reward|@scene|@challenge)(?::|$)"
 )
 
 
 def _quoted(lines: List[str], i: int) -> Tuple[List[str], int]:
-    """Collect consecutive "quoted" lines from i. The npc/dialogue inner loop
-    (see _parse_block above), factored out. Returns the lines and the cursor."""
+    """Collect "quoted" lines from i, in the shape npc:/dialogue: use.
+
+    A blank line does NOT end the block — an author spacing out a long
+    narrative into paragraphs must not silently lose everything after the
+    first gap. Only the next section keyword, or other content, ends it.
+    Returns the lines and a cursor sitting just past the last quoted line.
+    """
     out: List[str] = []
+    end = i
     while i < len(lines):
         ql = lines[i].strip()
+        if not ql:
+            i += 1
+            continue
+        if _SECTION_RE.match(lines[i]):
+            break
         if ql.startswith('"') and ql.endswith('"'):
             out.append(ql.strip('"'))
             i += 1
+            end = i
         else:
             break
-    return out, i
+    return out, end
+
+
+def _text_block(lines: List[str], i: int) -> Tuple[List[str], int]:
+    """A tag's value, written either on the tag line or as following quoted
+    lines. Mirrors mission:/next: in _parse_block, which accept either form —
+    an author who writes `narrative: "One line."` means it."""
+    inline = lines[i].split(":", 1)[1].strip()
+    if inline:
+        return [inline.strip('"')], i + 1
+    return _quoted(lines, i + 1)
 
 
 def _parse_challenge_block(challenge_id: str, lines: List[str]) -> ChallengeDefinition:
@@ -321,17 +345,17 @@ def _parse_challenge_block(challenge_id: str, lines: List[str]) -> ChallengeDefi
 
         # narrative: / instructions: / hints:  — quoted lines, like dialogue:
         elif line.startswith("narrative:"):
-            quoted, i = _quoted(lines, i + 1)
+            quoted, i = _text_block(lines, i)
             data["narrative"] = "\n".join(quoted)
             continue
 
         elif line.startswith("instructions:"):
-            quoted, i = _quoted(lines, i + 1)
+            quoted, i = _text_block(lines, i)
             data["instructions"] = "\n".join(quoted)
             continue
 
         elif line.startswith("hints:"):
-            data["hints"], i = _quoted(lines, i + 1)
+            data["hints"], i = _text_block(lines, i)
             continue
 
         # code:  — the one raw block. Verbatim, indentation intact.
@@ -355,7 +379,10 @@ def _parse_challenge_block(challenge_id: str, lines: List[str]) -> ChallengeDefi
             i += 1
             while i < len(lines):
                 tl = lines[i].strip()
-                if not tl or _SECTION_RE.match(lines[i]):
+                if not tl:          # blank lines group cases; they don't end them
+                    i += 1
+                    continue
+                if _SECTION_RE.match(lines[i]):
                     break
                 # First arrow whose two sides both parse as JSON wins, so an
                 # arrow inside a string literal does not break the line.
@@ -384,7 +411,10 @@ def _parse_challenge_block(challenge_id: str, lines: List[str]) -> ChallengeDefi
             i += 1
             while i < len(lines):
                 vl = lines[i].strip()
-                if not vl or ":" not in vl:
+                if not vl:
+                    i += 1
+                    continue
+                if _SECTION_RE.match(lines[i]) or ":" not in vl:
                     break
                 name, vtype = vl.split(":", 1)
                 expected[name.strip()] = vtype.strip()
@@ -392,13 +422,17 @@ def _parse_challenge_block(challenge_id: str, lines: List[str]) -> ChallengeDefi
             data["expected_variables"] = expected
             continue
 
-        # reward: block — identical to the scene reward:
+        # reward: block — the scene reward: shape, but a blank line inside it
+        # does not end it (see _quoted).
         elif line.startswith("reward:"):
             reward_data: Dict = {}
             i += 1
             while i < len(lines):
                 rl = lines[i].strip()
                 if not rl:
+                    i += 1
+                    continue
+                if _SECTION_RE.match(lines[i]):
                     break
                 if ":" in rl:
                     key, val = rl.split(":", 1)
@@ -613,7 +647,74 @@ def _selfcheck() -> None:
         "script_output", "name", None,
     ), m5.test_type
 
+    _selfcheck_blocks_end_at_sections()
     print("story_loader: choice + @challenge parsing ok")
+
+
+def _selfcheck_blocks_end_at_sections() -> None:
+    """A block ends at the next section keyword — never at a blank line.
+
+    Every one of these was a real bug: `variables:` swallowed the `reward:`
+    that followed it (making the challenge unwinnable with no warning
+    anywhere), a blank line grouping test cases silently dropped every case
+    after it, and a column-0 `title = x` in starter code truncated `code:` to
+    nothing. The format has to be forgiving of tidy authoring, so this stays.
+    """
+    import tempfile
+
+    sample = (
+        "@challenge b\n"
+        "topic: T\n"
+        "difficulty: easy\n"
+        "title: Ti\n"
+        "test: function f\n"
+        'narrative: "Same-line value."\n'
+        "instructions:\n"
+        '"One."\n'
+        "\n"
+        '"Two after a gap."\n'
+        "code:\n"
+        'title = "not a section"\n'
+        "tests = []\n"
+        "def f(x):\n"
+        "    return x\n"
+        "tests:\n"
+        "[[1]] -> [1]\n"
+        "\n"
+        "[[2]] -> [2]\n"
+        "hints:\n"
+        '"H1."\n'
+        "\n"
+        '"H2."\n'
+        "variables:\n"
+        "hp: int\n"
+        "reward:\n"
+        "xp: 250\n"
+        "achievement: NAMED\n"
+    )
+    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+        f.write(sample)
+        path = f.name
+    try:
+        _, [c] = parse_content_file(path)
+    finally:
+        os.remove(path)
+
+    assert c.narrative == "Same-line value.", repr(c.narrative)
+    assert c.instructions == "One.\nTwo after a gap.", repr(c.instructions)
+    assert c.hints == ["H1.", "H2."], c.hints
+    # A blank line groups test cases; it must not truncate them.
+    assert c.validation_tests == [
+        {"input": [[1]], "expected": [1]},
+        {"input": [[2]], "expected": [2]},
+    ], c.validation_tests
+    # Starter code that happens to assign `title` or `tests` is still code.
+    assert c.starting_code == (
+        'title = "not a section"\ntests = []\ndef f(x):\n    return x'
+    ), repr(c.starting_code)
+    # variables: must stop at reward:, not eat it.
+    assert c.expected_variables == {"hp": "int"}, c.expected_variables
+    assert (c.reward.xp, c.reward.achievement) == (250, "NAMED"), c.reward
 
 
 if __name__ == "__main__":

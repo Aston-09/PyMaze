@@ -14,7 +14,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, List, Literal
 
-from app.engine.story_loader import load_all_scenes, load_inline_challenges
+from app.engine.story_loader import (
+    CONTENT_SUFFIXES, load_all_scenes, load_inline_challenges,
+)
 from app.engine.challenge_loader import load_all_challenges, validate_challenges
 from app.engine.interaction_loader import load_all_interactions, validate_interactions
 from app.engine.content import ContentStore
@@ -89,9 +91,9 @@ CHALLENGES = _merge_challenges(
 INTERACTIONS = load_all_interactions(INTERACTIONS_DIR)
 
 _CONTENT = ContentStore({
-    "scenes": (STORY_DIR, (".scene", ".txt"), load_all_scenes),
+    "scenes": (STORY_DIR, CONTENT_SUFFIXES, load_all_scenes),
     "challenges": (CHALLENGES_DIR, (".json",), load_all_challenges),
-    "inline": (STORY_DIR, (".scene", ".txt"), load_inline_challenges),
+    "inline": (STORY_DIR, CONTENT_SUFFIXES, load_inline_challenges),
     "interactions": (INTERACTIONS_DIR, (".json",), load_all_interactions),
 })
 

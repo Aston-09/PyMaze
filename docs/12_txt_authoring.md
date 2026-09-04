@@ -51,6 +51,20 @@ the next `@scene` or `@challenge` belongs to it.
 verbatim so Python indentation survives, and the block ends at the next
 column-0 section keyword.
 
+### Where a section ends
+
+A section ends at the next section keyword at column 0 — **never at a blank
+line**. Space out a long `narrative:` into paragraphs, group `tests:` cases,
+or put a gap before `reward:`; nothing is lost either way.
+
+Two consequences worth knowing:
+
+- Starter code that assigns something section-shaped (`title = "The Hobbit"`,
+  `tests = []`) is still code. Only a keyword followed by a colon ends a block.
+- A single-line value may go on the tag line itself — `narrative: "One line."`
+  is the same as putting the quoted line beneath it, matching how `mission:`
+  and `next:` already work in the scene DSL.
+
 ## The `test:` line
 
 One `test:` line collapses four fields into one. `test_type` is exactly one of
