@@ -6,9 +6,10 @@ and indexes them by challenge_id for fast lookup.
 """
 import os
 import re
+import ast
 import json
 import logging
-from typing import Dict, List
+from typing import Dict, List, Optional
 from pydantic import ValidationError
 from app.models.challenge import ChallengeDefinition
 
@@ -86,6 +87,23 @@ def validate_challenges(challenges: Dict[str, ChallengeDefinition]) -> List[str]
             if not ch.function_name:
                 problems.append(f"{cid}: function challenge has no function_name")
 
+            # sandbox._call spreads a list input as positional args, so a
+            # one-parameter function must be tested with [[...]], not [...].
+            # The natural-looking `[3, 1, 2] -> [1, 2, 3]` yields an arity
+            # TypeError at play time, which reads as the learner's fault.
+            elif _param_count(ch.starting_code, ch.function_name) == 1:
+                n = next(
+                    (len(t["input"]) for t in ch.validation_tests
+                     if isinstance(t.get("input"), list) and len(t["input"]) != 1),
+                    None,
+                )
+                if n is not None:
+                    problems.append(
+                        f"{cid}: '{ch.function_name}' takes 1 parameter but a test "
+                        f"passes a {n}-element list — lists spread as positional args. "
+                        f"Wrap as [[...]] if the parameter is itself a list."
+                    )
+
         elif ch.test_type == "variables":
             if not ch.expected_variables:
                 problems.append(f"{cid}: variables challenge has no expected_variables")
@@ -97,6 +115,27 @@ def validate_challenges(challenges: Dict[str, ChallengeDefinition]) -> List[str]
             problems.append(f"{cid}: no validation_tests defined")
 
     return problems
+
+
+def _param_count(code: str, function_name: str) -> Optional[int]:
+    """Positional parameter count of `def function_name(...)` in `code`.
+
+    None when the answer is unknowable — the starter code does not parse, the
+    def is absent, or it takes *args and so accepts any arity.
+    """
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return None
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == function_name:
+            args = node.args
+            if args.vararg:
+                return None
+            return len(getattr(args, "posonlyargs", [])) + len(args.args)
+
+    return None
 
 
 def _assigns(code: str, name: str) -> bool:

@@ -7,7 +7,7 @@
 - Provide an interactive, narrative-driven learning experience.
 - Maintain a permanent, robust engine while allowing all story and coding content to be infinitely replaceable and expandable.
 - Keep the system entirely data-driven (external files for stories, assets, challenges).
-- The author should only need to write new `.scene` files, add assets, and write challenge JSONs to expand the game, without ever touching the engine code.
+- The author should only need to write new story files and add assets to expand the game, without ever touching the engine code. A scenario and its coding problem can live in a single file — an `@challenge` block sits beside the `@scene` that triggers it (see [12_txt_authoring.md](12_txt_authoring.md)) — or the problem can stay in its own `challenges/*.json`, which is still fully supported.
 
 ## Learning Philosophy
 - **Practical Application:** Users learn Python by solving everyday or epic problems using code.

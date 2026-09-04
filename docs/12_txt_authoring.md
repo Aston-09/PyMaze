@@ -95,6 +95,16 @@ tests:
 5 -> [1, 2, 3, 4, 5]
 ```
 
+> **Porting a JSON challenge that used `expected_output`.** The arrow form
+> always emits the key `expected`, never `expected_output`. This works for every
+> test type — `script_output` reads
+> `test.get("expected_output", test.get("expected", ""))`
+> (`backend/app/engine/sandbox.py:296`), so it falls back to `expected` — but if
+> you are transcribing a JSON challenge that spelled the key `expected_output`,
+> know that the arrow line produces `expected` instead. Do not hand-write
+> `expected_output` into an inline challenge; there is no syntax for it and none
+> is needed.
+
 ### The double-bracket rule
 
 **A list input spreads as positional arguments.** The sandbox calls the

@@ -516,11 +516,49 @@ def _selfcheck() -> None:
         "topic: Lists\n"
         "difficulty: easy\n"
         "narrative:\n"
+        '"NB."\n'
+        "instructions:\n"
+        '"IB."\n'
+        "code:\n"
+        "x = 1\n"
+        # the remaining three test: forms — variables, variables stats, output
+        "\n@challenge m3\n"
+        "topic: Variables\n"
+        "difficulty: tutorial\n"
+        "title: The Name\n"
+        "test: variables\n"
+        "narrative:\n"
         '"N3."\n'
         "instructions:\n"
         '"I3."\n'
         "code:\n"
-        "x = 1\n"
+        'player_name = ""\n'
+        "\n"
+        "variables:\n"
+        "player_name: str\n"
+        "hp: int\n"
+        "\n@challenge m4\n"
+        "topic: Variables\n"
+        "difficulty: tutorial\n"
+        "title: The Judgment\n"
+        "test: variables stats\n"
+        "narrative:\n"
+        '"N4."\n'
+        "instructions:\n"
+        '"I4."\n'
+        "code:\n"
+        "strength = 0\n"
+        "\n@challenge m5\n"
+        "topic: Output\n"
+        "difficulty: easy\n"
+        "title: The Herald\n"
+        "test: output in=name\n"
+        "narrative:\n"
+        '"N5."\n'
+        "instructions:\n"
+        '"I5."\n'
+        "code:\n"
+        "print(name)\n"
     )
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
         f.write(scene_src + challenge_src)
@@ -545,8 +583,8 @@ def _selfcheck() -> None:
 
     # --- the @challenge half ---
     by_id = {c.challenge_id: c for c in challenges}
-    assert set(by_id) == {"m1", "m2"}, set(by_id)  # 'broken' skipped, not fatal
-    m1, m2 = by_id["m1"], by_id["m2"]
+    assert set(by_id) == {"m1", "m2", "m3", "m4", "m5"}, set(by_id)  # 'broken' skipped, not fatal
+    m1, m2, m3, m4, m5 = (by_id[k] for k in ("m1", "m2", "m3", "m4", "m5"))
 
     assert (m1.test_type, m1.function_name) == ("function", "f"), m1.test_type
     assert m1.validation_tests == [{"input": [[3, 1, 2]], "expected": [1, 2, 3]}], m1.validation_tests
@@ -561,6 +599,19 @@ def _selfcheck() -> None:
     assert (m2.test_type, m2.input_variable, m2.output_variable) == (
         "script_variable", "nums", "total",
     ), m2.test_type
+
+    # `test: variables` reads the variables: block and leaves stats alone.
+    assert (m3.test_type, m3.applies_stats) == ("variables", False), m3.test_type
+    assert m3.expected_variables == {"player_name": "str", "hp": "int"}, m3.expected_variables
+    assert m3.starting_code == 'player_name = ""', repr(m3.starting_code)
+
+    # `test: variables stats` is the same type with character creation on.
+    assert (m4.test_type, m4.applies_stats) == ("variables", True), m4.applies_stats
+
+    # `test: output in=` compares stdout — an input variable, no output one.
+    assert (m5.test_type, m5.input_variable, m5.output_variable) == (
+        "script_output", "name", None,
+    ), m5.test_type
 
     print("story_loader: choice + @challenge parsing ok")
 
