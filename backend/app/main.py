@@ -14,7 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, List, Literal
 
-from app.engine.story_loader import load_all_scenes
+from app.engine.story_loader import load_all_scenes, load_inline_challenges
 from app.engine.challenge_loader import load_all_challenges, validate_challenges
 from app.engine.interaction_loader import load_all_interactions, validate_interactions
 from app.engine.content import ContentStore
@@ -69,13 +69,29 @@ INTERACTIONS_DIR = os.path.join(BASE_DIR, "interactions")
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
+
+def _merge_challenges(from_json: Dict, inline: Dict) -> Dict:
+    """challenges/*.json plus the @challenge blocks authored in story files.
+
+    Inline wins a collision — the file being edited is the one the author meant.
+    Startup and hot-reload both go through here so they cannot drift apart.
+    """
+    for cid in sorted(from_json.keys() & inline.keys()):
+        print(f"[content warning] Duplicate challenge_id '{cid}' inline in story/ — "
+              f"overriding the one from challenges/.")
+    return {**from_json, **inline}
+
+
 SCENES = load_all_scenes(STORY_DIR)
-CHALLENGES = load_all_challenges(CHALLENGES_DIR)
+CHALLENGES = _merge_challenges(
+    load_all_challenges(CHALLENGES_DIR), load_inline_challenges(STORY_DIR)
+)
 INTERACTIONS = load_all_interactions(INTERACTIONS_DIR)
 
 _CONTENT = ContentStore({
-    "scenes": (STORY_DIR, (".scene",), load_all_scenes),
+    "scenes": (STORY_DIR, (".scene", ".txt"), load_all_scenes),
     "challenges": (CHALLENGES_DIR, (".json",), load_all_challenges),
+    "inline": (STORY_DIR, (".scene", ".txt"), load_inline_challenges),
     "interactions": (INTERACTIONS_DIR, (".json",), load_all_interactions),
 })
 
@@ -84,10 +100,11 @@ def refresh_content() -> None:
     global SCENES, CHALLENGES, INTERACTIONS
     if _CONTENT.refresh():
         SCENES = _CONTENT.data["scenes"]
-        CHALLENGES = _CONTENT.data["challenges"]
+        CHALLENGES = _merge_challenges(_CONTENT.data["challenges"], _CONTENT.data["inline"])
         INTERACTIONS = _CONTENT.data["interactions"]
         print(f"[content] reloaded — {len(SCENES)} scenes, "
-              f"{len(CHALLENGES)} challenges, {len(INTERACTIONS)} interactions")
+              f"{len(CHALLENGES)} challenges ({len(_CONTENT.data['inline'])} inline), "
+              f"{len(INTERACTIONS)} interactions")
 
 
 def _registered_widgets() -> List[str]:
