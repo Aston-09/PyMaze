@@ -6,6 +6,8 @@
     "build_statement",
     "value_dial",
     "sort_types",
-    "predict_output"
+    "predict_output",
+    "trace_loop",
+    "fix_the_bug"
   ]
 }

@@ -1,0 +1,50 @@
+@scene marketplace
+
+background: green_valley.jpg
+
+dialogue:
+"The merchant blocks your path."
+
+npc Merchant:
+"Sort my takings, traveler, and the road is yours."
+
+mission: merchant_ledger
+
+reward:
+xp: 100
+gold: 50
+
+
+@challenge merchant_ledger
+
+topic: Lists
+difficulty: easy
+title: The Merchant's Ledger
+test: function sort_takings
+
+narrative:
+"The merchant slams a ledger down."
+"Numbers scatter across the page in no order at all."
+
+instructions:
+"Write `sort_takings(coins)` that returns the coins sorted"
+"from smallest to largest."
+
+code:
+def sort_takings(coins):
+    # Your solution here
+    pass
+
+tests:
+[[3, 1, 2]] -> [1, 2, 3]
+[[]] -> []
+[[5]] -> [5]
+
+hints:
+"Python lists have a .sort() method."
+"Or use the built-in sorted()."
+
+reward:
+xp: 100
+gold: 50
+achievement: LEDGER KEEPER

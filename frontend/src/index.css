@@ -285,50 +285,35 @@ strong { color: var(--ink); font-weight: 600; }
   pointer-events: none;
 }
 
-/* Each location is a "plate": a sharp image, plus a blurred copy that fills
-   the frame when the sharp one cannot cover it. */
+/* Each location is a "plate": the flipbook frame itself, plus a blurred copy
+   that fills the frame when the sharp one cannot cover it. */
 .scene-plate {
   position: absolute; inset: 0;
-  will-change: opacity, transform;
+  /* Fades up once, on arriving somewhere new. The container is keyed by stem,
+     so this never reruns for a frame swap inside one location. */
+  animation: plateFade 0.5s ease both;
 }
 
-.scene-plate.is-current {
-  opacity: 1;
-  /* Default is a plain cross-fade, used when swapping between the animation
-     frames of one location so the scene drifts without zooming. */
-  animation: plateFade 1.2s ease both;
-}
-/* A brand-new location pushes in instead of merely fading. */
-.scene-plate.is-current.is-enter {
-  animation: plateEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-/* Held opaque underneath while the incoming plate fades in over it. Fading
-   both at once leaves a gap where neither fully covers the frame, and the page
-   shows through as a bright dip across the whole scene. That was invisible
-   while a location was a single still image; now that locations cycle through
-   four frames it would flash every few seconds. */
-.scene-plate.is-outgoing {
-  opacity: 1;
-  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: scale(1.05);
-}
-
-/* Blurred backdrop — only visible where the sharp image leaves gaps. */
+/* Blurred backdrop - only visible where the sharp image leaves gaps. */
 .scene-plate-fill {
   position: absolute; inset: -8%;
+  z-index: 0;
   background-size: cover;
   background-position: center;
   filter: blur(38px) saturate(1.15) brightness(0.62);
   transform: scale(1.15);
 }
 
+/* The drawing. No transition and no transform: the frames are the animation,
+   and anything easing between them smears four drawn cels into a dissolve.
+   The only job here is to hold perfectly still while they change. */
 .scene-plate-image {
-  position: absolute; inset: -4%;        /* room to drift without edge gaps */
+  position: absolute; inset: 0;
+  z-index: 1;
   background-position: center;
   background-repeat: no-repeat;
   /* Warmed and slightly lifted so it belongs to the parchment palette. */
   filter: sepia(0.18) saturate(0.98) brightness(0.94);
-  animation: kenBurns 26s ease-in-out infinite alternate;
 }
 
 /* Landscape art fills the frame edge to edge. */
@@ -336,33 +321,49 @@ strong { color: var(--ink); font-weight: 600; }
 .scene-plate.fit-cover .scene-plate-fill { display: none; }
 
 /* Tall or narrow art is shown whole, floating over its own blurred copy, so
-   a portrait-orientation dragon is actually a visible dragon. */
+   a portrait-orientation subject stays a visible subject. */
 .scene-plate.fit-contain .scene-plate-image {
   inset: 2% 0;
   background-size: contain;
-  animation: subjectFloat 18s ease-in-out infinite alternate;
   filter: sepia(0.14) saturate(1.02) brightness(0.98)
           drop-shadow(0 18px 46px rgba(0, 0, 0, 0.55));
 }
 
 /* A character is a transparent cutout standing in the location, not a plate
-   that replaces it — so the place keeps playing behind them. Anchored to the
+   that replaces it - so the place keeps playing behind them. Anchored to the
    bottom because these are standing figures: they meet the ground, and the
-   frame's lower edge is the ground. */
+   lower edge of the frame is the ground.
+
+   Float and grade both live here on the container rather than on the frames.
+   On the frames the float would run out of phase between them and the figure
+   would jitter on every swap, and the contact shadow would be drawn once per
+   lit frame and double up through each blend. On the container they apply
+   once, to the reel as one body. */
 .scene-character {
   position: absolute;
   inset: 4% 0 0;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: contain;
   /* Same grade as the plates behind, plus a contact shadow so the figure sits
      in the scene instead of hovering in front of it. */
   filter: sepia(0.14) saturate(1.02) brightness(0.98)
           drop-shadow(0 22px 40px rgba(0, 0, 0, 0.62));
   animation: subjectFloat 18s ease-in-out infinite alternate,
-             plateFade 1.2s ease both;
-  will-change: opacity, transform;
+             plateFade 0.9s ease both;
 }
+
+/* One frame of that reel. Clear by default; the current frame and the one
+   behind it are lit, and this fade is the whole difference between a
+   character swap and the hard cut a location gets. The frame underneath is
+   held fully opaque rather than fading out, so the figure never goes
+   see-through in the middle of a blend. */
+.scene-character-frame {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.scene-character-frame.is-lit { opacity: 1; }
 
 /* On a narrow screen the figure would otherwise shrink into the middle of a
    tall frame; give it more of the height so it still reads. */
@@ -399,24 +400,13 @@ strong { color: var(--ink); font-weight: 600; }
 }
 .scene-background-scrim.is-dimmed { opacity: 1; }
 
-@keyframes kenBurns {
-  from { transform: scale(1.06) translate3d(0, 0, 0); }
-  to   { transform: scale(1.20) translate3d(-3%, -2.2%, 0); }
-}
-
 /* A contained subject breathes in place instead of panning off its own edges. */
 @keyframes subjectFloat {
   from { transform: scale(1.00) translate3d(0, 0.8%, 0); }
   to   { transform: scale(1.06) translate3d(0, -1.2%, 0); }
 }
 
-/* Each new location pushes in rather than simply appearing. */
-@keyframes plateEnter {
-  from { opacity: 0; transform: scale(1.08); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* Frame-to-frame swap within one location: opacity only, no zoom. */
+/* Fade-up on arrival: a new location, or a character stepping into one. */
 @keyframes plateFade {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -1287,3 +1277,74 @@ strong { color: var(--ink); font-weight: 600; }
   .bin-grid { grid-template-columns: repeat(2, 1fr); }
   .app-container { padding: 0.75rem; }
 }
+
+/* ============================================================
+   TRACE / DEBUG WIDGETS
+   The learner steps through code or hunts a fault in it. Both draw the
+   same code slip as .predict-code, so only the per-line treatment is new.
+   ============================================================ */
+
+/* One source line inside a code slip. */
+.trace-line {
+  display: block;
+  padding: 0.12rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+/* The line about to run. Gold rule and a warm wash — the same "you are here"
+   language the HUD uses for the active chapter. */
+.trace-line.is-active {
+  background: rgba(176, 130, 47, 0.14);
+  border-left-color: var(--gold);
+}
+
+.trace-line.is-clickable { cursor: pointer; }
+.trace-line.is-clickable:hover { background: rgba(176, 130, 47, 0.09); }
+.trace-line.is-bug {
+  background: rgba(151, 55, 43, 0.13);
+  border-left-color: var(--seal-red);
+}
+.trace-line.is-innocent {
+  background: rgba(77, 107, 63, 0.10);
+  border-left-color: var(--moss);
+  animation: shake 0.4s ease;
+}
+
+/* Values already established, so the trace accumulates visibly. */
+.trace-history { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.trace-chip {
+  font-family: var(--font-mono); font-size: 0.82rem;
+  color: var(--ink-faded);
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.55rem;
+}
+
+.trace-entry { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+.trace-var {
+  font-family: var(--font-mono); font-size: 1.05rem; color: var(--ink);
+}
+
+.trace-input {
+  flex: 1; min-width: 8rem;
+  font-family: var(--font-mono); font-size: 1.05rem;
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: 1px solid var(--paper-edge);
+  border-bottom: 2px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.7rem;
+  box-shadow: var(--shadow-press);
+}
+.trace-input:focus { outline: none; border-bottom-color: var(--gold-bright); }
+.trace-input:disabled { color: var(--ink-soft); border-bottom-color: var(--paper-edge); }
+
+/* The gloss earns a colour when it is a verdict rather than a note. */
+.predict-explain.is-right { border-left-color: var(--moss); }
+.predict-explain.is-wrong { border-left-color: var(--seal-red); }

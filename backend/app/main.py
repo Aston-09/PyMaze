@@ -14,7 +14,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, List, Literal
 
-from app.engine.story_loader import load_all_scenes
+from app.engine.story_loader import (
+    CONTENT_SUFFIXES, load_all_scenes, load_inline_challenges,
+)
 from app.engine.challenge_loader import load_all_challenges, validate_challenges
 from app.engine.interaction_loader import load_all_interactions, validate_interactions
 from app.engine.content import ContentStore
@@ -69,13 +71,29 @@ INTERACTIONS_DIR = os.path.join(BASE_DIR, "interactions")
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
+
+def _merge_challenges(from_json: Dict, inline: Dict) -> Dict:
+    """challenges/*.json plus the @challenge blocks authored in story files.
+
+    Inline wins a collision — the file being edited is the one the author meant.
+    Startup and hot-reload both go through here so they cannot drift apart.
+    """
+    for cid in sorted(from_json.keys() & inline.keys()):
+        print(f"[content warning] Duplicate challenge_id '{cid}' inline in story/ — "
+              f"overriding the one from challenges/.")
+    return {**from_json, **inline}
+
+
 SCENES = load_all_scenes(STORY_DIR)
-CHALLENGES = load_all_challenges(CHALLENGES_DIR)
+CHALLENGES = _merge_challenges(
+    load_all_challenges(CHALLENGES_DIR), load_inline_challenges(STORY_DIR)
+)
 INTERACTIONS = load_all_interactions(INTERACTIONS_DIR)
 
 _CONTENT = ContentStore({
-    "scenes": (STORY_DIR, (".scene",), load_all_scenes),
+    "scenes": (STORY_DIR, CONTENT_SUFFIXES, load_all_scenes),
     "challenges": (CHALLENGES_DIR, (".json",), load_all_challenges),
+    "inline": (STORY_DIR, CONTENT_SUFFIXES, load_inline_challenges),
     "interactions": (INTERACTIONS_DIR, (".json",), load_all_interactions),
 })
 
@@ -84,10 +102,11 @@ def refresh_content() -> None:
     global SCENES, CHALLENGES, INTERACTIONS
     if _CONTENT.refresh():
         SCENES = _CONTENT.data["scenes"]
-        CHALLENGES = _CONTENT.data["challenges"]
+        CHALLENGES = _merge_challenges(_CONTENT.data["challenges"], _CONTENT.data["inline"])
         INTERACTIONS = _CONTENT.data["interactions"]
         print(f"[content] reloaded — {len(SCENES)} scenes, "
-              f"{len(CHALLENGES)} challenges, {len(INTERACTIONS)} interactions")
+              f"{len(CHALLENGES)} challenges ({len(_CONTENT.data['inline'])} inline), "
+              f"{len(INTERACTIONS)} interactions")
 
 
 def _registered_widgets() -> List[str]:
@@ -199,6 +218,10 @@ class ExecuteRequest(BaseModel):
 
 class AdvanceRequest(BaseModel):
     current_scene: str
+    # Set when the player picked a `choice:` option. It must be one of the
+    # targets the current scene actually offers — validated below — so this
+    # cannot be used to jump anywhere in the story.
+    chosen_scene: str | None = None
 
 class InteractionCompleteRequest(BaseModel):
     interaction_id: str
@@ -290,7 +313,17 @@ async def background_frames(username: str = Depends(get_current_user), player: P
     chosen = frames.get(f"player_{player.gender or 'male'}")
     if chosen:
         frames["player"] = chosen
-    return frames
+    # Which stems are transparent cutouts rather than locations. The client
+    # needs this to know that `background: warden` puts the warden *in* the
+    # current place instead of replacing it. "player" is included by the same
+    # rule once resolved above, since it resolves to a characters/ path.
+    return {
+        "frames": frames,
+        "characters": sorted(
+            stem for stem, paths in frames.items()
+            if paths and paths[0].startswith("characters/")
+        ),
+    }
 
 
 @app.post("/api/execute")
@@ -383,7 +416,21 @@ async def advance_scene_route(request: AdvanceRequest, username: str = Depends(g
 
     scene = SCENES[request.current_scene]
     next_scene = scene.next_scene
-    
+
+    # A picked `choice:` wins over both next: and condition:, but only if the
+    # scene really offers it — otherwise a crafted request could skip the game.
+    if request.chosen_scene:
+        offered = {
+            opt.get("target")
+            for beat in scene.beats if beat.type == "choice"
+            for opt in beat.options
+        }
+        if request.chosen_scene not in offered:
+            raise HTTPException(status_code=400, detail="Not a choice this scene offers")
+        player_manager.advance_scene(player, request.chosen_scene)
+        await save_game(player, username)
+        return {"current_scene": request.chosen_scene, "player": player.model_dump()}
+
     for cond in scene.conditions:
         try:
             res = eval(cond.expression, {"__builtins__": {}}, {"player": player})

@@ -158,10 +158,11 @@ next: chapter_4_road_north
 | `reward:` / `achievement:` | Grants XP, gold, titles, badges |
 | `condition:` | State-based branching |
 | `next: [id]` | The following scene |
+| `@challenge [id]` | Defines the coding challenge inline, in this same file |
 
 While the dev server runs, edits to `story/`, `challenges/` and `interactions/` are picked up automatically — `uvicorn --reload` only watches `.py`, so the engine re-reads content files itself.
 
-Full detail: [`docs/03_story_language.md`](docs/03_story_language.md) and [`docs/04_challenge_system.md`](docs/04_challenge_system.md).
+Full detail: [`docs/03_story_language.md`](docs/03_story_language.md), [`docs/04_challenge_system.md`](docs/04_challenge_system.md) and [`docs/12_txt_authoring.md`](docs/12_txt_authoring.md) for one-file scenarios.
 
 ---
 

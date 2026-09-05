@@ -1,23 +1,42 @@
 {
   "interaction_id": "halls_accumulate",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "The Running Total",
-  "prompt": "A loop can carry a value that grows as it goes. Predict the total.",
+  "prompt": "The tally hangs over the Warden's head, changing with every step. Call it before each turn — you are the loop now.",
   "config": {
-    "rounds": [
+    "code": [
+      "total = 0",
+      "for coin in [5, 3, 2]:",
+      "    total = total + coin",
+      "print(total)"
+    ],
+    "steps": [
       {
-        "code": "total = 0\nfor coin in [5, 3, 2]:\n    total = total + coin\nprint(total)",
-        "options": ["3", "10", "5 3 2", "0"],
-        "answer": 1,
-        "explain": "total starts at 0 and each coin is added in turn: 0 + 5 + 3 + 2 = 10. That growing sum is called accumulation."
+        "line": 0,
+        "variable": "total",
+        "value": "0",
+        "note": "The tally starts empty, before the loop — outside it, or it would reset every turn."
       },
       {
-        "code": "count = 0\nfor stone in [\"a\", \"b\", \"c\", \"d\"]:\n    count = count + 1\nprint(count)",
-        "options": ["4", "1", "a b c d", "0"],
-        "answer": 0,
-        "explain": "count rises by 1 for every stone. Four stones means 4 — you can accumulate a COUNT, not only a sum."
+        "line": 2,
+        "variable": "total",
+        "value": "5",
+        "note": "First coin is 5. total was 0, so 0 + 5."
+      },
+      {
+        "line": 2,
+        "variable": "total",
+        "value": "8",
+        "note": "Second turn. total keeps what it had — 5 — and adds 3."
+      },
+      {
+        "line": 2,
+        "variable": "total",
+        "value": "10",
+        "note": "Last coin, 2. The loop ends here; nothing resets it."
       }
-    ]
+    ],
+    "success": "Ten. Three small steps became one answer, and the tally carried it the whole way."
   },
-  "reward": { "xp": 15, "gold": 5 }
+  "reward": { "xp": 20, "gold": 8 }
 }

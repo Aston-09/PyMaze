@@ -4,15 +4,14 @@ background: ancient_library.png
 music: arcane_study.mp3
 
 dialogue:
-"Back in the great cluttered room at the top of the tower, the Enchanter waves you toward the chair that fetches itself."
-"You can bind a spell now, and keep a workshop's secrets close."
+"Back in the cluttered room at the top of the tower, the Enchanter waves you toward the chair that fetches itself."
 "He looks almost proud — which, on his face, resembles indigestion."
 
 background: enchanter
 
 npc Enchanter:
-"You bind well, {{player_name}}. And you keep your whispers where they belong. Most travellers never get this far."
-"I had half a mind to take the rest slowly. A whole warm winter of it, spell by spell."
+"You bind well, {{player_name}}, and you keep your whispers where they belong. Most never get this far."
+"I had half a mind to take the rest slowly. A whole warm winter of it."
 
 system notification:
 "NEW QUEST"

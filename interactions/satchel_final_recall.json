@@ -1,17 +1,37 @@
 {
   "interaction_id": "satchel_final_recall",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "The Whole Satchel",
-  "prompt": "Add a crate, then reach for the last slot. Predict what you pull out.",
+  "prompt": "One last pack, cold, with the Quartermaster watching. Call it at every move.",
   "config": {
-    "rounds": [
+    "code": [
+      "bag = [\"a\", \"b\", \"c\"]",
+      "bag.append(\"d\")",
+      "last = bag[-1]",
+      "first = bag[0]",
+      "print(first, last, len(bag))"
+    ],
+    "steps": [
       {
-        "code": "bag = [\"a\", \"b\", \"c\"]\nbag.append(\"d\")\nprint(bag[-1])",
-        "options": ["a", "d", "c", "4"],
-        "answer": 1,
-        "explain": "append puts 'd' on the end; bag[-1] reads the last slot — which is now 'd'. Indexing, negative index, and append, all at once."
+        "line": 1,
+        "variable": "bag",
+        "value": "['a', 'b', 'c', 'd']",
+        "note": "append puts it at the end. Four slots now."
+      },
+      {
+        "line": 2,
+        "variable": "last",
+        "value": "d",
+        "note": "-1 always means the last slot, however long the satchel is. No counting required."
+      },
+      {
+        "line": 3,
+        "variable": "first",
+        "value": "a",
+        "note": "And the front is 0 — not 1. Every satchel starts counting at zero."
       }
-    ]
+    ],
+    "success": "Zero to the end and back again. That is the whole satchel, and it is yours."
   },
-  "reward": { "xp": 20, "gold": 10 }
+  "reward": { "xp": 25, "gold": 12 }
 }

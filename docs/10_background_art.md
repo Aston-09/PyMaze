@@ -10,13 +10,14 @@ clean parchment page so nothing competes with the work.
 story/*.scene       background: ancient_library.png
         │
         ▼
-assets/backgrounds/ancient_library.png
+assets/backgrounds/ancient_library/f1..f4.jpg   (a folder of frames)
         │
         ▼
-GET /assets/backgrounds/ancient_library.png     (StaticFiles mount)
+GET /api/backgrounds/frames  →  {stem: [paths]}
+GET /assets/backgrounds/ancient_library/f1.jpg  (StaticFiles mount)
         │
         ▼
-<SceneBackground> — crossfade + slow drift behind the dialogue
+<SceneBackground> — the frames, cut through in order, looped
 ```
 
 `background:` may appear **more than once in a scene**. The first sets the
@@ -43,10 +44,11 @@ own beat rather than mid-paragraph.
 Missing files are reported at startup (`[asset warning] ...`) rather than
 failing silently to a black screen.
 
-## Characters are shown through the background
+## Characters stand in the location
 
-There is no cut-out portrait layer. When a character enters, the scene
-**becomes** their art:
+A character is a transparent cutout drawn **over** the place, which keeps
+playing behind them — `background:` naming a stem under `assets/characters/`
+adds the figure without tearing the location down:
 
 ```text
 dialogue:
@@ -59,8 +61,10 @@ dialogue:
 "A pair of enormous golden eyes open before you."
 ```
 
-This keeps one visual system instead of two, and lets a character
-illustration read at full size rather than as a thumbnail.
+The backend decides which is which: any stem whose frames live under
+`characters/` is a cutout, and `/api/backgrounds/frames` returns that list
+alongside the frame map. `player` resolves per-learner to `player_male` or
+`player_female` at request time, so a scene can just say `background: player`.
 
 ## Aspect-aware fitting
 
@@ -84,12 +88,14 @@ numeric tolerance — a threshold would flip those images between filling and
 letterboxing on a mere window resize. Only genuinely portrait art, where
 cropping to fill destroys the subject, is contained.
 
+Measured **once per reel**, not once per frame: `register_all` guarantees a
+folder's frames share a canvas, so one measurement is the truth for all of them.
+
 | Asset | Size | Fit |
 |---|---|---|
-| `dragon_celestial.jpg` | 768×1376 | `contain` |
-| `elder_mage.png` | 1123×1589 | `contain` |
-| `ruins.png`, `ancient_library.png`, `forest_gate.png` | 1024×1024 | `cover` |
-| `deep_forest.jpg`, `sky_summons.jpg`, `sage_reading.jpg` | landscape / square | `cover` |
+| every folder under `backgrounds/` | ~1370×765 landscape | `cover` |
+| every folder under `characters/` | boxy cutout (aspect 0.85–1.15) | `contain` |
+| `quartermaster` | 1026×265 — a wide banner, not a figure | `cover` |
 
 ## Presentation
 
@@ -102,12 +108,53 @@ the manuscript**, not a screenshot behind a window:
 | Warm tint | `sepia(0.18) saturate(0.98) brightness(0.94)` | Pulls the art toward the parchment palette |
 | Vignette | radial + linear scrim | Focuses the centre, darkens where text sits |
 | Grain | same `--grain` SVG as the UI | Unifies image and page as one printed surface |
-| Entrance | 1.4s push-in from `scale(1.08)` | A new location arrives, it does not just appear |
-| Drift | 26s Ken Burns (`cover`) / 18s float (`contain`) | Keeps a still image alive under narration |
+| Entrance | 0.5s fade-up, on arriving somewhere new | A location change reads as a change, not a jump cut |
 | Motes | 38s drifting particle field | The air itself moving |
-| Transition | 1.2s crossfade, two plates | Locations dissolve instead of flashing |
+| Frames | see below | The art moves; nothing is synthesised on top of it |
 
-All of it is disabled under `prefers-reduced-motion`.
+All of it is disabled under `prefers-reduced-motion`, the reels included —
+they run on a timer rather than a CSS animation, so `SceneBackground` checks
+the query itself and holds frame 1.
+
+## Reels
+
+Every folder under `assets/backgrounds/` and `assets/characters/` is an
+animation, played by cutting through its frames in order and looping. There is
+no Ken Burns, no zoom, no dissolve between frames: the drawings are the motion,
+and easing between them smears four cels into mush.
+
+| | Per frame | Between frames | Why |
+|---|---|---|---|
+| Location | 800ms | hard cut | A 3.2s cycle — the place shifts under the text rather than flickering |
+| Character | 2000ms | 900ms blend | Shares the screen with text; a pose has to be readable, and a cut would twitch under the words |
+
+The character blend holds the outgoing frame **fully opaque** underneath while
+the incoming one fades in over it. Fading both at once drops the combined
+alpha in the middle of every swap and the location shows straight through the
+figure.
+
+Frames are all fetched and `decode()`d before a reel starts. A frame still
+decoding when its turn comes paints as a blank flash, and it would flash on
+every frame of the first pass.
+
+### Frames have to share a canvas
+
+Art usually arrives trimmed frame by frame — each PNG cropped to its own
+drawing, so `warden` alone ranged 522×519 down to 472×505. `background-size:
+contain` then fits every frame to *its own* box, scaling a narrower frame up
+more, and the figure jumps in size and sideways on every swap.
+
+`sprite_slicer.py --register` puts them back on one canvas. Consecutive frames
+are the same drawing with small changes, so the offset that best re-overlaps
+two of them is the offset the crop removed; phase correlation over the alpha
+masks recovers it, matching every frame against frame 1 directly so error
+cannot accumulate along a long loop. Mask overlap with frame 1 rose from
+0.30–0.77 to 0.72–0.99 across this repo's art. A `.registered` marker makes it
+idempotent — delete it to re-run a folder after dropping new art in.
+
+A folder needs to be **one** loop of **one** subject. Two scenes in a folder
+strobe between two places several times a second; two frames alone strobe
+on/off. Both are art problems, not code problems.
 
 ## Current mapping
 
@@ -213,6 +260,9 @@ filename from a `.scene`, restart the backend. No code change.
   `===== SYSTEM UPDATE =====` / `SKILL LEARNED` / `CHAPTER COMPLETE` banners
   already written into the scenes. Rendering those as bordered system panels
   instead of plain narrator lines would be a strong, cheap win.
-- **Per-speaker character art.** `assets/characters/` is empty; the Sage, the
-  Dragon and the Old Man all have distinct voices already wired into the
-  dialogue nameplates.
+- **A real `player/male` frame 2.** It shipped as a 0-byte file and was
+  dropped, so that reel runs on 3 frames. Drop a fourth in, delete
+  `assets/characters/player/male/.registered`, re-run `--register`.
+- **`ruins_doorway` is unused.** It was frames 5–8 of `ruins` — a second
+  location packed into one folder, split out so `ruins` is a single loop.
+  Nothing references it yet.

@@ -13,6 +13,7 @@ The engine must parse the following tags:
 - `dialogue:`: Standard narration or dialogue.
 - `choice:`: Presents branching options the player picks between. Each following line is `"Label the player reads" -> target_scene_id`; picking one jumps straight to that scene. Unlike `condition:`/`next:` (which routes on stats), this branches on what the player *chooses* — the mechanism behind multiple, behaviour-driven endings (see `story/chapter_7_enchanters_bargain.scene`).
 - `mission: [challenge_id]`: Triggers a coding challenge (loads from `challenges/[challenge_id].json`).
+- `@challenge [id]`: A top-level block, sibling to `@scene`, that defines a challenge inline in the same story file instead of a separate JSON. See [12_txt_authoring.md](12_txt_authoring.md).
 - `interactive: [interaction_id]`: Plays an interactive beat (loads from `interactions/[interaction_id].json`). See [09_interaction_system.md](09_interaction_system.md).
 - `battle:`: Initiates a combat sequence.
 - `reward:`: Grants XP, items, or titles.

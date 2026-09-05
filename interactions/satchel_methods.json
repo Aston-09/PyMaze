@@ -1,23 +1,37 @@
 {
   "interaction_id": "satchel_methods",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "Load and Unload",
-  "prompt": "append adds to the end, pop takes from the end, len counts. Predict each.",
+  "prompt": "The Quartermaster packs and unpacks while you watch. Call the satchel's contents after every move.",
   "config": {
-    "rounds": [
+    "code": [
+      "crates = [\"Rope\", \"Torch\"]",
+      "crates.append(\"Bread\")",
+      "crates.append(\"Water\")",
+      "crates.pop()",
+      "print(crates)"
+    ],
+    "steps": [
       {
-        "code": "crates = [\"Rope\", \"Torch\"]\ncrates.append(\"Bread\")\nprint(len(crates))",
-        "options": ["2", "3", "1", "Bread"],
-        "answer": 1,
-        "explain": "append adds one crate to the end. len then counts the satchel: 3."
+        "line": 1,
+        "variable": "crates",
+        "value": "['Rope', 'Torch', 'Bread']",
+        "note": "append always adds to the END. Never the front, never the middle."
       },
       {
-        "code": "crates = [\"Rope\", \"Torch\", \"Bread\"]\ncrates.pop()\nprint(crates)",
-        "options": ["['Rope', 'Torch']", "['Torch', 'Bread']", "['Rope', 'Torch', 'Bread']"],
-        "answer": 0,
-        "explain": "pop() removes the LAST crate and hands it back. The satchel is left one shorter."
+        "line": 2,
+        "variable": "crates",
+        "value": "['Rope', 'Torch', 'Bread', 'Water']",
+        "note": "Four crates now. The satchel grew; nothing was replaced."
+      },
+      {
+        "line": 3,
+        "variable": "crates",
+        "value": "['Rope', 'Torch', 'Bread']",
+        "note": "pop takes from the END too — the last one in is the first one out. Water is gone."
       }
-    ]
+    ],
+    "success": "On at the back, off at the back. That is the whole discipline of a satchel."
   },
   "reward": { "xp": 20, "gold": 10 }
 }

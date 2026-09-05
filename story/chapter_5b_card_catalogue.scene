@@ -102,6 +102,16 @@ dialogue:
 
 npc Cataloguer:
 "Fewer than I feared, and now I KNOW. You've the makings of an archivist, child."
+
+background: cataloguer
+
+npc Cataloguer:
+"Before you go — one card, drawn cold. The whole catalogue at once."
+
+interactive: catalogue_final_recall
+
+npc Cataloguer:
+"Values out, duplicates gone, counted. That is the catalogue entire, and you carry it now."
 "Go west now, truly. The loom-woman is waiting, and she'll not make it easy — she never speaks plainly."
 "Listen past her riddles. The lesson underneath is always kind."
 

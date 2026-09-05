@@ -4,9 +4,8 @@ background: ancient_library.png
 music: wisdom_theme.mp3
 
 dialogue:
-"The road climbs to a squat stone archive, half-swallowed by ivy."
-"Inside, shelves run off in every direction, and not one of them is in any order you can see."
-"An old woman sits at the centre, eyes clouded white, her hands moving over a great locked book as though reading a face."
+"The road climbs to a squat stone archive, half-swallowed by ivy. Inside, shelves run off in every direction, in no order you can see."
+"An old woman sits at the centre, eyes clouded white, hands moving over a great locked book as though reading a face."
 
 background: cataloguer
 
@@ -26,30 +25,21 @@ system notification:
 "Open the spellbook that answers only to names."
 
 npc Cataloguer:
-"Your Quartermaster's satchels are fine things — if you can SEE which slot you want."
-"But I cannot. Numbers on a shelf are no use to a blind woman."
-"So I keep my knowledge another way. Not a line — a set of PAIRS."
+"Gruff's satchels are fine things — if you can SEE which slot you want. I cannot."
+"So I keep knowledge another way. Not a line: a set of PAIRS."
 "Every spell has a name, and every name points to its incantation."
 
 dialogue:
 "She lays her palm flat on the grimoire. Its iron lock clicks open."
 
 npc Cataloguer:
-"That is a dictionary, traveller. You never ask it 'what is in slot two?'"
-"You ask it 'what answers to the name FIRE?' — and it hands you the answer, wherever the thing happens to sit."
-"A key. A value. Say the key; receive the value."
-
-npc Cataloguer:
-"But be gentle with it. Ask for a name the book does not hold, and a lesser book would shriek and slam its covers shut."
-"Mine is kinder — if you ask it kindly. Ask with GET, and hand it a word to say when it knows nothing."
-"Then a missing spell is not a catastrophe. It is only a shrug."
+"That is a dictionary. You never ask 'what is in slot two?' — you ask 'what answers to the name FIRE?'"
+"A key. A value. Say the key; receive the value, wherever it happens to sit."
+"But ask for a name the book does not hold, and a lesser book would shriek and slam shut."
+"Ask with GET instead, and hand it a word to say when it knows nothing. Then a missing spell is only a shrug."
 
 dialogue:
-"She slides the open grimoire toward you. Names shimmer along its margins, each tied by a thread of light to an incantation somewhere in the pages."
-
-npc Cataloguer:
-"A traveller will name the spell they need. Fetch its incantation by that name."
-"And if the book has never held it — do not let it scream. Have it answer 'Unknown Spell,' and move on."
+"She slides the grimoire toward you. Names shimmer along its margins, each threaded to an incantation somewhere in the pages."
 
 system system:
 "MISSION"
@@ -58,15 +48,15 @@ system system:
 mission: grimoire_dicts
 
 dialogue:
-"You speak a name. A thread of light pulls taut, and the matching incantation rises off the page and hangs glowing in the air."
-"Then you speak a name the book has never held — and instead of shrieking, it simply murmurs, 'Unknown Spell,' and waits."
-"The Cataloguer smiles at the sound."
+"You speak a name. A thread pulls taut and the incantation rises glowing off the page."
+"Then you speak one the book has never held — and instead of shrieking it murmurs 'Unknown Spell' and waits."
 
 npc Cataloguer:
 "There. You've learned to ask by name — and to ask kindly."
-"That second part matters more than the first. The Blight, when you get right down to it, is only unhandled screaming."
-"Go west, to the old loom. A weaver waits there who speaks in nothing but riddles."
-"She'll teach your words to bend. You'll need it — the lazy one on the mountain won't repeat himself."
+"That second part matters more. The Blight, at bottom, is only unhandled screaming."
+"But asking is the smallest part of a catalogue. Stay, and I will show you the rest of it."
+"How to ask whether a name is here at all before you reach. How to seal a pair so it can never be altered. How to hold a shelf that refuses to keep the same thing twice."
+"An archivist who can only fetch is a servant. One who can do all four is an archivist."
 
 system level_up:
 "CHAPTER COMPLETE"

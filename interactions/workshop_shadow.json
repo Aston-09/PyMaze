@@ -1,17 +1,44 @@
 {
   "interaction_id": "workshop_shadow",
-  "widget": "predict_output",
+  "widget": "fix_the_bug",
   "title": "What Happens in the Workshop",
-  "prompt": "Assigning a name INSIDE a function makes a new, private copy. Predict what the outside still holds.",
+  "prompt": "The Enchanter meant to drain the reservoir. He wrote this, and the reservoir never moved. Find why.",
   "config": {
-    "rounds": [
+    "code": [
+      "power = 100",
+      "",
+      "def drain():",
+      "    power = 5",
+      "",
+      "drain()",
+      "print(power)"
+    ],
+    "bug_line": 3,
+    "symptom": "it prints 100. The drain did nothing at all.",
+    "line_hints": {
+      "0": "The reservoir is set correctly here, out in the open where everyone can see it.",
+      "2": "Defining the spell is fine — nothing has gone wrong yet.",
+      "5": "The spell IS being cast. Removing this would not help; the problem is inside it.",
+      "6": "Printing only reports what survived. It is the messenger."
+    },
+    "fixes": [
       {
-        "code": "power = 100\ndef drain():\n    power = 5\ndrain()\nprint(power)",
-        "options": ["5", "100"],
-        "answer": 1,
-        "explain": "Assigning `power` inside drain() made a NEW local that vanished when the function ended. The global outside is still 100 — this is the surprise scope sets for beginners."
+        "text": "global power  (before the assignment)",
+        "correct": true,
+        "why": "Without it, 'power = 5' quietly forges a NEW power that exists only inside the workshop and vanishes when the spell ends. 'global' says: I mean the one outside."
+      },
+      {
+        "text": "return power",
+        "correct": false,
+        "why": "It would hand a value back — but nobody catches it, and the outer power is still untouched. Returning is not the same as changing."
+      },
+      {
+        "text": "power == 5",
+        "correct": false,
+        "why": "That asks a question instead of giving an order. It computes True or False, throws it away, and changes nothing."
       }
-    ]
+    ],
+    "success": "A name written inside a workshop stays in the workshop — unless you declare otherwise."
   },
-  "reward": { "xp": 20, "gold": 10 }
+  "reward": { "xp": 25, "gold": 12 }
 }

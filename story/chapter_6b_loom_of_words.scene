@@ -112,7 +112,13 @@ dialogue:
 background: night_forest.avif
 
 npc Riddle Weaver:
-"There. Cut, gathered, and woven true — the whole loom, in your hands now."
+"There. Cut, gathered, and woven true."
+"But a thread you cannot draw twice was never yours. Draw it once more, cold."
+
+interactive: loom_final_recall
+
+npc Riddle Weaver:
+"Split, taken, raised. The whole loom, in your hands now."
 "Go up. The lazy one is the last teacher on this road, and the strangest."
 "He will try to give you everything and climb out of doing so. Let him. It is his only real magic."
 

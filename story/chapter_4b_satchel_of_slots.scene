@@ -105,6 +105,16 @@ dialogue:
 
 npc Quartermaster:
 "...Right. NOW you know a satchel. Zero to the end and back again."
+
+background: quartermaster
+
+npc Quartermaster:
+"One last pack before you go. Everything at once — no hints from me."
+
+interactive: satchel_final_recall
+
+npc Quartermaster:
+"Append, then reach for the last slot. That's the whole satchel, and it's yours."
 "Go on to the archivist. Tell her Gruff finally sent someone who can count."
 "And tell her the third shelf still bites. She'll know."
 

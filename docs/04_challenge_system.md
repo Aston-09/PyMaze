@@ -2,6 +2,8 @@
 
 The Challenge System handles the evaluation of user-written Python code. Story files (`.scene`) reference challenge IDs, and the engine loads the logic from `challenges/*.json`.
 
+A challenge may also be authored **inline in the story file itself**, as an `@challenge` block beside the `@scene` that triggers it — see [12_txt_authoring.md](12_txt_authoring.md). Both routes produce the same `ChallengeDefinition` and everything below applies unchanged; `challenges/*.json` remains fully supported. On an id collision the inline block wins.
+
 ## Challenge Configuration (`.json`)
 Each challenge defines:
 - **Topic & Difficulty**

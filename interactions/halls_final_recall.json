@@ -1,17 +1,50 @@
 {
   "interaction_id": "halls_final_recall",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "The Warden, Freed",
-  "prompt": "Everything at once — while, a count that grows, and a break for the exit. Predict the result.",
+  "prompt": "A loop with no ending condition — and one way out written inside it. Walk it with him, turn by turn.",
   "config": {
-    "rounds": [
+    "code": [
+      "count = 0",
+      "while True:",
+      "    if count == 3:",
+      "        break",
+      "    count = count + 1",
+      "print(count)"
+    ],
+    "steps": [
       {
-        "code": "count = 0\nwhile True:\n    if count == 3:\n        break\n    count = count + 1\nprint(count)",
-        "options": ["0", "3", "forever", "4"],
-        "answer": 1,
-        "explain": "while True would run forever — but break gives it an exit. It counts 0, 1, 2, 3, breaks at 3, and prints 3. That is the Warden, freed."
+        "line": 0,
+        "variable": "count",
+        "value": "0",
+        "note": "Before the first step. 'while True' will never stop on its own, so the ending must come from inside."
+      },
+      {
+        "line": 4,
+        "variable": "count",
+        "value": "1",
+        "note": "count was not 3, so the break was skipped and the tally rose."
+      },
+      {
+        "line": 4,
+        "variable": "count",
+        "value": "2",
+        "note": "Again. Still not 3."
+      },
+      {
+        "line": 4,
+        "variable": "count",
+        "value": "3",
+        "note": "Now it is 3 — but the check happens at the TOP of the next turn, not here."
+      },
+      {
+        "line": 3,
+        "variable": "count",
+        "value": "3",
+        "note": "The condition holds, break fires, and the loop lets go. count keeps the value it had."
       }
-    ]
+    ],
+    "success": "Three, and then a door. An endless loop is only endless until something inside it decides otherwise."
   },
-  "reward": { "xp": 20, "gold": 10 }
+  "reward": { "xp": 25, "gold": 12 }
 }

@@ -4,13 +4,8 @@ background: valley_vista.jpg
 music: mystery_forest.mp3
 
 dialogue:
-"You step through the doorway."
-"Behind you, the endless hall folds shut like a closing book."
-"The last of the Sage's floating chests wink out, one by one."
-"Warm air fills your lungs — real air, with weather in it."
-"And a whole world opens up beneath you."
-"Green valleys. A river threading between farmland. Mountains standing in the far haze."
-"After an eternity of shelves and lamplight, the sky feels impossibly wide."
+"You step through the doorway, and the endless hall folds shut behind you like a closing book."
+"Warm air — real air, with weather in it. A valley opens beneath you, green and river-threaded, mountains standing in the far haze."
 
 npc You:
 "So this is what was on the other side of the door."
@@ -18,85 +13,51 @@ npc You:
 background: green_valley.jpg
 
 dialogue:
-"You follow the path down into the valley."
-"Long grass brushes your knees. Wildflowers lean out of the verge."
-"For a while there is nothing to do but walk, and it is the first easy thing that has happened to you."
-"Far ahead, a dark treeline waits at the valley's edge."
-
-npc You:
-"The Sage said someone was waiting."
+"You walk down into it. Long grass, wildflowers, and for a while nothing to do but breathe."
+"At the valley's edge, a dark treeline waits."
 
 background: deep_forest.jpg
 
 dialogue:
-"The trees close over you, and the light goes green and dim."
-"Twisted branches lock overhead, casting long shadows across the forest floor."
-"A narrow path reveals itself between the trunks."
-"You take a cautious step forward."
-"Then another."
-"The silence is unsettling."
-"Not a bird sings."
-"Not a leaf rustles."
-"Only the sound of your own footsteps echoes through the woods."
-"..."
-"Suddenly—"
+"The trees close over you and the light goes green and dim."
+"No bird sings. No leaf moves. Only your own footsteps, and then—"
 
 npc Unknown:
 "AAAGH!"
 
 dialogue:
-"A cry of pain pierces the silence."
-"Without thinking, you sprint toward the voice."
-"Branches whip past your face as you race deeper into the forest."
-"The trees suddenly part..."
+"You run toward it. Branches whip past. The trees part."
 
 background: forest_gate.png
 
 dialogue:
-"Before you stands an enormous stone gate, carved into the side of an ancient mountain."
-"The gate is covered in glowing runes that pulse with mysterious energy."
-"At its base lies an elderly man wrapped in a worn, tattered cloak."
+"An enormous stone gate, carved into the mountainside, its runes pulsing."
+"At its base lies an old man in a tattered cloak, barely conscious."
 
 background: elder_mage.png
-
-dialogue:
-"He appears to be in his eighties."
-"His breathing is heavy."
-"He struggles to remain conscious."
-"You kneel beside him."
 
 npc You:
 "Sir! Are you alright?"
 
 dialogue:
-"The old man slowly opens his eyes."
-"A faint smile appears on his face."
+"He opens his eyes. A faint smile."
 
 npc Old Man:
-"Traveller..."
-
-dialogue:
-"He coughs before continuing."
-
-npc Old Man:
-"Please... help me."
-"I have spent decades trying to open it..."
-"...but age has finally caught up with me."
-"If you help me unlock this gate..."
-"...I shall repay you with something far more valuable than treasure."
+"Traveller... please. Decades I have spent on this gate, and age has caught up with me."
+"Open it, and I will pay you in something better than treasure."
 
 dialogue:
 "He looks directly into your eyes."
 
 npc Old Man:
 "Knowledge."
+"And after — a name. Halvard, who keeps the scales two valleys east."
+"He weighs, and compares, and calls one thing greater than another. That is a magic of its own, and you will need it before the road is done."
 
 background: forest_gate.png
 
 dialogue:
-"The glowing runes across the gate suddenly begin to shine."
-"The ground trembles."
-"Ancient symbols appear before you."
+"The runes flare. The ground trembles."
 
 system notification:
 "NEW QUEST"
@@ -104,58 +65,35 @@ system notification:
 "Teach the gate how to decide."
 
 dialogue:
-"The old man slowly rises to his feet, leaning on his wooden staff."
-"He places his hand upon the gate."
-"Three ancient symbols ignite."
-"🔥 Fire"
-"🌊 Water"
-"🌿 Nature"
-"The symbols float in the air, waiting."
-"The old man begins to explain."
+"The old man rises on his staff and lays a hand on the stone. Three symbols ignite and hang waiting."
+"🔥 Fire · 🌊 Water · 🌿 Nature"
 
 npc Old Man:
-"This is the Gate of Choices."
-"Unlike the trials before, strength alone cannot open it."
-"This gate obeys only one law..."
-"...the law of decisions."
-
-dialogue:
-"He traces three glowing lines in the air."
-"Each line connects to one of the symbols."
-
-npc Old Man:
-"You already carry the spells you need, {{player_name}}."
-"input() — to ask the traveller for a number."
-"print() — to declare which path opens."
+"The Gate of Choices. Strength cannot open it — it obeys only the law of decisions."
+"You already carry the spells you need, {{player_name}}: input() to ask, print() to declare."
 "What you lack is the power to CHOOSE between them."
 
 dialogue:
-"He taps the gate twice with his staff."
-
-npc Old Man:
-"The gate will present a number."
-"If the number is 1, the path of Fire must open."
-"If the number is 2, the path of Water must open."
-"If the number is 3, the path of Nature must open."
-
-dialogue:
-"He pauses."
-"The symbols suddenly dim."
-
-npc Old Man:
-"But beware..."
-"If the traveler enters any other number..."
-"...the gate must reject the choice."
-
-dialogue:
-"The ancient runes rearrange themselves into a glowing command."
+"He taps the gate twice with his staff. The runes rearrange into a glowing command."
 "[Enter a number between 1, 2 and 3.]"
-"The old man turns toward you."
 
 npc Old Man:
-"The gate cannot think for itself."
-"It follows only the instructions it is given."
-"You must teach it how to choose."
+"One opens Fire. Two, Water. Three, Nature. Any other number, and the gate must refuse."
+"It cannot think for itself. It follows only the instructions it is given."
+"But not all at once. A choice between THREE begins as a choice between two."
+
+dialogue:
+"A single rune detaches from the arch and hovers at eye level, pulsing with a reading of raw power."
+
+system system:
+"MISSION"
+"One test, two outcomes. If the reading passes the threshold, name it. Otherwise, call it normal."
+
+mission: control_flow_intro
+
+npc Old Man:
+"Good. IF the condition holds, one road. ELSE, the other. There is no third door yet."
+"Now — the gate asks for three."
 
 dialogue:
 "The runes begin assembling into lines of unfinished code."
@@ -167,9 +105,7 @@ system system:
 "Anything else → 'Enter number between 1, 2 and 3.'"
 
 dialogue:
-"The old man steps back."
-"The gate waits in silence."
-"Only your code can decide which path will open."
+"The old man steps back. The gate waits in silence."
 
 mission: trial_of_choice
 
@@ -177,24 +113,30 @@ background: forest_gate.png
 
 dialogue:
 "Your code settles into the runes and holds."
-"The gate considers it — then, with a sound like a long-held breath released, all three symbols blaze at once."
-"Fire, Water, Nature: each in its place, each obeying the choice you taught it."
+"All three symbols blaze at once — Fire, Water, Nature, each obeying the choice you taught it."
 "The great stone doors shudder, and begin to part."
 
 npc Old Man:
-"After all these years..."
-"You taught it in a single sitting what I could not grasp in a lifetime of trying."
+"After all these years. You taught it in a single sitting what I could not grasp in a lifetime."
 
 dialogue:
-"He presses something into your hand — not gold, but a worn token etched with a single open eye."
+"He presses a worn token into your hand, etched with a single open eye."
 
 npc Old Man:
 "Knowledge, as I promised. The road ahead is long, and the Blight has walked it before you."
 "Bridges that will not hold. Caravans that have lost their order. Books that have forgotten their own names."
-"You have learned to CHOOSE, traveller. Now go, and learn to endure."
+"But you asked the gate a question today — 'is this one, or two, or three' — and it answered."
 
 dialogue:
-"Beyond the open gate, a forest path winds down toward a distant, mist-filled chasm."
+"He taps the token in your palm."
+
+npc Old Man:
+"Every question of that kind rests on something underneath: knowing which of two things is GREATER. Which is EQUAL. Which is neither."
+"Halvard has spent forty years on that one problem, and he will hand it to you in an afternoon."
+"Go east to the scales. Learn to weigh before you learn to endure."
+
+dialogue:
+"Beyond the open gate, a path winds east, toward a thin column of chimney smoke."
 "You step through."
 
 system level_up:

@@ -34,21 +34,15 @@ dialogue:
 "He upends a satchel. Crates tumble out and snap into a neat, numbered line."
 
 npc Quartermaster:
-"Now here's the thing that trips up every soft-handed hero the System sends me."
-"The satchel counts from ZERO. Not one. ZERO."
-"Slot zero is the first crate. Slot one is the SECOND. And on it goes."
-"A traveller asks me for the third crate, I reach into slot TWO. Every single time."
-
-npc Quartermaster:
-"Get it wrong — reach past the end of the line — and the satchel SCREAMS at you. 'Index out of range.' I hear it in my nightmares."
+"And here's what trips up every soft-handed hero the System sends me."
+"The satchel counts from ZERO. Slot zero is the FIRST crate. Ask me for the third, I reach into slot two."
+"Reach past the end and it SCREAMS at you. 'Index out of range.' I hear it in my nightmares."
 
 dialogue:
 "He shoves a loaded satchel into your arms."
 
 npc Quartermaster:
-"Travellers'll ask for a crate by its place in line — first, second, third — counting like people do."
-"You fetch it from the satchel, which counts from zero."
-"Mind the gap between the two. That gap has ended more careers than the Blight has."
+"Travellers count like people. Satchels count from zero. Mind the gap between the two."
 
 system system:
 "MISSION"
@@ -62,10 +56,12 @@ dialogue:
 "The Quartermaster watches, arms folded, and grunts what might — in a generous light — be approval."
 
 npc Quartermaster:
-"Huh. You counted from zero, and you didn't fall off the end."
-"That's more than I can say for the last six the System sent."
-"Go on. There's a blind archivist up the road who's been asking for hands that can count."
-"Tell her Gruff sent you. She won't remember the name, but she'll remember it's a name."
+"Huh. You counted from zero and didn't fall off the end. More than the last six managed."
+"But you've only READ from the line. You haven't packed one, or pulled from the back, or taken a whole run of crates in one reach."
+"Stay a while. There's more to a satchel than pointing at it — and the archivist up the road will expect you to know all of it."
+
+dialogue:
+"He is already dragging another satchel over, and does not appear to be asking."
 
 system level_up:
 "CHAPTER COMPLETE"

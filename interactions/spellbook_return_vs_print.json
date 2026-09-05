@@ -1,23 +1,39 @@
 {
   "interaction_id": "spellbook_return_vs_print",
-  "widget": "predict_output",
+  "widget": "fix_the_bug",
   "title": "The Spell's Gift",
-  "prompt": "A spell that computes but never RETURNS gives back nothing. Predict the result.",
+  "prompt": "The spell adds two numbers perfectly and gives back nothing at all. One word is missing.",
   "config": {
-    "rounds": [
+    "code": [
+      "def add(a, b):",
+      "    a + b",
+      "",
+      "print(add(2, 3))"
+    ],
+    "bug_line": 1,
+    "symptom": "it prints None, not 5.",
+    "line_hints": {
+      "0": "The spell is declared correctly and takes both reagents it needs.",
+      "3": "Calling and printing is right. The spell really does run — it just comes back empty-handed."
+    },
+    "fixes": [
       {
-        "code": "def add(a, b):\n    a + b\nprint(add(2, 3))",
-        "options": ["5", "None", "2 3", "error"],
-        "answer": 1,
-        "explain": "The function works out a + b but never RETURNS it — so it hands back None. A spell with no return gives nothing."
+        "text": "return a + b",
+        "correct": true,
+        "why": "The sum was computed and then dropped on the floor. `return` is what carries a value back out of the spell; without it every function hands back None."
       },
       {
-        "code": "def add(a, b):\n    return a + b\nprint(add(2, 3))",
-        "options": ["5", "None", "error"],
-        "answer": 0,
-        "explain": "With return, the result comes back: 5. return is the spell's gift to whoever called it."
+        "text": "print(a + b)",
+        "correct": false,
+        "why": "You would SEE 5 — then None underneath it. Printing shows a value to the room; returning gives it to the caller. Only one of those can be stored in a variable."
+      },
+      {
+        "text": "a = a + b",
+        "correct": false,
+        "why": "That changes a name that dies the moment the spell ends. Nothing leaves the room, and the caller still gets None."
       }
-    ]
+    ],
+    "success": "Printing speaks. Returning gives. Only what is given can be caught and used again."
   },
   "reward": { "xp": 20, "gold": 10 }
 }
