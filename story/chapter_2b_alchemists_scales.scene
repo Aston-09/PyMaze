@@ -109,7 +109,7 @@ npc Alchemist:
 
 system system:
 "MISSION"
-"Return True only if level is at least 5 AND has_key is True."
+"Store True in can_enter only if level is at least 5 AND has_key is True."
 
 mission: alchemist_wards
 
@@ -123,7 +123,8 @@ interactive: scales_final_recall
 
 npc Alchemist:
 "Arithmetic, a balance, and a ward, in one clean line. Off with you."
-"You're bound for the chasm, I'd wager. Do give my regards to whatever's still broken down there."
+"The road down runs into a cleft in the rock before it reaches the chasm. Mind what's in there."
+"Something went into that corridor a long while ago and has not yet worked out how to leave."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -136,4 +137,4 @@ gold: 40
 achievement: MASTER OF THE SCALES
 
 next:
-chapter_3_endless_bridge
+chapter_3b_echoing_halls

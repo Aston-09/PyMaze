@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useAdvanceKey from '../utils/useAdvanceKey';
 
 /**
  * SystemPanel — the System's voice as a bordered magical interface.
@@ -41,17 +42,7 @@ export default function SystemPanel({ variant = 'system', lines = [], onComplete
     return () => clearTimeout(t);
   }, []);
 
-  // Enter or Space should dismiss, same as the dialogue box.
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        onComplete?.();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onComplete]);
+  useAdvanceKey(onComplete);
 
   return (
     <div className="system-panel-stage">

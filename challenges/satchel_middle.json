@@ -4,20 +4,21 @@
   "difficulty": "easy",
   "title": "Everything But the Ends",
   "narrative": "The first crate is the decoy and the last is the seal. The Quartermaster wants everything BETWEEN them — in one clean slice.",
-  "instructions": "Write a function `middle(supplies)` that returns a new list with the FIRST and LAST crates removed, keeping everything in between.\n\n- `middle([\"a\", \"b\", \"c\", \"d\"])` returns `[\"b\", \"c\"]`.\n- If there is nothing in the middle, return an empty list `[]`.\n\nUse a single slice.",
-  "starting_code": "def middle(supplies):\n    # Return everything EXCEPT the first and last crate, using one slice.\n    return None\n",
-  "test_type": "function",
-  "function_name": "middle",
+  "instructions": "The System provides `supplies`, a list of crates. Do not assign it yourself.\n\nStore a new list in `middle` holding everything EXCEPT the first and last crate.\n\n- With `[\"a\", \"b\", \"c\", \"d\"]`, `middle` is `[\"b\", \"c\"]`.\n- If there is nothing in between, `middle` is the empty list `[]`.\n\nUse a single slice.",
+  "starting_code": "# `supplies` is provided by the System (do not reassign it).\n# Keep everything EXCEPT the first and last crate, using one slice.\n\nmiddle = \n",
+  "test_type": "script_variable",
+  "input_variable": "supplies",
+  "output_variable": "middle",
   "validation_tests": [
-    { "input": [["a", "b", "c", "d"]], "expected": ["b", "c"] },
-    { "input": [["a", "b", "c"]], "expected": ["b"] },
-    { "input": [["a", "b"]], "expected": [] },
-    { "input": [["x"]], "expected": [] }
+    { "input": ["a", "b", "c", "d"], "expected": ["b", "c"] },
+    { "input": ["a", "b", "c"], "expected": ["b"] },
+    { "input": ["a", "b"], "expected": [] },
+    { "input": ["x"], "expected": [] }
   ],
   "hints": [
     "Start the slice at slot 1 to drop the first crate.",
     "End the slice at -1 to drop the last crate (the end bound is not included).",
-    "`return supplies[1:-1]`.",
+    "`middle = supplies[1:-1]`.",
     "When the list has 0, 1, or 2 crates, [1:-1] is simply empty — which is exactly what you want."
   ],
   "reward": {

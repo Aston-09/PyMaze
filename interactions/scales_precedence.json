@@ -2,7 +2,7 @@
   "interaction_id": "scales_precedence",
   "widget": "predict_output",
   "title": "Order of Reagents",
-  "prompt": "Add the reagents in the wrong order and the mixture is ruined. Operators have an order too.",
+  "prompt": "Operators have an order, called precedence: * and / are worked out before + and -, and anything in brackets goes first. Predict each mixture.",
   "config": {
     "rounds": [
       {

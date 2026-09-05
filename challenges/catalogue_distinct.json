@@ -4,21 +4,22 @@
   "difficulty": "medium",
   "title": "How Many Truly Different Spells?",
   "narrative": "The grimoire has grown crowded — and the Cataloguer suspects some names point to the very same incantation. Count how many DIFFERENT incantations the book truly holds.",
-  "instructions": "Write a function `distinct_spells(grimoire)` that returns how many DISTINCT incantations (values) the grimoire holds.\n\nTwo different names may point to the same incantation — count each incantation only once.\n\n- `{\"fire\": \"Ignis\", \"hearth\": \"Ignis\", \"water\": \"Aqua\"}` has 2 distinct incantations.",
-  "starting_code": "def distinct_spells(grimoire):\n    # Count the DIFFERENT incantations. Two names can share one incantation;\n    # count each incantation once.\n    return None\n",
-  "test_type": "function",
-  "function_name": "distinct_spells",
+  "instructions": "The System provides `grimoire`, the dictionary. Do not assign it yourself.\n\nStore in `distinct_count` how many DISTINCT incantations (values) the grimoire holds.\n\nTwo different names may point to the same incantation — count each incantation only once.\n\n- `{\"fire\": \"Ignis\", \"hearth\": \"Ignis\", \"water\": \"Aqua\"}` has 2 distinct incantations.",
+  "starting_code": "# `grimoire` is provided by the System (do not reassign it).\n# Count the DIFFERENT incantations. Two names can share one incantation;\n# count each incantation once.\n\ndistinct_count = \n",
+  "test_type": "script_variable",
+  "input_variable": "grimoire",
+  "output_variable": "distinct_count",
   "validation_tests": [
-    { "input": [{ "fire": "Ignis", "hearth": "Ignis", "water": "Aqua" }], "expected": 2 },
-    { "input": [{ "a": "x" }], "expected": 1 },
-    { "input": [{}], "expected": 0 },
-    { "input": [{ "a": "1", "b": "2", "c": "3" }], "expected": 3 }
+    { "input": { "fire": "Ignis", "hearth": "Ignis", "water": "Aqua" }, "expected": 2 },
+    { "input": { "a": "x" }, "expected": 1 },
+    { "input": {}, "expected": 0 },
+    { "input": { "a": "1", "b": "2", "c": "3" }, "expected": 3 }
   ],
   "hints": [
     "Get all the incantations with `grimoire.values()`.",
     "Drop the repeats by turning them into a set: `set(grimoire.values())`.",
     "Count what's left with `len(...)`.",
-    "`return len(set(grimoire.values()))`."
+    "`distinct_count = len(set(grimoire.values()))`."
   ],
   "reward": {
     "xp": 75,

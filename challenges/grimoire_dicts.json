@@ -4,10 +4,11 @@
   "difficulty": "medium",
   "title": "The Grimoire of Names",
   "narrative": "The Cataloguer's spellbook cannot be read by position — only by name. Every spell-name points to its incantation. Ask by name, and ask kindly, so a name the book does not hold is a shrug, not a scream.",
-  "instructions": "Write a function `lookup(grimoire, spell_name)`.\n\n- `grimoire` is a dictionary mapping a spell-name (the key) to its incantation (the value).\n- `spell_name` is the name the traveller asks for.\n\nReturn the incantation stored under that name. If the grimoire does NOT contain the name, return the string `\"Unknown Spell\"` — do not let it crash.",
-  "starting_code": "def lookup(grimoire, spell_name):\n    # Fetch the incantation stored under `spell_name`.\n    # If the grimoire doesn't have it, return \"Unknown Spell\" (don't crash).\n    return None\n",
-  "test_type": "function",
-  "function_name": "lookup",
+  "instructions": "The System provides two things — do not assign either yourself:\n\n- `grimoire`, a dictionary mapping a spell-name (the key) to its incantation (the value).\n- `spell_name`, the name the traveller asks for.\n\nStore the incantation filed under that name in a variable called `incantation`. If the grimoire does NOT hold the name, `incantation` must be the string `\"Unknown Spell\"` — do not let it crash.",
+  "starting_code": "# `grimoire` and `spell_name` are provided by the System (do not reassign them).\n# Fetch the incantation filed under `spell_name`.\n# If the grimoire doesn't have it, use \"Unknown Spell\" (don't crash).\n\nincantation = \n",
+  "test_type": "script_variable",
+  "input_variable": "grimoire, spell_name",
+  "output_variable": "incantation",
   "validation_tests": [
     { "input": [{ "fire": "Ignis", "water": "Aqua", "nature": "Silva" }, "fire"], "expected": "Ignis" },
     { "input": [{ "fire": "Ignis", "water": "Aqua", "nature": "Silva" }, "nature"], "expected": "Silva" },
@@ -17,7 +18,7 @@
   "hints": [
     "Access a value by its key with square brackets: `grimoire[spell_name]` — but that CRASHES on a missing key.",
     "Instead use `.get`, which lets you hand back a default: `grimoire.get(spell_name, \"Unknown Spell\")`.",
-    "Return that directly: `return grimoire.get(spell_name, \"Unknown Spell\")`.",
+    "`incantation = grimoire.get(spell_name, \"Unknown Spell\")`.",
     "The kindness of `.get` is the same lesson as `try/except` later — a missing thing should be handled, not fatal."
   ],
   "reward": {

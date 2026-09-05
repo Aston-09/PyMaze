@@ -2,7 +2,7 @@
   "interaction_id": "catalogue_sort_mutable",
   "widget": "sort_types",
   "title": "What Can Be Changed?",
-  "prompt": "Sort each kind of thing: can you edit it in place, or is it sealed forever?",
+  "prompt": "Mutable means you can change it in place after making it; immutable means it is sealed the moment it exists. Sort each kind.",
   "config": {
     "bins": [
       { "id": "mut", "label": "Can Change", "hint": "edit it in place" },

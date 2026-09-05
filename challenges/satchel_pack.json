@@ -4,19 +4,20 @@
   "difficulty": "easy",
   "title": "Pack the Satchel",
   "narrative": "One more crate for the road. Add it to the end of the satchel and report how many crates it now carries.",
-  "instructions": "Write a function `pack(satchel, item)`.\n\n- Add `item` to the END of the `satchel` list.\n- Then return how many crates the satchel now holds.",
-  "starting_code": "def pack(satchel, item):\n    # Add `item` to the end of the satchel, then return how many crates it holds.\n    return None\n",
-  "test_type": "function",
-  "function_name": "pack",
+  "instructions": "The System provides `satchel` (a list) and `item` (the crate to add). Do not assign either yourself.\n\n- Add `item` to the END of the `satchel` list.\n- Then store how many crates the satchel now holds in a variable called `crate_count`.",
+  "starting_code": "# `satchel` and `item` are provided by the System (do not reassign them).\n# Add `item` to the end of the satchel, then count what it holds.\n\ncrate_count = \n",
+  "test_type": "script_variable",
+  "input_variable": "satchel, item",
+  "output_variable": "crate_count",
   "validation_tests": [
     { "input": [["Rope", "Torch"], "Bread"], "expected": 3 },
     { "input": [[], "Lantern"], "expected": 1 },
     { "input": [["Salt"], "Water"], "expected": 2 }
   ],
   "hints": [
-    "Add to the end with `satchel.append(item)`.",
+    "Add to the end with `satchel.append(item)` on its own line.",
     "Count the crates with `len(satchel)`.",
-    "Do them in order: append first, then `return len(satchel)`.",
+    "Do them in order: append first, then `crate_count = len(satchel)`.",
     "append changes the list in place — you don't need to reassign it."
   ],
   "reward": {

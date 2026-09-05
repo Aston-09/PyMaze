@@ -18,7 +18,14 @@ Each challenge defines:
 ### Python Evaluator
 Safely runs user-submitted Python code in an isolated environment (e.g., restricted `exec` globals).
 - **Function Testing:** The engine injects input data into a user-defined function and asserts the return value matches expected outputs.
-- **Script Variable Testing:** The engine populates variables in the global scope behind the scenes, runs the user's raw script (like an if/else block), and asserts that a specific output variable was set correctly by the user.
+- **Script Variable Testing:** The engine populates variables in the global scope behind the scenes, runs the user's raw script (like an if/else block), and asserts that a specific output variable was set correctly by the user. `input_variable` may name several variables, comma-separated, in which case each test case's `input` is a list bound to them positionally.
+
+> **Which type, and when.** Functions are not taught until chapter 7b, so no
+> mission before it may use `function` — a beginner should never meet `def` as
+> incidental scaffolding around the thing they are actually learning. Use
+> `script_variable` (with as many input names as the problem needs) up to that
+> point. `backend/test_solutions.py` enforces this and plays a model answer
+> through every one of those missions.
 
 ### DSA Evaluator
 For algorithmic challenges (e.g., "Longest Substring Without Repeating Characters"), the evaluator checks standard input/output sets and enforces time/space complexity limits where applicable.

@@ -4,31 +4,20 @@ background: night_forest.avif
 music: awakening.mp3
 
 dialogue:
-"Darkness."
-"..."
-"You slowly open your eyes."
-"A cold wind brushes against your face."
-"Wet grass beneath your hands. The smell of earth and pine."
+"Cold wind. Wet grass under your hands. You open your eyes."
 "Above you, through black branches, hang stars in shapes you do not recognise."
 
 background: night_valley.avif
 
 dialogue:
-"You sit up."
-"The trees fall away below you into a valley you have never seen."
-"Mountains stand black against a sky the colour of deep water."
-"A thin crescent moon rests above them — too small, and the wrong shape."
-"You don't remember how you got here."
-"You don't remember anything before this moment."
+"You sit up. A valley you have never seen, and a crescent moon the wrong shape above it."
+"You don't remember how you got here. You don't remember anything before this moment."
 
 background: ruins.png
 
 dialogue:
-"You turn."
-"Behind you, half-swallowed by the hillside, stand ancient ruins."
-"Broken columns. Stone worn smooth by centuries of weather."
-"Something deep inside them is still faintly glowing."
-"Suddenly..."
+"Behind you, half-swallowed by the hillside, ancient ruins are still faintly glowing."
+"Suddenly—"
 
 system arrival:
 "ISEKAI ARRIVAL"
@@ -38,6 +27,19 @@ system alarm:
 "SYSTEM INITIALIZING"
 "Welcome, Unknown Traveler."
 "Identity required."
+
+npc System:
+"Before you can be, you must be WRITTEN. This is how this world stores a thing."
+
+system skill_learned:
+"THE FIRST SYNTAX"
+"name = value"
+"A name on the left, an equals sign, and the value it is to hold on the right."
+
+npc System:
+"Text is wrapped in quotation marks — single or double, so long as they match. player_name = 'Aston'."
+"Numbers are written bare, with no quotes at all. hp = 100."
+"Nothing else is required of you yet. A name, an equals, a value — eight times over."
 
 npc System:
 "Please initialize your character."

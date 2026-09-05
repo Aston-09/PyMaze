@@ -2,26 +2,31 @@
   "challenge_id": "loops_intro",
   "topic": "Loops (For / While)",
   "difficulty": "medium",
-  "title": "The Infinite Spiral",
-  "narrative": "A strange mechanism with interlocking gears stands before you. To activate it, you must repeat a sequence of actions.",
-  "instructions": "The variable `n` is already provided by the System — do not assign it yourself, or you will overwrite the value being tested.\n\n- Create a list variable called `sequence`.\n- Write a `for` loop over a `range` from 1 to `n` (inclusive).\n- Append each number in the range to the `sequence` list.",
-  "starting_code": "# `n` is provided by the System (do not reassign it).\nsequence = []\n\n# Write your loop below:\n\n",
+  "title": "The Bridge That Forgot to Repeat",
+  "narrative": "The Blight unmade the bridge, and a bridge is only one plank laid again and again. Each plank must reach further than the last: the first spans 1 length, the second 2, the third 3. Total the span the crossing will cost.",
+  "instructions": "The variable `n` is already provided by the System — do not assign it yourself, or you will overwrite the value being tested.\n\n- A running total called `span` already starts at 0.\n- Write a `for` loop over a `range` from 1 to `n` (inclusive).\n- Add each number in that range to `span`.\n\nWhen the loop ends, `span` holds the whole crossing.",
+  "starting_code": "# `n` is provided by the System (do not reassign it).\nspan = 0\n\n# Write your loop below:\n\n",
   "test_type": "script_variable",
   "input_variable": "n",
-  "output_variable": "sequence",
+  "output_variable": "span",
   "validation_tests": [
     {
       "input": 5,
-      "expected": [1, 2, 3, 4, 5]
+      "expected": 15
     },
     {
       "input": 3,
-      "expected": [1, 2, 3]
+      "expected": 6
+    },
+    {
+      "input": 1,
+      "expected": 1
     }
   ],
   "hints": [
-    "Use 'for i in range(1, n + 1):'",
-    "Use 'sequence.append(i)' to add the number to the list."
+    "Use 'for plank in range(1, n + 1):'",
+    "Inside the loop, grow the total: 'span = span + plank'.",
+    "The total must start before the loop, or every turn would reset it."
   ],
   "reward": {
     "xp": 100,

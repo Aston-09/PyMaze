@@ -211,6 +211,22 @@ export default function SceneManager({ player, setPlayer }) {
     }
   }, [segmentIdx, segments.length, scene, advanceToScene]);
 
+  // A mission is preceded by the beats that taught it. This is where that
+  // teaching run starts, so a learner who fails can re-read it instead of
+  // grinding against a challenge they were never given the words for.
+  const lessonStart = useMemo(() => {
+    let idx = segmentIdx;
+    while (idx > 0 && (segments[idx - 1].kind === 'dialogue' || segments[idx - 1].kind === 'system')) {
+      idx--;
+    }
+    return idx;
+  }, [segmentIdx, segments]);
+
+  const backToLesson = useCallback(() => {
+    setSegmentIdx(lessonStart);
+    setMode('playing');
+  }, [lessonStart]);
+
   /** Skip all dialogues to the next task, system panel, or end of scene. */
   const skipToNextTask = useCallback(() => {
     let nextIdx = segmentIdx + 1;
@@ -372,6 +388,7 @@ export default function SceneManager({ player, setPlayer }) {
             key={segmentIdx}
             challenge={challenge}
             onSuccess={handleChallengeSuccess}
+            onBack={lessonStart < segmentIdx ? backToLesson : null}
           />
         </main>
       )}

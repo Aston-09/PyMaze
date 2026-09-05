@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useAdvanceKey from '../utils/useAdvanceKey';
 
 /**
  * DialogueBox — RPG-style typewriter dialogue renderer.
@@ -66,6 +67,8 @@ export default function DialogueBox({ dialogues, onComplete, onSkipAll }) {
     // All done
     onComplete?.();
   };
+
+  useAdvanceKey(handleContinue);
 
   if (!currentDialogue) return null;
 

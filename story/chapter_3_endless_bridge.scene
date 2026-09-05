@@ -4,7 +4,7 @@ background: forest_gate.png
 music: mystery_forest.mp3
 
 dialogue:
-"Beyond the Gate of Choices the forest thins, and the path simply... stops."
+"Beyond the Echoing Halls the forest thins, and the path simply... stops."
 
 background: valley_vista.jpg
 
@@ -28,8 +28,8 @@ system notification:
 "Build a path across the Blighted chasm."
 
 dialogue:
-"Far across the divide, a figure in a warden's cloak paces — three steps forward, three steps back."
-"He never gets anywhere. He never stops. You call out; he does not hear."
+"The Warden reaches the cliff's lip ahead of you, looks down, and for the first time since you met him, stands perfectly still."
+"'An age of walking,' he says, 'and the one stretch I never had to cross was the one that isn't there.'"
 
 npc System:
 "The bridge was not broken, Traveller. It was UNMADE. It has forgotten how to repeat itself."
@@ -39,12 +39,13 @@ dialogue:
 "The pillar's carvings flare to life."
 
 npc System:
-"To repeat an action is to LOOP. Name a count, from one up to the width of the gap."
-"For each number in that count, lay a single plank. In order, none skipped, none repeated."
+"You know the shape of this, Traveller. A count, and a body that runs once for every number in it."
+"Each plank must reach further than the last: the first spans one length, the second two, the third three."
+"Total them, and the crossing is paid for."
 
 system system:
 "MISSION"
-"Loop from 1 to n. Lay each plank, in order, into the bridge."
+"Loop from 1 to n, adding each number to span."
 
 mission: loops_intro
 
@@ -55,25 +56,23 @@ dialogue:
 background: deep_forest.jpg
 
 dialogue:
-"The pacing warden still walks his three steps, trapped in a loop that never learned to end."
-"He watches you pass with hollow, envious eyes."
+"The Warden crosses behind you, slowly, testing every plank with his boot as though he still cannot believe a thing can end."
 
 background: warden
 
 npc Warden:
-"You gave your loop a place to STOP, traveller. I never did. Mine has no way out."
-"You counted to a number and finished. I set myself a condition that can never turn false."
-"There is a difference between a loop that COUNTS and a loop that WAITS — and the second one is what ate me."
-"...Remember that, when someone finally teaches you the word 'break'."
+"A count, and a plank for every number in it. That is my corridor, turned honest."
+"I paced an age because I never gave my loop a place to STOP. You gave yours one before you laid a single board."
+"Do that with every loop you write, traveller. Ask it where it ends before you ask it what it does."
 
 dialogue:
-"He resumes his pacing. Three steps. Three steps back."
-"You want to help him, and you do not yet know how."
+"He turns north, whistling something tuneless, and is gone into the trees."
+"The road ahead runs east — and somewhere along it, a great deal of shouting is going on."
 
 system level_up:
 "CHAPTER COMPLETE"
 "The Endless Bridge"
-"Applied: for loops · range · building a sequence"
+"Applied: for loops · range · a running total"
 
 reward:
 xp: 100
@@ -81,4 +80,4 @@ gold: 40
 achievement: BRIDGE-BUILDER
 
 next:
-chapter_3b_echoing_halls
+chapter_4b_satchel_of_slots

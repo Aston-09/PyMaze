@@ -2,7 +2,7 @@
   "interaction_id": "catalogue_membership",
   "widget": "predict_output",
   "title": "Does the Book Know It?",
-  "prompt": "You can ask a dictionary whether it holds a name at all, and how many it keeps.",
+  "prompt": "'in' asks a yes/no question — is this name in the book at all? len() counts how many pairs the book holds. Predict each answer.",
   "config": {
     "rounds": [
       {

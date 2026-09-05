@@ -4,13 +4,22 @@ background: ancient_library.png
 music: wisdom_theme.mp3
 
 dialogue:
-"You have one foot toward the west door when the Cataloguer's voice stops you, gentle and certain."
+"The road climbs to a squat stone archive, half-swallowed by ivy. Inside, shelves run off in every direction, in no order you can see."
+"An old woman sits at the centre, eyes clouded white, hands moving over a great locked book as though reading a face."
 
 background: cataloguer
 
 npc Cataloguer:
-"A moment, child. You can OPEN my book now. You cannot yet KEEP one."
-"Sit with a blind woman a while. Let me show you how knowledge is filed when you cannot see the shelves."
+"Come in, come in. Mind the third shelf — it bites."
+"You're the one Gruff sent. He counts from zero. I don't count at all."
+
+npc You:
+"You're... blind. How do you find anything in here?"
+
+npc Cataloguer:
+"By its NAME, child. Never by where it sits."
+"Gruff's satchels are fine things — if you can SEE which slot you want. I cannot, so I keep knowledge another way."
+"Sit with a blind woman a while. Let me show you how it is filed when you cannot see the shelves."
 
 system skill_learned:
 "MODULE UNLOCKED"
@@ -75,7 +84,7 @@ npc Cataloguer:
 
 system system:
 "MISSION"
-"Return True if the grimoire holds a spell under `name`, else False."
+"Store True in book_knows if the grimoire holds a spell under `name`, else False."
 
 mission: catalogue_lookup
 
@@ -92,7 +101,7 @@ npc Cataloguer:
 
 system system:
 "MISSION"
-"Return how many distinct incantations (values) the grimoire holds."
+"Store in distinct_count how many distinct incantations (values) the grimoire holds."
 
 mission: catalogue_distinct
 
@@ -112,8 +121,8 @@ interactive: catalogue_final_recall
 
 npc Cataloguer:
 "Values out, duplicates gone, counted. That is the catalogue entire, and you carry it now."
-"Go west now, truly. The loom-woman is waiting, and she'll not make it easy — she never speaks plainly."
-"Listen past her riddles. The lesson underneath is always kind."
+"So. The great book on my table has been locked since the Blight came through, and it answers only to names."
+"Open it for me, child. You have every word you need."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -126,4 +135,4 @@ gold: 45
 achievement: NO TWO THE SAME
 
 next:
-chapter_6_riddle_weaver
+chapter_5_locked_grimoire

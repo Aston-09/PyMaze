@@ -2,7 +2,7 @@
   "interaction_id": "workshop_read_global",
   "widget": "predict_output",
   "title": "A Whisper From Outside",
-  "prompt": "A spell can READ what was set out in the main hall. Predict what it sees.",
+  "prompt": "A name created outside every function is global — the whole hall can see it, and a spell can READ it without being handed it. Predict what it sees.",
   "config": {
     "rounds": [
       {

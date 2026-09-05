@@ -77,6 +77,7 @@ type.
 | `test: variables` | `variables` | reads the `variables:` block into `expected_variables` |
 | `test: variables stats` | `variables` | + `applies_stats = True` |
 | `test: script in=nums out=total` | `script_variable` | `input_variable = "nums"`, `output_variable = "total"` |
+| `test: script in=level,has_key out=verdict` | `script_variable` | two injected names, bound positionally from each test's list input |
 | `test: output in=name` | `script_output` | `input_variable = "name"` |
 
 What each type does at run time:
@@ -85,6 +86,9 @@ What each type does at run time:
   test case and compares the return value.
 - **`script_variable`** — the engine injects `input_variable` into the script's
   globals, runs the learner's raw script, then reads `output_variable` back out.
+  Comma-separate the names (`in=grimoire,spell_name`) to inject several: the
+  test case's `input` is then a list, spread across those names in order. This
+  is how a two-input problem is posed without asking for a `def`.
   Never assign the injected name in `code:` — the starter code would shadow
   every test case after the first, and startup validation flags it.
 - **`variables`** — no test cases; the learner declares raw variables and each

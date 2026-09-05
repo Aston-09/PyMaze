@@ -4,20 +4,12 @@ background: ancient_library.png
 music: wisdom_theme.mp3
 
 dialogue:
-"The road climbs to a squat stone archive, half-swallowed by ivy. Inside, shelves run off in every direction, in no order you can see."
-"An old woman sits at the centre, eyes clouded white, hands moving over a great locked book as though reading a face."
+"She lays her palm flat on the great book. Its iron lock clicks open — and the pages inside are a storm of names with nothing yet binding them."
 
 background: cataloguer
 
 npc Cataloguer:
-"Come in, come in. Mind the third shelf — it bites."
-"You're the one Gruff sent. He counts from zero. I don't count at all."
-
-npc You:
-"You're... blind. How do you find anything in here?"
-
-npc Cataloguer:
-"By its NAME, child. Never by where it sits."
+"There. Now it is only a dictionary, and you know dictionaries."
 
 system notification:
 "NEW QUEST"
@@ -25,15 +17,8 @@ system notification:
 "Open the spellbook that answers only to names."
 
 npc Cataloguer:
-"Gruff's satchels are fine things — if you can SEE which slot you want. I cannot."
-"So I keep knowledge another way. Not a line: a set of PAIRS."
-"Every spell has a name, and every name points to its incantation."
-
-dialogue:
-"She lays her palm flat on the grimoire. Its iron lock clicks open."
-
-npc Cataloguer:
-"That is a dictionary. You never ask 'what is in slot two?' — you ask 'what answers to the name FIRE?'"
+"Every spell in it has a name, and every name points to its incantation."
+"You never ask 'what is in slot two?' — you ask 'what answers to the name FIRE?'"
 "A key. A value. Say the key; receive the value, wherever it happens to sit."
 "But ask for a name the book does not hold, and a lesser book would shriek and slam shut."
 "Ask with GET instead, and hand it a word to say when it knows nothing. Then a missing spell is only a shrug."
@@ -43,7 +28,7 @@ dialogue:
 
 system system:
 "MISSION"
-"Look up a spell by name. Use .get so an unknown name returns 'Unknown Spell' instead of crashing."
+"Look up a spell by name. Use .get so an unknown name gives 'Unknown Spell' instead of crashing."
 
 mission: grimoire_dicts
 
@@ -52,11 +37,10 @@ dialogue:
 "Then you speak one the book has never held — and instead of shrieking it murmurs 'Unknown Spell' and waits."
 
 npc Cataloguer:
-"There. You've learned to ask by name — and to ask kindly."
+"There. You've asked by name — and asked kindly."
 "That second part matters more. The Blight, at bottom, is only unhandled screaming."
-"But asking is the smallest part of a catalogue. Stay, and I will show you the rest of it."
-"How to ask whether a name is here at all before you reach. How to seal a pair so it can never be altered. How to hold a shelf that refuses to keep the same thing twice."
-"An archivist who can only fetch is a servant. One who can do all four is an archivist."
+"Go west now. The loom-woman is waiting, and she'll not make it easy — she never speaks plainly."
+"Listen past her riddles. The lesson underneath is always kind."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -69,4 +53,4 @@ gold: 50
 achievement: SPEAKER OF NAMES
 
 next:
-chapter_5b_card_catalogue
+chapter_6b_loom_of_words

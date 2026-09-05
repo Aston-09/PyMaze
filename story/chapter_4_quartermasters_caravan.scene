@@ -4,22 +4,13 @@ background: green_valley.jpg
 music: mystery_forest.mp3
 
 dialogue:
-"The forest opens onto a trade road, and the trade road is a disaster."
-"A caravan sits stranded — wagons half-loaded, crates strewn across the verge in no order at all."
-"A broad, grizzled man stamps up and down the line, counting on his fingers and swearing at them."
+"Outside, the caravan is exactly as ruinous as when you arrived: crates on the verge, wagons half-loaded, the manifest a rumour."
+"A queue of travellers has formed along the road, and every one of them wants a particular crate."
 
 background: quartermaster
 
 npc Quartermaster:
-"Nine! No — eight. BAH."
-"Every crate in the wrong wagon, every wagon in the wrong place."
-"The Blight came through and scrambled my whole manifest. Now the satchels can't remember what sits WHERE."
-
-dialogue:
-"He notices you standing there."
-
-npc Quartermaster:
-"You. You've got the look of someone the System still talks to. Make yourself useful."
+"Right. Everything I drilled into you, on real crates, with real people waiting."
 
 system notification:
 "NEW QUEST"
@@ -27,15 +18,8 @@ system notification:
 "Restore order to the caravan's satchels."
 
 npc Quartermaster:
-"A satchel isn't a HEAP, traveller. It's a LINE."
-"First slot, second slot, third — order kept, always. That's a list. Things in a row, and the row remembers."
-
-dialogue:
-"He upends a satchel. Crates tumble out and snap into a neat, numbered line."
-
-npc Quartermaster:
-"And here's what trips up every soft-handed hero the System sends me."
-"The satchel counts from ZERO. Slot zero is the FIRST crate. Ask me for the third, I reach into slot two."
+"They'll ask you for the third crate. The satchel keeps the third crate in slot TWO."
+"That gap is where every soft-handed hero the System sends me falls over."
 "Reach past the end and it SCREAMS at you. 'Index out of range.' I hear it in my nightmares."
 
 dialogue:
@@ -46,7 +30,7 @@ npc Quartermaster:
 
 system system:
 "MISSION"
-"Return the crate a traveller asks for — remembering the satchel counts from 0."
+"Store the crate a traveller asks for in `crate` — remembering the satchel counts from 0."
 
 mission: caravan_lists
 
@@ -57,11 +41,11 @@ dialogue:
 
 npc Quartermaster:
 "Huh. You counted from zero and didn't fall off the end. More than the last six managed."
-"But you've only READ from the line. You haven't packed one, or pulled from the back, or taken a whole run of crates in one reach."
-"Stay a while. There's more to a satchel than pointing at it — and the archivist up the road will expect you to know all of it."
+"Go on to the archivist up the road. Tell her Gruff finally sent someone who can count."
+"And tell her the third shelf still bites. She'll know."
 
 dialogue:
-"He is already dragging another satchel over, and does not appear to be asking."
+"The last crate goes into the last wagon. The caravan rolls, and the road east is clear."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -74,4 +58,4 @@ gold: 45
 achievement: KEEPER OF ORDER
 
 next:
-chapter_4b_satchel_of_slots
+chapter_5b_card_catalogue

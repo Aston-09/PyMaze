@@ -2,7 +2,7 @@
   "interaction_id": "scales_arithmetic",
   "widget": "predict_output",
   "title": "Mixing Reagents",
-  "prompt": "The Alchemist mixes numbers the way he mixes reagents. Predict what each blend yields.",
+  "prompt": "The Alchemist mixes numbers the way he mixes reagents. // divides and throws away the remainder, % keeps ONLY the remainder, and ** raises to a power. Predict each blend.",
   "config": {
     "rounds": [
       {

@@ -82,6 +82,10 @@
 body {
   font-family: var(--font-sans);
   font-size: 17px;
+  /* Fira Code ligatures fuse == into a single long bar — the one character
+     pair a learner most needs to tell apart from =. Off, everywhere. */
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.65;
@@ -224,11 +228,12 @@ strong { color: var(--ink); font-weight: 600; }
 .main-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(0, 1fr);
   gap: 1.25rem;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  padding-bottom: 1rem;
+  overflow: hidden;
+  padding-bottom: 0.5rem;
   padding-right: 0.5rem;
 }
 
@@ -893,8 +898,8 @@ strong { color: var(--ink); font-weight: 600; }
    ============================================================ */
 .interaction-stage {
   flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 1.25rem; padding: 1.5rem;
+  align-items: center; justify-content: flex-start;
+  gap: 1rem; padding: 1.25rem;
   overflow-y: auto;
 }
 
@@ -916,9 +921,21 @@ strong { color: var(--ink); font-weight: 600; }
   color: var(--ink-faded);
 }
 
-.interaction-footer {
+/* A long question plus its options can outrun the panel, and the button that
+   says what to do next was landing below the fold. Sticky keeps it on screen
+   while the question above it stays scrollable. */
+/* Under the Continue button, so nobody hunts for the way forward. */
+.advance-hint {
+  font-size: 0.8rem; color: var(--ink-faded); font-style: italic;
+}
+
+.interaction-footer, .predict-next {
+  position: sticky; bottom: 0; z-index: 2;
+  align-self: stretch;
   display: flex; flex-direction: column; align-items: center;
   gap: 0.75rem; margin-top: 0.5rem;
+  padding: 0.75rem 0 0.25rem;
+  background: linear-gradient(to top, var(--paper) 70%, transparent);
 }
 
 .interaction-resolve {
@@ -1046,7 +1063,7 @@ strong { color: var(--ink); font-weight: 600; }
   padding: 0.45rem 0.85rem;
   min-height: 40px;
   display: inline-flex; align-items: center;
-  cursor: grab;
+  cursor: pointer;
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   color: var(--ink);
@@ -1059,8 +1076,22 @@ strong { color: var(--ink); font-weight: 600; }
 .token.is-wrong { animation: shake 0.4s ease; border-color: var(--seal-red); }
 
 .bin-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.9rem; width: 100%; max-width: 760px;
+}
+
+/* Which of the two taps the player is on — invisible otherwise. */
+.sort-step {
+  font-size: 1rem; color: var(--ink-soft); text-align: center;
+  margin: 0;
+}
+.sort-step strong { font-family: var(--font-mono); color: var(--ink); }
+
+.sort-miss {
+  font-size: 0.95rem; color: var(--seal-red);
+  text-align: center; margin: 0;
+  animation: fadeIn 0.3s ease;
 }
 
 .bin {
@@ -1172,10 +1203,21 @@ strong { color: var(--ink); font-weight: 600; }
   box-shadow: var(--shadow-press);
 }
 
-.predict-options { display: flex; flex-direction: column; gap: 0.6rem; }
+/* The question, set apart from both the code above it and the answers
+   below — the three used to run together as one block of text. */
+.predict-ask {
+  font-family: var(--font-rpg); font-size: 1.05rem;
+  color: var(--ink); text-align: left;
+  letter-spacing: 0.02em; margin: 0;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(176, 130, 47, 0.4);
+}
+
+.predict-options { display: flex; flex-direction: column; gap: 0.55rem; }
 
 .predict-option {
   text-align: left; width: 100%;
+  display: flex; align-items: center; gap: 0.75rem;
   font-family: var(--font-mono); font-size: 0.95rem;
   background: var(--paper-raised);
   border: 1px solid var(--paper-edge);
@@ -1185,6 +1227,17 @@ strong { color: var(--ink); font-weight: 600; }
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
 }
+/* The lettered chip is what makes a line read as a choice rather than prose. */
+.predict-key {
+  flex: none; width: 1.7rem; height: 1.7rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-rpg); font-size: 0.8rem;
+  border: 1px solid var(--paper-edge); border-radius: var(--radius-full);
+  background: var(--paper); color: var(--ink-soft);
+}
+.predict-option.is-correct .predict-key { border-color: var(--moss); color: var(--moss); }
+.predict-option.is-wrong .predict-key { border-color: var(--seal-red); color: var(--seal-red); }
+
 .predict-option:hover:not(:disabled) { transform: translateX(3px); border-color: var(--gold); }
 .predict-option:disabled { cursor: default; }
 .predict-option.is-correct { border-color: var(--moss); background: rgba(77, 107, 63, 0.12); }

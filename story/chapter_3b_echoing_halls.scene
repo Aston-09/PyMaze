@@ -4,7 +4,7 @@ background: deep_forest.jpg
 music: mystery_forest.mp3
 
 dialogue:
-"The far side of the bridge narrows into a cleft in the rock, and the cleft becomes a corridor."
+"The road down from the Alchemist's tower narrows into a cleft in the rock, and the cleft becomes a corridor."
 "Stone walls close overhead. The daylight gives up behind you."
 "Ahead, the same short stretch of floor plays out again and again — footsteps that arrive without anyone walking."
 "The Echoing Halls."
@@ -12,13 +12,13 @@ dialogue:
 background: ruins.png
 
 dialogue:
-"And there he is. The warden from across the chasm."
+"And there he is. A man in a warden's cloak, pacing."
 "Three steps forward. Three steps back. Three steps forward. His boots have worn a groove in the stone."
 
 background: warden
 
 npc Warden:
-"You crossed. Good for you."
+"Another one. Don't stand in the groove, you'll only slow me down."
 "I built this corridor to guard the pass. Set myself to patrol it — forever, I thought, nobly."
 "I never wrote myself a way to STOP. Now the corridor patrols ME."
 
@@ -113,19 +113,19 @@ npc Warden:
 
 dialogue:
 "— PROVE IT — THE CURSED DOOR —"
-"The corridor rearranges into a straight line of numbered doors, one of them marked with a dark, cursed zero."
+"The corridor rearranges into a straight run of numbered doors — first, second, third — and one of them wears a dark mark."
 
 npc Warden:
-"Walk them. Count them. And when you reach the cursed door, do the thing I could not — STOP."
+"Walk them in order. Count them. And when you reach the marked door, do the thing I could not — STOP."
 
 system system:
 "MISSION"
-"Walk the doors, counting each. break the instant you reach a door equal to 0."
+"Count the doors from 1 to door_count. break the instant you reach cursed_door."
 
 mission: halls_doors_break
 
 dialogue:
-"You open door after door, and at the cursed zero you simply... stop."
+"You open door after door, and at the marked one you simply... stop."
 "The corridor exhales. It has never seen anyone stop before."
 
 npc Warden:
@@ -170,6 +170,8 @@ interactive: halls_final_recall
 
 npc Warden:
 "While, a count that grows, and a break for the door. All of it, at once. It's yours."
+"Now come and spend it. Past the archway the ground stops — the Blight ate the bridge that used to cross there."
+"And a bridge is only one plank, laid again and again. You know how to say 'again' now."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -182,4 +184,4 @@ gold: 40
 achievement: BREAKER OF CURSES
 
 next:
-chapter_4_quartermasters_caravan
+chapter_3_endless_bridge

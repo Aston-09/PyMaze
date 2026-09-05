@@ -2,7 +2,7 @@
   "interaction_id": "loom_slice",
   "widget": "predict_output",
   "title": "The Ribbon of Runes",
-  "prompt": "A word is a ribbon of runes, counted from zero. Predict which runes you cut.",
+  "prompt": "A word is a ribbon of runes counted from zero, so word[0] is the first. A slice like word[:4] cuts from the start UP TO but not including position 4. Predict which runes you cut.",
   "config": {
     "rounds": [
       {

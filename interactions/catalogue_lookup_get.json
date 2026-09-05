@@ -2,7 +2,7 @@
   "interaction_id": "catalogue_lookup_get",
   "widget": "predict_output",
   "title": "Ask by Name",
-  "prompt": "The grimoire answers to names, not positions. Predict what it hands back.",
+  "prompt": "The grimoire answers to names, not positions: spells['fire'] fetches by key. .get(key, fallback) does the same, but hands back the fallback instead of an error when the key is missing.",
   "config": {
     "rounds": [
       {

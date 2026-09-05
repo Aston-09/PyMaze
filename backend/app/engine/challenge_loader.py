@@ -138,7 +138,16 @@ def _param_count(code: str, function_name: str) -> Optional[int]:
     return None
 
 
-def _assigns(code: str, name: str) -> bool:
-    """True if `code` contains a top-level assignment to `name`."""
-    pattern = rf"^{re.escape(name)}\s*(?::[^=]+)?=(?!=)"
-    return re.search(pattern, code, re.MULTILINE) is not None
+def _assigns(code: str, names: str) -> bool:
+    """True if `code` contains a top-level assignment to any injected name.
+
+    `names` is one variable name, or several comma-separated — the form a
+    challenge uses when it hands the learner two ready-made inputs.
+    """
+    for name in (n.strip() for n in names.split(",")):
+        if not name:
+            continue
+        pattern = rf"^{re.escape(name)}\s*(?::[^=]+)?=(?!=)"
+        if re.search(pattern, code, re.MULTILINE):
+            return True
+    return False
