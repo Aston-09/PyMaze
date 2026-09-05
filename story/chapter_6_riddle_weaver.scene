@@ -4,9 +4,8 @@ background: night_valley.avif
 music: mystery_forest.mp3
 
 dialogue:
-"West, as the Cataloguer said, the land turns strange and soft."
-"Threads of light hang in the air like spider-silk, and every one is strung with tiny glowing runes."
-"At the centre of the web sits a woman at an enormous loom, weaving the threads into sentences and unpicking them again."
+"West, the land turns strange and soft. Threads of light hang in the air, each strung with tiny glowing runes."
+"At the centre of the web a woman works an enormous loom, weaving threads into sentences and unpicking them again."
 
 background: riddle_weaver
 
@@ -26,27 +25,22 @@ system notification:
 "Weave a name from the ribbon of runes."
 
 npc Riddle Weaver:
-"Words are not LUMPS, child. They are RIBBONS."
-"A ribbon of runes, each in its place — first rune, second, third — a line you can cut."
+"Words are not LUMPS, child. They are RIBBONS — runes in a row, a line you can cut."
 
 dialogue:
-"She plucks a single thread from the loom. Runes run along its length, bright and small and ordered."
+"She plucks a thread from the loom. Runes run along its length, bright and small and ordered."
 
 npc Riddle Weaver:
 "Take only the runes you want. A SLICE, from here to there, and the rest falls away."
-"The first few runes of a long word — cut them free, and you may hold a truer, shorter name hidden inside it."
-
-npc Riddle Weaver:
-"And when you have your name, you do not merely SHOW it, cold and bare."
-"You WEAVE it — into a sentence, a greeting, a key. A thread of your own words wrapped snug around the name you found."
+"Cut the first few runes of a long word, and you may hold a truer name hidden inside it."
+"Then do not merely SHOW it, cold and bare. WEAVE it — your own words wrapped snug around the name you found."
 
 dialogue:
-"Ahead, a final gate stands sealed. Across its face, a long ribbon of runes waits to be read."
+"Ahead a final gate stands sealed, a long ribbon of runes across its face."
 
 npc Riddle Weaver:
-"The gate hides a name inside a longer word — its first four runes, no more."
-"Slice the name loose. Then weave it into the words that open the way:"
-"'The gate opens for —' and then the name, and then a full stop, like a knot tied off."
+"The gate hides a name in its first four runes. Slice it loose, then weave it into the words that open the way:"
+"'The gate opens for —' and then the name, and a full stop, like a knot tied off."
 
 system system:
 "MISSION"
@@ -55,9 +49,8 @@ system system:
 mission: riddle_strings
 
 dialogue:
-"You cut the first four runes loose. They hang shining in the air — a name, at last."
-"Then you wrap your own words around them and speak the woven sentence aloud."
-"The runes across the gate rearrange themselves to match — and the gate, at last, swings open."
+"You cut the first four runes loose — a name, at last — wrap your words around them, and speak."
+"The runes rearrange to match, and the gate swings open."
 
 background: night_forest.avif
 
@@ -66,11 +59,13 @@ dialogue:
 
 npc Riddle Weaver:
 "There. Cut, and woven, and spoken true."
-"The lazy one lives up there — the Enchanter. He'll not thank you for climbing all this way."
-"But he holds one last art none of the rest of us could teach: how to never do a thing twice."
+"But you have used one motion of the loom, and the loom has many."
+"To split a ribbon where it breathes. To join the pieces back. To raise a thread loud, or lay it low."
+"And the hardest: to know that a thread once spun can never be recut — only respun."
+"Sit. The tower is not going anywhere, and the lazy one up there will expect a weaver, not an apprentice."
 
 dialogue:
-"You set your eyes on the golden window high above, and begin to climb."
+"High above, the golden window burns on, patient."
 
 system level_up:
 "CHAPTER COMPLETE"

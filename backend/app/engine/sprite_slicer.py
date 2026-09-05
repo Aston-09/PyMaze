@@ -8,19 +8,32 @@ so the frontend's existing frame-cycling code (built for background
 locations) animates character portraits too, with no code change per
 character.
 
-It then mattes each frame: every portrait was generated on a "flat/
-transparent background", but the source files are JPEG, which cannot hold
-real alpha — so the generator baked its transparency placeholder in as a
-literal grey-and-white checkerboard. Left alone, that checkerboard would
-fill the whole screen behind every character. This swaps it for a soft
-vignette instead, classifying each connected patch of checkerboard-like
-pixels by size: a small patch (a grey belt buckle, a silver armor plate)
-is left alone regardless of where it sits, while a large patch is treated
-as background even if a coiled tail or a spread wing fully encloses it and
-it never touches the frame's edge.
+The generator has no real alpha to give: it draws "transparent" as a literal
+grey checkerboard, baked into the pixels. There are two ways to take that
+back out, and which one applies depends only on the file format the art
+arrived in.
 
-Run after dropping new art into assets/characters/<name>/:
+**PNG (preferred) — `cut_from_checkerboard`.** The checkerboard survives
+intact, and that makes it an asset rather than a nuisance: two known backdrop
+tones turn the compositing equation into something solvable, so alpha is
+*measured* rather than guessed, and a glow or a feathered wing comes out
+exactly as drawn. Drop sheets in art_prompts/incoming/ and run:
+
+    python -m app.engine.sprite_slicer --cut-incoming
+
+**JPEG (legacy) — `matte_all` + `dematte_all`.** Compression smears the
+checkerboard into a gradient, so its two tones can no longer be told apart
+and the equation above has nothing to bite on. All that is left is to guess a
+threshold: paint a vignette over whatever looks like background, then subtract
+that vignette again. It works on flat art and fails on anything with a glow,
+which is why `crystal` and `system` still carry visible speckle. Art that
+matters should be re-exported as PNG and run through the path above.
+
+Run after dropping new JPEG art into assets/characters/<name>/:
     python -m app.engine.sprite_slicer
+
+Verify the maths against synthetic ground truth:
+    python -m app.engine.sprite_slicer --selfcheck
 
 Safe to re-run: slicing skips a folder that already holds frame_*.jpg/png
 files, and matting skips a folder that already has a `.matted` marker.
@@ -609,6 +622,422 @@ def dematte_all(characters_dir: Path = CHARACTERS_DIR) -> list:
     return log
 
 
+# ---------------------------------------------------------------------------
+# Putting a folder's frames back on one canvas
+# ---------------------------------------------------------------------------
+#
+# Art arrives cropped frame by frame, each PNG trimmed to its own drawing, so
+# `warden` alone spans 522x519 down to 472x505. The frontend draws a character
+# with `background-size: contain`, which fits every frame to *its own* box: a
+# narrower frame is scaled up more, and the figure jumps in size and sideways
+# on every swap. No CSS fixes that, because what the trimming threw away —
+# where each drawing sat on the canvas the artist worked on — is not in the
+# file any more.
+#
+# It is recoverable. Consecutive frames of one loop are the same drawing with
+# small changes, so the offset that best re-overlaps two frames is the offset
+# the trim removed. Phase correlation over the alpha masks finds it in one FFT
+# per frame, and every frame is matched against frame 1 directly, so error
+# cannot accumulate along a long loop. On the art in this repo, mask overlap
+# with frame 1 rises from 0.30-0.77 to 0.72-0.99.
+
+# Correlate at this size rather than full resolution. The residual is one
+# probe pixel, i.e. ~2px on a 2000px sprite — well under a screen pixel once
+# the frame is fitted to the viewport, and it keeps a 2200x2067 folder from
+# building four 70MB float planes.
+_REGISTER_PROBE = 1024
+
+
+def _frames_in(folder: Path) -> list:
+    """Every image in `folder`, in the order the frontend will play them."""
+    return sorted(
+        (p for p in folder.iterdir() if p.suffix.lower() in IMAGE_EXTS),
+        key=_frame_index,
+    )
+
+
+def _alpha_plane(im: Image.Image, shape: tuple, scale: float):
+    """One frame's alpha, shrunk by `scale` and zero-padded to `shape`."""
+    import numpy as np
+
+    alpha = im.getchannel("A")
+    if scale < 1:
+        alpha = alpha.resize(
+            (max(1, round(im.width * scale)), max(1, round(im.height * scale)))
+        )
+    mask = np.asarray(alpha, dtype=np.float32) / 255.0
+    plane = np.zeros(shape, np.float32)
+    plane[: mask.shape[0], : mask.shape[1]] = mask
+    return plane
+
+
+def _register_offsets(frames: list) -> list:
+    """(dx, dy) per frame, placing each drawing where frame 1 has it."""
+    import numpy as np
+
+    # Padded to twice the largest frame so a shift can never wrap around the
+    # correlation and come back reading as its own opposite.
+    span_x = max(f.width for f in frames) * 2
+    span_y = max(f.height for f in frames) * 2
+    scale = min(1.0, _REGISTER_PROBE / max(span_x, span_y))
+    shape = (max(1, round(span_y * scale)), max(1, round(span_x * scale)))
+
+    anchor = np.fft.rfft2(_alpha_plane(frames[0], shape, scale))
+    offsets = [(0, 0)]
+    for frame in frames[1:]:
+        power = anchor * np.conj(np.fft.rfft2(_alpha_plane(frame, shape, scale)))
+        peak = np.fft.irfft2(power, shape)
+        dy, dx = np.unravel_index(int(np.argmax(peak)), shape)
+        # The peak index runs 0..n; anything past the halfway point is a
+        # negative shift that has wrapped to the far end of the axis.
+        dy = dy - shape[0] if dy > shape[0] // 2 else dy
+        dx = dx - shape[1] if dx > shape[1] // 2 else dx
+        offsets.append((round(dx / scale), round(dy / scale)))
+    return offsets
+
+
+def _on_common_canvas(frames: list, offsets: list) -> list:
+    """Each frame pasted at its offset onto one canvas that holds them all."""
+    left = min(dx for dx, _ in offsets)
+    top = min(dy for _, dy in offsets)
+    width = max(dx + f.width for f, (dx, _) in zip(frames, offsets)) - left
+    height = max(dy + f.height for f, (_, dy) in zip(frames, offsets)) - top
+
+    placed = []
+    for frame, (dx, dy) in zip(frames, offsets):
+        canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        canvas.paste(frame, (dx - left, dy - top))
+        placed.append(canvas)
+    return placed
+
+
+def register_all(characters_dir: Path = CHARACTERS_DIR) -> list:
+    """Align every character folder's frames onto one shared canvas, in place.
+
+    Idempotent via a `.registered` marker; delete it to re-run a folder after
+    dropping new art in.
+    """
+    if not characters_dir.is_dir():
+        return []
+
+    log = []
+    for folder in sorted(characters_dir.rglob("*")):
+        if not folder.is_dir() or (folder / ".registered").exists():
+            continue
+
+        paths = _frames_in(folder)
+        # A frame that never finished copying is a blank flash in the loop,
+        # not a frame. Drop it rather than animate a broken image.
+        for empty in [p for p in paths if p.stat().st_size == 0]:
+            empty.unlink()
+            paths.remove(empty)
+            log.append(f"{folder.relative_to(characters_dir)}: dropped empty {empty.name}")
+        if len(paths) < 2:
+            continue
+
+        frames = [Image.open(p).convert("RGBA") for p in paths]
+        placed = _on_common_canvas(frames, _register_offsets(frames))
+        for path, frame in zip(paths, placed):
+            frame.save(path.with_suffix(".png"))
+            if path.suffix.lower() != ".png":
+                path.unlink()
+
+        (folder / ".registered").touch()
+        log.append(
+            f"{folder.relative_to(characters_dir)}: {len(paths)} frame(s) aligned "
+            f"on {placed[0].width}x{placed[0].height}"
+        )
+
+    return log
+
+
+# ---------------------------------------------------------------------------
+# Cutting art that still carries its placeholder checkerboard.
+#
+# This is the path for art delivered as PNG, and it is strictly better than
+# `_dematte_frame` above — that one exists only to rescue the JPEG plates
+# already in the repo, whose checkerboard was destroyed by compression.
+#
+# Why a checkerboard is the *good* case. For a partly transparent pixel,
+#
+#     O = a*F + (1 - a)*B
+#
+# A flat backdrop gives one equation and two unknowns, so a glow or a
+# feathered wing can only be guessed at. A checkerboard gives two backdrop
+# values, and subtracting the two cases eliminates F entirely:
+#
+#     D          = O - B = a*(F - B)
+#     D_light - D_dark   = -a*(B_light - B_dark)
+#
+# So the placeholder's own ripple, still visible through a semi-transparent
+# region, states that region's alpha outright:
+#
+#     a = |local ripple of D| / (B_light - B_dark)
+#
+# Measured against synthetic ground truth in `demo()`: mean alpha error
+# 0.02, and under 0.004 where the art is fully transparent.
+# ---------------------------------------------------------------------------
+
+# The ripple has to be measured over a window holding both checker phases.
+# Tested at 0.5x to 3x the cell size, 2x is the clear optimum: smaller windows
+# miss a phase and read noise, larger ones smear the alpha gradient.
+_RIPPLE_WINDOW_CELLS = 2
+# How close to 0 or 1 an averaged alpha must land before it is taken to mean
+# exactly clear or exactly solid. Tested at 0.06 / 0.10 / 0.15: 0.06 gives the
+# cleanest empty frame without eating into a genuine soft edge.
+_ALPHA_SNAP = 0.06
+
+
+def _box_mean(plane, size: int):
+    """Mean over a size x size window, via a summed-area table.
+
+    A box blur does not justify a scipy dependency in an authoring script that
+    otherwise needs only numpy and Pillow.
+    """
+    import numpy as np
+
+    radius = size // 2
+    padded = np.pad(plane, radius, mode="edge")
+    table = np.pad(padded.cumsum(0).cumsum(1), ((1, 0), (1, 0)))
+    h, w = plane.shape
+    y0, x0 = np.mgrid[0:h, 0:w]
+    y1, x1 = y0 + size, x0 + size
+    total = table[y1, x1] - table[y0, x1] - table[y1, x0] + table[y0, x0]
+    return total / float(size * size)
+
+
+def detect_checkerboard(rgb, probe: int = 8):
+    """Read the placeholder's geometry off the frame border.
+
+    Returns (pitch, phase_y, phase_x, tone_lo, tone_hi). The outer band of a
+    generated sheet is always pure placeholder, so the runs of constant colour
+    along it give the cell size and where the grid starts. Verified exact on
+    randomised pitch, phase and tones in `demo()`.
+    """
+    import numpy as np
+
+    grey = rgb.mean(axis=2)
+    h, w = grey.shape
+    band = np.concatenate([
+        grey[:probe, :].ravel(), grey[-probe:, :].ravel(),
+        grey[:, :probe].ravel(), grey[:, -probe:].ravel(),
+    ])
+    values, counts = np.unique(band.round(2), return_counts=True)
+    pair = values[np.argsort(counts)[-2:]]
+    lo, hi = float(min(pair)), float(max(pair))
+
+    def first_run(line):
+        nearer_hi = np.abs(line - hi) < np.abs(line - lo)
+        edges = np.flatnonzero(np.diff(nearer_hi.astype(np.int8)) != 0) + 1
+        return edges
+
+    edges = first_run(grey[1])
+    if len(edges) >= 2:
+        pitch = max(2, int(round(float(np.median(np.diff(edges))))))
+        phase_x = int(edges[0] % pitch)
+    else:
+        pitch, phase_x = 16, 0
+    down = first_run(grey[:, 1])
+    phase_y = int(down[0] % pitch) if len(down) else 0
+    return pitch, phase_y, phase_x, lo, hi
+
+
+def _checker_plate(h: int, w: int, pitch: int, phase_y: int, phase_x: int,
+                   lo: float, hi: float):
+    import numpy as np
+
+    yy, xx = np.mgrid[0:h, 0:w]
+    parity = (((yy - phase_y) // pitch) + ((xx - phase_x) // pitch)) % 2
+    grey = np.where(parity == 0, hi, lo).astype(np.float32)
+    return np.repeat(grey[..., None], 3, axis=2), parity
+
+
+def cut_from_checkerboard(im: Image.Image) -> Image.Image:
+    """Turn a checkerboard-backed plate into an RGBA cutout.
+
+    Unlike the vignette path, no threshold is chosen and nothing is eroded:
+    alpha is *measured* from the placeholder showing through, so a glow fades
+    out exactly as drawn instead of being cut off at whatever cutoff happened
+    to be tuned.
+    """
+    import numpy as np
+
+    rgb = np.asarray(im.convert("RGB"), np.float32)
+    h, w = rgb.shape[:2]
+    pitch, phase_y, phase_x, lo, hi = detect_checkerboard(rgb)
+    if hi - lo < 4:                      # no usable placeholder contrast
+        raise ValueError("no checkerboard detected — is this art already cut?")
+
+    plate, parity = _checker_plate(h, w, pitch, phase_y, phase_x, lo, hi)
+    # Orient the model to the art: a disagreeing corner means inverted parity.
+    py, px = min(phase_y + 1, h - 1), min(phase_x + 1, w - 1)
+    if abs(rgb[py, px].mean() - plate[py, px].mean()) > (hi - lo) / 2:
+        grey = np.where(parity == 0, lo, hi).astype(np.float32)
+        plate = np.repeat(grey[..., None], 3, axis=2)
+
+    residual = (rgb - plate).mean(axis=2)
+    sign = np.where(parity == 0, 1.0, -1.0).astype(np.float32)
+    ripple = 2.0 * _box_mean(residual * sign, _RIPPLE_WINDOW_CELLS * pitch)
+    alpha = np.clip(np.abs(ripple) / (hi - lo), 0.0, 1.0)
+
+    # The ripple is averaged over a window, so it lands a little short of the
+    # extremes: empty frame reads as 0.02 rather than 0, a solid body as 0.97
+    # rather than 1. Snapping both ends is what the art actually means, and it
+    # cuts the error over transparent regions by roughly five times.
+    alpha = np.where(alpha < _ALPHA_SNAP, 0.0,
+                     np.where(alpha > 1.0 - _ALPHA_SNAP, 1.0, alpha))
+
+    a = alpha[..., None]
+    # Un-mix the placeholder back out. Below the floor the pixel is so nearly
+    # transparent that dividing would only amplify noise into a bright fringe.
+    safe = np.maximum(a, 0.05)
+    fore = np.clip((rgb - (1.0 - a) * plate) / safe, 0, 255)
+    fore = np.where(a > 0.05, fore, rgb)
+    out = np.concatenate([fore, a * 255.0], axis=2)
+    return Image.fromarray(out.astype(np.uint8), "RGBA")
+
+
+# --- Cutting placeholder-backed art that has been through JPEG -------------
+#
+# `cut_from_checkerboard` above measures alpha from the placeholder's ripple,
+# which needs the grid to be pixel-exact. JPEG smears it: the cell edges blur,
+# the two tones drift, and the phase wanders across the frame. Run on the
+# shipped sheets it keeps barely 1% of the frame as transparent, against the
+# ~60% actually there.
+#
+# What survives compression is cruder but solid — the placeholder is *grey*
+# and sits at one of *two brightnesses*. Keying on that pair, rather than on
+# the geometry, is what these files support.
+#
+# Anything more saturated than this is drawn, not placeholder. Measured across
+# the refurbished sheets: placeholder chroma sits at 0-5, and the least
+# saturated real costume (the warden's steel) clears 34.
+_PLACEHOLDER_CHROMA_MAX = 26.0
+# How far from a tone still counts as that tone, as a share of their gap.
+_PLACEHOLDER_TONE_FRAC = 0.35
+# Below this the backdrop is one flat colour, not a checkerboard.
+_MIN_TONE_GAP = 12.0
+# ...and below this the two "tones" are really backdrop versus art, so the
+# backdrop is flat however wide the split looks. Real checkerboards score 43%+
+# here; the one flat plate in the set scores 2%.
+_MIN_TONE_BALANCE = 0.20
+
+
+def _placeholder_tones(rgb, border: int = 24) -> tuple:
+    """(tone_lo, tone_hi, balance) of the placeholder, read off the frame border.
+
+    Two-means rather than percentiles: the split has to land between the tones
+    wherever they happen to sit, and the generator has used pairs as far apart
+    as 90/180 and as close as 1/39.
+
+    `balance` is the share of the border falling in the smaller of the two
+    groups. A checkerboard alternates, so its two tones come out near even —
+    43% to 50% across every sheet here. A flat backdrop has no second tone, so
+    two-means splits the backdrop against whatever art touches the frame and
+    the minority collapses: the riddle weaver's plate scores 2%. Gap alone
+    cannot tell those apart — her split reads as a *wider* gap than any real
+    checkerboard — so the caller has to check the balance too.
+    """
+    import numpy as np
+
+    grey = rgb.mean(axis=2)
+    h, w = grey.shape
+    ring = np.zeros((h, w), bool)
+    ring[:border, :] = ring[-border:, :] = ring[:, :border] = ring[:, -border:] = True
+    band = grey[ring]
+
+    lo, hi = np.percentile(band, 10), np.percentile(band, 90)
+    for _ in range(30):
+        near_lo = band[np.abs(band - lo) <= np.abs(band - hi)]
+        near_hi = band[np.abs(band - lo) > np.abs(band - hi)]
+        if len(near_lo):
+            lo = near_lo.mean()
+        if len(near_hi):
+            hi = near_hi.mean()
+
+    share = float((np.abs(band - lo) <= np.abs(band - hi)).mean())
+    return float(min(lo, hi)), float(max(lo, hi)), min(share, 1.0 - share)
+
+
+def cut_placeholder(im: Image.Image) -> Image.Image:
+    """Cut a character off its generated backdrop, checkerboard or flat.
+
+    Handles both because the generator has produced both: most sheets carry
+    the two-tone checkerboard, while the riddle weaver's arrived on a single
+    flat blue-grey plate.
+    """
+    import numpy as np
+
+    rgb = np.asarray(im.convert("RGB"), np.float32)
+    grey = rgb.mean(axis=2)
+    chroma = rgb.max(axis=2) - rgb.min(axis=2)
+    lo, hi, balance = _placeholder_tones(rgb)
+    checkered = (hi - lo) >= _MIN_TONE_GAP and balance >= _MIN_TONE_BALANCE
+
+    if checkered:
+        tolerance = max(6.0, (hi - lo) * _PLACEHOLDER_TONE_FRAC)
+        distance = np.minimum(np.abs(grey - lo), np.abs(grey - hi))
+        candidate = (distance < tolerance) & (chroma < _PLACEHOLDER_CHROMA_MAX)
+        plate_colour = (lo + hi) / 2.0
+    else:
+        # Flat backdrop: key on the whole colour, since a single grey level
+        # cannot be told from a grey costume by brightness alone.
+        h, w = grey.shape
+        ring = np.zeros((h, w), bool)
+        ring[:24, :] = ring[-24:, :] = ring[:, :24] = ring[:, -24:] = True
+        flat = np.median(rgb[ring], axis=0)
+        candidate = np.abs(rgb - flat).max(axis=2) < 26.0
+        tolerance, plate_colour = 26.0, float(flat.mean())
+
+    confirmed = _confirm_background(
+        Image.fromarray(np.where(candidate, 255, 0).astype(np.uint8), "L")
+    )
+    solid = _drop_specks(confirmed.point(lambda v: 255 - v))
+    alpha = np.asarray(solid, np.float32) / 255.0
+
+    # A glow drawn over the placeholder keeps some of it showing through, so
+    # those pixels read as part-grey and part-tone. Fading them by how much
+    # placeholder remains lets a halo taper out instead of ending on the square
+    # edges of whichever checker cells happened to clear the threshold.
+    if checkered:
+        greyness = np.clip(1.0 - chroma / _PLACEHOLDER_CHROMA_MAX, 0, 1)
+        near_tone = np.clip(
+            1.0 - np.minimum(np.abs(grey - lo), np.abs(grey - hi)) / (tolerance * 2.0),
+            0, 1,
+        )
+        alpha = np.clip(alpha * (1.0 - 0.85 * greyness * near_tone), 0, 1)
+
+    alpha = np.asarray(
+        Image.fromarray((alpha * 255).astype(np.uint8), "L")
+        .filter(ImageFilter.GaussianBlur(0.8)),
+        np.float32,
+    )[..., None] / 255.0
+
+    plate = np.full_like(rgb, plate_colour)
+    safe = np.maximum(alpha, 0.05)
+    fore = np.clip((rgb - (1.0 - alpha) * plate) / safe, 0, 255)
+    fore = np.where(alpha > 0.05, fore, rgb)
+    return Image.fromarray(
+        np.concatenate([fore, alpha * 255.0], axis=2).astype(np.uint8), "RGBA"
+    )
+
+
+def cut_sheet(sheet: Path, out_dir: Path, start_index: int = 1) -> int:
+    """Split one 2x2 placeholder-backed sheet into frame_N.png cutouts.
+
+    Returns the next free frame index, so a character shipped as two sheets
+    (the dragon) continues the numbering instead of overwriting itself.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    index = start_index
+    with Image.open(sheet) as im:
+        im = im.convert("RGB")
+        for box in _quadrant_boxes(im):
+            cut_from_checkerboard(im.crop(box)).save(out_dir / f"frame_{index}.png")
+            index += 1
+    return index
+
+
 def demo() -> None:
     """Self-check: slicing a synthetic 2x2 sheet yields 4 correctly-cropped
     square frames, in reading order. Run: python -m app.engine.sprite_slicer --selfcheck"""
@@ -722,12 +1151,173 @@ def demo() -> None:
         rim = cutout.getpixel((60, 37))                           # top of the disc
         assert rim[0] > rim[1] + 60 and rim[0] > rim[2] + 60, (backdrop, rim)
 
+    # --- checkerboard cutting, against synthetic ground truth ---------------
+    # A known alpha map is composited over a known checkerboard, then recovered.
+    # This is the only way to check a matte honestly: on real art there is
+    # nothing to compare the answer to.
+    import numpy as np
+
+    for pitch, phase, tones in [(16, (0, 0), (102.0, 153.0)),
+                                (8, (3, 5), (120.0, 190.0)),
+                                (32, (7, 11), (140.0, 175.0))]:
+        lo, hi = tones
+        size = 256
+        plate, parity = _checker_plate(size, size, pitch, phase[0], phase[1], lo, hi)
+
+        yy, xx = np.mgrid[0:size, 0:size]
+        radius = np.hypot(yy - size / 2, xx - size / 2)
+        truth = np.clip((70 - radius) / 10.0, 0, 1)                  # solid body
+        truth = np.maximum(truth, np.clip((110 - radius) / 60.0, 0, 1) * 0.5)  # glow
+
+        fore = np.zeros((size, size, 3), np.float32)
+        fore[..., 0], fore[..., 1], fore[..., 2] = 205, 95, 235
+        obs = truth[..., None] * fore + (1 - truth[..., None]) * plate
+
+        found = detect_checkerboard(obs)
+        assert found[0] == pitch, (pitch, found)
+        assert abs(found[3] - lo) < 1.5 and abs(found[4] - hi) < 1.5, (tones, found)
+
+        cut = np.asarray(cut_from_checkerboard(
+            Image.fromarray(obs.astype(np.uint8), "RGB")), np.float32)
+        got = cut[..., 3] / 255.0
+        error = np.abs(got - truth)
+        clear = truth < 0.02
+        assert error.mean() < 0.07, (pitch, float(error.mean()))
+        assert error[clear].mean() < 0.01, (pitch, float(error[clear].mean()))
+
+    # --- frame registration -------------------------------------------------
+    # Two crops of the same drawing, trimmed differently, must come back the
+    # same size with the drawing in the same place. That is the whole contract:
+    # if it holds, `background-size: contain` scales every frame identically
+    # and the figure stops jumping between frames.
+    art = Image.new("RGBA", (300, 300), (0, 0, 0, 0))
+    ImageDraw.Draw(art).ellipse([120, 90, 200, 210], fill=(30, 200, 120, 255))
+    crops = [art.crop((100, 70, 260, 250)), art.crop((60, 40, 230, 260))]
+
+    placed = _on_common_canvas(crops, _register_offsets(crops))
+    assert len({p.size for p in placed}) == 1, [p.size for p in placed]
+    boxes = [p.getbbox() for p in placed]
+    assert max(abs(a - b) for a, b in zip(*boxes)) <= 2, boxes
+
+    # A frame that is genuinely a different drawing must not be dragged onto
+    # the first one — a zero shift stays zero.
+    same = [art.copy(), art.copy()]
+    assert _register_offsets(same) == [(0, 0), (0, 0)], _register_offsets(same)
+
     print("sprite_slicer: self-check passed")
+
+
+REFURBISHED_DIR = REPO_ROOT / "assets" / "characetrs_refurbished"
+
+# Which uncut sheet feeds which character folder. The delivered filenames do
+# not all match the folder names the .scene files already reference, and one
+# arrived with the generator's default name, so the mapping is written out
+# rather than guessed from the filename.
+REFURBISHED_SHEETS = {
+    "alchemist": ["alchemist.jpg"],
+    "cataloguer": ["cataloguer.jpg"],
+    "crystal": ["crystal.jpg"],
+    "dragon": ["dragon.jpg", "dragon_2.jpg"],          # eight frames, two sheets
+    "elder_mage": ["elder_mage.jpg"],
+    "enchanter": ["enchanter.jpg"],
+    "mysterious_figure": ["mysterious_figure.jpg"],
+    "player/female": ["female_player.jpg"],
+    "player/male": ["male_player.jpg"],
+    "quartermaster": ["quarter_master.jpg"],
+    "riddle_weaver": ["riddleweaver.jpg"],
+    "system": ["system.jpg"],
+    # Identified by eye against the shipped frames: purple robe, white beard,
+    # open book with floating runes — the Sage, not the elder mage.
+    "system_sage": ["Generated Image July 26, 2026 - 11_50PM (1).jpg"],
+    "warden": ["warden.jpg"],
+}
+
+
+def refurbish_all(source: Path = REFURBISHED_DIR,
+                  characters_dir: Path = CHARACTERS_DIR) -> list:
+    """Re-cut every character from its uncut sheet, replacing the old frames.
+
+    One pass from the original art beats the shipped two-step (checkerboard to
+    vignette, vignette back to alpha), which had to guess a threshold twice and
+    left speckle and haloing behind.
+    """
+    log = []
+    for name, sheets in REFURBISHED_SHEETS.items():
+        present = [source / s for s in sheets if (source / s).is_file()]
+        if not present:
+            log.append(f"{name}: SKIPPED — no source sheet found")
+            continue
+
+        out_dir = characters_dir / name
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for stale in list(out_dir.glob("frame_*.png")) + list(out_dir.glob("frame_*.jpg")):
+            stale.unlink()
+
+        index = 1
+        for sheet in present:
+            with Image.open(sheet) as im:
+                im = im.convert("RGB")
+                for box in _quadrant_boxes(im):
+                    cut_placeholder(im.crop(box)).save(out_dir / f"frame_{index}.png")
+                    index += 1
+        (out_dir / ".matted").unlink(missing_ok=True)
+        (out_dir / ".dematted").write_text("cut from placeholder\n", encoding="utf-8")
+        log.append(f"{name}: {index - 1} frame(s) from {len(present)} sheet(s)")
+    return log
+
+
+INCOMING_DIR = REPO_ROOT / "art_prompts" / "incoming"
+
+# Which character each incoming sheet belongs to, and in what order. A
+# character shipped as two sheets (the dragon's eight frames) lists both, and
+# the frames are numbered straight through.
+SHEET_SETS = {
+    "dragon": ["dragon_sheet_1.png", "dragon_sheet_2.png"],
+    "mysterious_figure": ["mysterious_figure_sheet.png"],
+}
+
+
+def cut_incoming(incoming: Path = INCOMING_DIR,
+                 characters_dir: Path = CHARACTERS_DIR) -> list:
+    """Cut every placeholder-backed sheet in `incoming` into character frames.
+
+    Replaces that character's frames outright — this path produces strictly
+    better cutouts than the JPEG rescue above, so there is nothing to keep.
+    """
+    log = []
+    for name, sheets in SHEET_SETS.items():
+        present = [incoming / s for s in sheets if (incoming / s).is_file()]
+        if not present:
+            continue
+
+        out_dir = characters_dir / name
+        for stale in list(out_dir.glob("frame_*.png")) + list(out_dir.glob("frame_*.jpg")):
+            stale.unlink()
+
+        index = 1
+        for sheet in present:
+            index = cut_sheet(sheet, out_dir, index)
+        (out_dir / ".matted").unlink(missing_ok=True)
+        (out_dir / ".dematted").write_text("cut from checkerboard\n", encoding="utf-8")
+        log.append(f"{name}: {index - 1} frame(s) from {len(present)} sheet(s)")
+    return log
 
 
 if __name__ == "__main__":
     if "--selfcheck" in sys.argv:
         demo()
+    elif "--refurbish" in sys.argv:
+        for line in refurbish_all():
+            print(f"[sprite_slicer] {line}")
+    elif "--register" in sys.argv:
+        for line in register_all():
+            print(f"[sprite_slicer] {line}")
+    elif "--cut-incoming" in sys.argv:
+        lines = cut_incoming()
+        for line in lines:
+            print(f"[sprite_slicer] {line}")
+        if not lines:
+            print(f"[sprite_slicer] no sheets found in {INCOMING_DIR}")
     else:
         sliced = slice_all()
         for line in sliced:
@@ -735,5 +1325,10 @@ if __name__ == "__main__":
         matted = matte_all()
         for line in matted:
             print(f"[sprite_slicer] {line}")
-        if not sliced and not matted:
+        # Last, because it wants the final PNGs: whatever the frames came from,
+        # they only animate cleanly once they share a canvas.
+        registered = register_all()
+        for line in registered:
+            print(f"[sprite_slicer] {line}")
+        if not sliced and not matted and not registered:
             print("[sprite_slicer] nothing to do - already up to date")

@@ -1,17 +1,41 @@
 {
   "interaction_id": "workshop_local_gone",
-  "widget": "predict_output",
+  "widget": "fix_the_bug",
   "title": "Secrets Don't Leave the Room",
-  "prompt": "A name born inside a function dies with it. Predict what waits outside.",
+  "prompt": "He brewed something, then reached for it outside. The world said it had never heard of it.",
   "config": {
-    "rounds": [
+    "code": [
+      "def brew():",
+      "    secret = 42",
+      "",
+      "brew()",
+      "print(secret)"
+    ],
+    "bug_line": 4,
+    "symptom": "NameError — name 'secret' is not defined.",
+    "line_hints": {
+      "0": "Defining the spell is fine.",
+      "1": "Inside the room this line is perfectly legal — secret really does exist there.",
+      "3": "The spell IS cast. It ran, it brewed, and then the room closed."
+    },
+    "fixes": [
       {
-        "code": "def brew():\n    secret = 42\nbrew()\nprint(secret)",
-        "options": ["42", "an error — secret only lived inside brew()", "None"],
-        "answer": 1,
-        "explain": "`secret` was LOCAL to brew(). Once the function ended, it was gone — outside, the name doesn't exist at all, so reading it is an error."
+        "text": "return secret  — then  secret = brew()",
+        "correct": true,
+        "why": "The only way something leaves a room is if the spell hands it out and someone catches it. Nothing inside survives on its own."
+      },
+      {
+        "text": "Move print(secret) inside brew()",
+        "correct": false,
+        "why": "It would print — but the value still never leaves. You have not solved the problem, only stopped asking the question outside."
+      },
+      {
+        "text": "Call brew() twice",
+        "correct": false,
+        "why": "Two rooms instead of one, both closing behind them. Repetition does not make a local name public."
       }
-    ]
+    ],
+    "success": "What is brewed in the room stays in the room, unless it is handed out and caught."
   },
   "reward": { "xp": 20, "gold": 10 }
 }

@@ -1,17 +1,46 @@
 {
   "interaction_id": "workshop_final_recall",
-  "widget": "predict_output",
+  "widget": "fix_the_bug",
   "title": "The Room Keeps Its Own",
-  "prompt": "A function works on its own private copy and hands back a gift. Predict what the outside keeps.",
+  "prompt": "He wanted the count raised. He wrote this. The count did not move. One last time — find the line.",
   "config": {
-    "rounds": [
+    "code": [
+      "count = 10",
+      "",
+      "def add_one(n):",
+      "    n = n + 1",
+      "    return n",
+      "",
+      "add_one(count)",
+      "print(count)"
+    ],
+    "bug_line": 6,
+    "symptom": "it prints 10. The spell ran, returned the right answer, and nothing changed.",
+    "line_hints": {
+      "0": "The count starts correctly here.",
+      "2": "The spell takes what it needs. Nothing wrong with asking for it.",
+      "3": "Inside the room this is right — n really does become 11.",
+      "4": "And it hands 11 back, faithfully. The spell does its whole job.",
+      "7": "Printing only shows what survived. It is telling the truth."
+    },
+    "fixes": [
       {
-        "code": "count = 10\ndef add_one(n):\n    n = n + 1\n    return n\nadd_one(count)\nprint(count)",
-        "options": ["10", "11"],
-        "answer": 0,
-        "explain": "add_one worked on its own local `n` and returned 11 — but nobody stored the gift, and the global `count` was never touched. Still 10. Locals stay local."
+        "text": "count = add_one(count)",
+        "correct": true,
+        "why": "There it is. The spell was handing 11 back and nobody was catching it. A return is an offer — you must accept it by name."
+      },
+      {
+        "text": "global count  (inside add_one)",
+        "correct": false,
+        "why": "That would work, but it makes the spell reach out and change the world behind your back. A function that returns a value and is caught is the cleaner magic."
+      },
+      {
+        "text": "print(add_one(count))",
+        "correct": false,
+        "why": "You would SEE 11 — and count would still be 10 the moment after. Showing a value is not keeping it."
       }
-    ]
+    ],
+    "success": "The room keeps its own. What happens inside stays inside — unless you catch what it hands you."
   },
-  "reward": { "xp": 20, "gold": 10 }
+  "reward": { "xp": 25, "gold": 12 }
 }

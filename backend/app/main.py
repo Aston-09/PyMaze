@@ -218,6 +218,10 @@ class ExecuteRequest(BaseModel):
 
 class AdvanceRequest(BaseModel):
     current_scene: str
+    # Set when the player picked a `choice:` option. It must be one of the
+    # targets the current scene actually offers — validated below — so this
+    # cannot be used to jump anywhere in the story.
+    chosen_scene: str | None = None
 
 class InteractionCompleteRequest(BaseModel):
     interaction_id: str
@@ -309,7 +313,17 @@ async def background_frames(username: str = Depends(get_current_user), player: P
     chosen = frames.get(f"player_{player.gender or 'male'}")
     if chosen:
         frames["player"] = chosen
-    return frames
+    # Which stems are transparent cutouts rather than locations. The client
+    # needs this to know that `background: warden` puts the warden *in* the
+    # current place instead of replacing it. "player" is included by the same
+    # rule once resolved above, since it resolves to a characters/ path.
+    return {
+        "frames": frames,
+        "characters": sorted(
+            stem for stem, paths in frames.items()
+            if paths and paths[0].startswith("characters/")
+        ),
+    }
 
 
 @app.post("/api/execute")
@@ -402,7 +416,21 @@ async def advance_scene_route(request: AdvanceRequest, username: str = Depends(g
 
     scene = SCENES[request.current_scene]
     next_scene = scene.next_scene
-    
+
+    # A picked `choice:` wins over both next: and condition:, but only if the
+    # scene really offers it — otherwise a crafted request could skip the game.
+    if request.chosen_scene:
+        offered = {
+            opt.get("target")
+            for beat in scene.beats if beat.type == "choice"
+            for opt in beat.options
+        }
+        if request.chosen_scene not in offered:
+            raise HTTPException(status_code=400, detail="Not a choice this scene offers")
+        player_manager.advance_scene(player, request.chosen_scene)
+        await save_game(player, username)
+        return {"current_scene": request.chosen_scene, "player": player.model_dump()}
+
     for cond in scene.conditions:
         try:
             res = eval(cond.expression, {"__builtins__": {}}, {"player": player})

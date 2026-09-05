@@ -4,6 +4,8 @@ import SortTypes from './SortTypes';
 import BuildStatement from './BuildStatement';
 import ValueDial from './ValueDial';
 import PredictOutput from './PredictOutput';
+import TraceLoop from './TraceLoop';
+import FixTheBug from './FixTheBug';
 
 /**
  * Widget registry.
@@ -27,6 +29,8 @@ export const WIDGETS = {
   build_statement: BuildStatement,
   value_dial: ValueDial,
   predict_output: PredictOutput,
+  trace_loop: TraceLoop,
+  fix_the_bug: FixTheBug,
 };
 
 export default WIDGETS;

@@ -1,23 +1,42 @@
 {
   "interaction_id": "loom_immutable",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "The Thread Cannot Be Recut",
-  "prompt": "Reshaping a string never changes the original — it spins a NEW thread. Predict what stays.",
+  "prompt": "The Weaver spins a second thread from the first and lays them side by side. Call what each one holds.",
   "config": {
-    "rounds": [
+    "code": [
+      "word = \"fire\"",
+      "big = word.upper()",
+      "word = word + \"!\"",
+      "print(word, big)"
+    ],
+    "steps": [
       {
-        "code": "word = \"fire\"\nbig = word.upper()\nprint(word)",
-        "options": ["fire", "FIRE"],
-        "answer": 0,
-        "explain": ".upper() does not change the original — it makes a NEW string. word is still 'fire'; big is 'FIRE'. Strings never change in place."
+        "line": 1,
+        "variable": "big",
+        "value": "FIRE",
+        "note": "A new thread, spun from the first."
       },
       {
-        "code": "word = \"hi\"\nword = word + \"!\"\nprint(word)",
-        "options": ["hi", "hi!", "hi + !"],
-        "answer": 1,
-        "explain": "You didn't edit the old string — you built a new one ('hi!') and pointed word at it. That is how strings 'grow'."
+        "line": 1,
+        "variable": "word",
+        "value": "fire",
+        "note": "Untouched. .upper() never reaches back and edits the original — that is what immutable means."
+      },
+      {
+        "line": 2,
+        "variable": "word",
+        "value": "fire!",
+        "note": "Still not an edit: a NEW string was woven, and the name word was pointed at it instead."
+      },
+      {
+        "line": 2,
+        "variable": "big",
+        "value": "FIRE",
+        "note": "And big never moved. It holds its own thread, cut long before."
       }
-    ]
+    ],
+    "success": "Two threads, never one. A string is never recut — it is respun, and old names keep what they were given."
   },
   "reward": { "xp": 20, "gold": 10 }
 }

@@ -1,23 +1,40 @@
 {
   "interaction_id": "halls_while_countdown",
-  "widget": "predict_output",
+  "widget": "fix_the_bug",
   "title": "The Door That Watches",
-  "prompt": "A while loop keeps running WHILE its condition is true. Predict what happens.",
+  "prompt": "This is the Warden's own curse, written out. It runs — and never stops. Find the line that traps him.",
   "config": {
-    "rounds": [
+    "code": [
+      "steps = 3",
+      "while steps > 0:",
+      "    print(steps)",
+      "    steps = steps + 1"
+    ],
+    "bug_line": 3,
+    "symptom": "it prints 3, 4, 5, 6... and never reaches the end.",
+    "line_hints": {
+      "0": "Starting at 3 is fine — the count has to begin somewhere.",
+      "1": "The condition itself is right: keep going while steps remain.",
+      "2": "Printing is harmless. It reports the problem; it doesn't cause it."
+    },
+    "fixes": [
       {
-        "code": "steps = 3\nwhile steps > 0:\n    print(steps)\n    steps = steps - 1",
-        "options": ["3 2 1 0", "3 2 1", "2 1 0", "3 forever"],
-        "answer": 1,
-        "explain": "The loop runs WHILE steps > 0. When steps reaches 0 the condition is false, so the loop ends — 0 never prints."
+        "text": "steps = steps - 1",
+        "correct": true,
+        "why": "That is the whole cure. The condition asks 'steps > 0', so something must walk steps DOWN toward 0 or it can never turn false."
       },
       {
-        "code": "steps = 3\nwhile steps > 0:\n    print(steps)",
-        "options": ["3 2 1", "3 (once)", "3 forever — steps never changes", "nothing"],
-        "answer": 2,
-        "explain": "Nothing ever lowers steps, so steps > 0 stays true forever. This is the Warden's curse: a loop with no way to reach its ending."
+        "text": "steps = 0",
+        "correct": false,
+        "why": "It stops — but after a single pass. The countdown never counts. A loop needs to approach its ending, not jump to it."
+      },
+      {
+        "text": "while steps < 0:",
+        "correct": false,
+        "why": "Now it never starts at all: steps is 3, which is not below 0. Silence is not the same as an ending."
       }
-    ]
+    ],
+    "success": "One line down instead of up, and an age of pacing ends. That is the whole of the Warden's curse."
   },
-  "reward": { "xp": 15, "gold": 5 }
+  "reward": { "xp": 20, "gold": 8 }
 }

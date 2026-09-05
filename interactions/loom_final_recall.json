@@ -1,17 +1,43 @@
 {
   "interaction_id": "loom_final_recall",
-  "widget": "predict_output",
+  "widget": "trace_loop",
   "title": "Cut, Take, Raise",
-  "prompt": "Split a name into words, take the first, and raise it. Predict the woven result.",
+  "prompt": "One thread, drawn cold, in three motions. Call what each motion leaves behind.",
   "config": {
-    "rounds": [
+    "code": [
+      "full = \"Kael Ash\"",
+      "parts = full.split()",
+      "first = parts[0]",
+      "loud = first.upper()",
+      "print(loud, full)"
+    ],
+    "steps": [
       {
-        "code": "full = \"Kael Ash\"\nprint(full.split()[0].upper())",
-        "options": ["KAEL", "Kael Ash", "ASH", "KAELASH"],
-        "answer": 0,
-        "explain": "Split into words gives ['Kael', 'Ash']. Take the first: 'Kael'. Raise it: 'KAEL'. Split, indexing, and a method — all at once."
+        "line": 1,
+        "variable": "parts",
+        "value": "['Kael', 'Ash']",
+        "note": "split cuts on the spaces and hands back a list of threads."
+      },
+      {
+        "line": 2,
+        "variable": "first",
+        "value": "Kael",
+        "note": "Slot 0 — the front of the list, as always."
+      },
+      {
+        "line": 3,
+        "variable": "loud",
+        "value": "KAEL",
+        "note": "A new thread, raised. The old one is not touched."
+      },
+      {
+        "line": 3,
+        "variable": "full",
+        "value": "Kael Ash",
+        "note": "Exactly as it began. Three motions, and the original was never once altered."
       }
-    ]
+    ],
+    "success": "Split, taken, raised — and the first thread still whole. The loom only ever adds."
   },
-  "reward": { "xp": 20, "gold": 10 }
+  "reward": { "xp": 25, "gold": 12 }
 }
