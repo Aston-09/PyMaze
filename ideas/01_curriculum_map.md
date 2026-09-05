@@ -9,6 +9,10 @@ narrative on and [03_characters.md](03_characters.md) hangs mentors on.
 
 - **B** rows are teaching chapters (Sage's-Library style, high interaction density).
 - **A** rows are story chapters (one mission, real stakes, the concept *applied*).
+- **A `B` always plays before its `A`.** The table is in play order: a concept is
+  taught in the safe room first, then applied under stakes. Nothing may be asked
+  of a learner that the braid has not already put in their hands — which also
+  means no mission before 7b may require `def`.
 - "Status" marks what already exists in `story/` and `challenges/`.
 
 | # | Chapter (working title) | Type | Concept cluster | Metaphor | Status |
@@ -18,17 +22,17 @@ narrative on and [03_characters.md](03_characters.md) hangs mentors on.
 | 1b | Wisdom of the System | **B** | Variables · assignment · str/int/float/bool · `print()` · `input()` | chest · four families · mirror · crystal | ✅ built |
 | 2 | Trial of Choice | A | `if` / `elif` / `else` | Gate of Choices | ✅ built |
 | 2b | The Alchemist's Scales | **B** | Operators: arithmetic, comparison, logical, `and/or/not`, precedence | scales & reagents | ✅ built |
-| 3 | The Endless Bridge | A | Loops applied — cross a bridge that rebuilds each step | Echoing Halls | ✅ built |
 | 3b | The Echoing Halls | **B** | `while` vs `for`, `range`, accumulation, `break`/`continue`, the infinite-loop curse | cursed corridor | ✅ built |
-| 4 | The Quartermaster's Caravan | A | Lists applied — pack a caravan, indexing, ordering | numbered satchel | ✅ built |
+| 3 | The Endless Bridge | A | Loops applied — cross a bridge that rebuilds each step | Echoing Halls | ✅ built |
 | 4b | The Satchel of Many Slots | **B** | Lists: index from 0, slice, append/pop, `len`, iterate, negative index | satchel with numbered pockets | ✅ built |
-| 5 | The Locked Grimoire | A | Dicts applied — a spellbook keyed by spell-name | grimoire | ✅ built |
+| 4 | The Quartermaster's Caravan | A | Lists applied — pack a caravan, indexing, ordering | numbered satchel | ✅ built |
 | 5b | The Card Catalogue | **B** | Dicts (key→value), `.get`, keys/values/items, nesting; tuples (sealed scrolls); sets (the unrepeating roster — callback to the Dragon Trial) | card catalogue · sealed scroll · guild roster | ✅ built |
-| 6 | The Riddle Weaver | A | Strings applied — decode a riddle carved in runes | ribbon of runes | ✅ built |
+| 5 | The Locked Grimoire | A | Dicts applied — a spellbook keyed by spell-name | grimoire | ✅ built |
 | 6b | The Loom of Words | **B** | String indexing/slicing, `f`-strings, `.split/.join/.strip/.upper`, immutability | weaving | ✅ built |
-| 7 | The Enchanter's Bargain | A | Functions applied — inscribe a reusable battle-spell + recursion, branching endings | spellbook | ✅ built |
+| 6 | The Riddle Weaver | A | Strings applied — decode a riddle carved in runes | ribbon of runes | ✅ built |
 | 7b | The Spellbook | **B** | `def`, parameters, `return`, arguments vs params, default args, docstrings | binding an incantation | ✅ built |
 | 7c | The Private Workshop | **B** (short) | Scope: local vs global, why the workshop's whispers don't leave the room | workshop vs town square | ✅ built |
+| 7 | The Enchanter's Bargain | A | Functions applied — inscribe a reusable battle-spell + recursion, branching endings | spellbook | ✅ built |
 | 8 | The Corruption at the Well | A | Exceptions applied — a glitched zone that crashes the unwary | the Blight | 🔜 |
 | 8b | The Warder's Circle | **B** | `try/except/else/finally`, exception types, raising, why crashes ≠ dead ends | protective wards | 🔜 |
 | 9 | The Eternal Archive | A | File I/O applied — read the world's true record, write your name into it | ancient scrolls | 🔜 |

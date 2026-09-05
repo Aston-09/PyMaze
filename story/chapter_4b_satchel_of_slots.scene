@@ -4,14 +4,24 @@ background: green_valley.jpg
 music: wisdom_theme.mp3
 
 dialogue:
-"You have barely turned toward the road when a bark stops you."
+"The forest opens onto a trade road, and the trade road is a disaster."
+"A caravan sits stranded — wagons half-loaded, crates strewn across the verge in no order at all."
+"A broad, grizzled man stamps up and down the line, counting on his fingers and swearing at them."
 
 background: quartermaster
 
 npc Quartermaster:
-"Oi. OI. Where do you think you're going, half-taught?"
-"You fetched ONE crate right and think you know a satchel? Sit."
-"I'll not have the archivist telling folk Gruff sends her amateurs. Come here."
+"Nine! No — eight. BAH."
+"Every crate in the wrong wagon, every wagon in the wrong place."
+"The Blight came through and scrambled my whole manifest. Now the satchels can't remember what sits WHERE."
+
+dialogue:
+"He notices you standing there."
+
+npc Quartermaster:
+"You. You've got the look of someone the System still talks to. Don't touch anything yet."
+"A satchel isn't a HEAP, traveller. It's a LINE — first slot, second slot, third, order kept, always."
+"I'll not have a half-taught hero loose in my satchels. Sit. You'll learn a line before you load one."
 
 system skill_learned:
 "MODULE UNLOCKED"
@@ -79,7 +89,7 @@ npc Quartermaster:
 
 system system:
 "MISSION"
-"Append the item to the satchel, then return how many crates it holds."
+"Append the item to the satchel, then store the count in crate_count."
 
 mission: satchel_pack
 
@@ -97,7 +107,7 @@ npc Quartermaster:
 
 system system:
 "MISSION"
-"Return the list with the first and last crates removed, using one slice."
+"Store in middle the list with the first and last crates removed, using one slice."
 
 mission: satchel_middle
 
@@ -119,8 +129,7 @@ interactive: satchel_final_recall
 
 npc Quartermaster:
 "Append, then reach for the last slot. That's the whole satchel, and it's yours."
-"Go on to the archivist. Tell her Gruff finally sent someone who can count."
-"And tell her the third shelf still bites. She'll know."
+"Now get up. The lesson's over and my caravan is still lying in the road."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -133,4 +142,4 @@ gold: 40
 achievement: EVERY CRATE IN ITS SLOT
 
 next:
-chapter_5_locked_grimoire
+chapter_4_quartermasters_caravan

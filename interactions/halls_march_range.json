@@ -2,7 +2,7 @@
   "interaction_id": "halls_march_range",
   "widget": "predict_output",
   "title": "The Marching Stones",
-  "prompt": "The corridor's numbered stones light up in order. Predict how far the march goes.",
+  "prompt": "range(a, b) counts from a and stops BEFORE b; range(n) on its own counts n times, starting at 0. Predict how far the march goes.",
   "config": {
     "rounds": [
       {

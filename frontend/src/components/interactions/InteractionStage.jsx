@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import WIDGETS from './registry';
+import useAdvanceKey from '../../utils/useAdvanceKey';
 
 import { apiFetch } from '../../utils/api';
 
@@ -18,8 +19,19 @@ import { apiFetch } from '../../utils/api';
 export default function InteractionStage({ interaction, onComplete, setPlayer }) {
   const [solved, setSolved] = useState(false);
   const [xpFloat, setXpFloat] = useState(null);
+  const footerRef = useRef(null);
 
   const Widget = WIDGETS[interaction?.widget];
+
+  // Enter finishes the beat once it is actually solved.
+  useAdvanceKey(onComplete, solved);
+
+  // A long puzzle can push its own Continue below the fold. Focusing it both
+  // scrolls it into view and puts Enter on it — otherwise the key would land
+  // on whichever puzzle button was clicked last and re-fire it.
+  useEffect(() => {
+    if (solved) footerRef.current?.focus({ preventScroll: false });
+  }, [solved]);
 
   const handleSolved = useCallback(async () => {
     // Guard against a widget firing onSolved twice — the backend is
@@ -64,7 +76,8 @@ export default function InteractionStage({ interaction, onComplete, setPlayer })
 
       {solved && (
         <div className="interaction-footer">
-          <button className="btn btn-primary" onClick={onComplete}>Continue →</button>
+          <button className="btn btn-primary" ref={footerRef} onClick={onComplete}>Continue →</button>
+          <span className="advance-hint">or press Enter</span>
         </div>
       )}
 

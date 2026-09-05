@@ -13,14 +13,12 @@ npc You:
 background: green_valley.jpg
 
 dialogue:
-"You walk down into it. Long grass, wildflowers, and for a while nothing to do but breathe."
-"At the valley's edge, a dark treeline waits."
+"You walk down through long grass to the dark treeline at the valley's edge."
 
 background: deep_forest.jpg
 
 dialogue:
-"The trees close over you and the light goes green and dim."
-"No bird sings. No leaf moves. Only your own footsteps, and then—"
+"The trees close over you. No bird sings, no leaf moves — only your own footsteps, and then—"
 
 npc Unknown:
 "AAAGH!"

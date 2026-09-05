@@ -4,10 +4,11 @@
   "difficulty": "easy",
   "title": "Does the Book Know It?",
   "narrative": "Before the Cataloguer fetches a spell, she asks the book a simpler question: do you hold this name at all? Answer it for her.",
-  "instructions": "Write a function `knows_spell(grimoire, name)` that returns `True` if the grimoire holds a spell filed under `name`, and `False` otherwise.\n\nUse the `in` keyword — it checks a dictionary's keys.",
-  "starting_code": "def knows_spell(grimoire, name):\n    # Return True if the grimoire has a spell filed under `name`, else False.\n    return None\n",
-  "test_type": "function",
-  "function_name": "knows_spell",
+  "instructions": "The System provides `grimoire` (the dictionary) and `name` (the spell-name asked after). Do not assign either yourself.\n\nStore `True` in `book_knows` if the grimoire holds a spell filed under `name`, and `False` otherwise.\n\nUse the `in` keyword — it checks a dictionary's keys.",
+  "starting_code": "# `grimoire` and `name` are provided by the System (do not reassign them).\n# True if the grimoire has a spell filed under `name`, else False.\n\nbook_knows = \n",
+  "test_type": "script_variable",
+  "input_variable": "grimoire, name",
+  "output_variable": "book_knows",
   "validation_tests": [
     { "input": [{ "fire": "Ignis", "water": "Aqua" }, "fire"], "expected": true },
     { "input": [{ "fire": "Ignis" }, "earth"], "expected": false },
@@ -17,7 +18,7 @@
   "hints": [
     "`name in grimoire` checks whether `name` is one of the dictionary's keys.",
     "That expression is already True or False.",
-    "Return it directly: `return name in grimoire`.",
+    "`book_knows = name in grimoire`.",
     "`in` on a dictionary looks at the KEYS, not the values — which is exactly what you want here."
   ],
   "reward": {

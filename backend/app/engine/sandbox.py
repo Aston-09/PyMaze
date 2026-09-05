@@ -171,6 +171,32 @@ def _test_variables(user_code, expected_variables, validation_tests):
     }
 
 
+def _bind_inputs(g, input_variable, test_input):
+    """Bind a test case's input(s) into the script's globals.
+
+    `input_variable` is normally one name. A comma-separated list of names
+    takes a list input and binds it positionally, so a challenge can hand the
+    learner two ready-made variables instead of a function signature.
+    """
+    if not input_variable:
+        return
+    names = [n.strip() for n in input_variable.split(",") if n.strip()]
+    if len(names) == 1:
+        g[names[0]] = test_input
+        return
+    for name, value in zip(names, test_input or []):
+        g[name] = value
+
+
+def _describe_inputs(input_variable, test_input):
+    names = [n.strip() for n in (input_variable or "").split(",") if n.strip()]
+    if len(names) == 1:
+        return f"{names[0]} = {test_input!r}"
+    return ", ".join(
+        f"{name} = {value!r}" for name, value in zip(names, test_input or [])
+    )
+
+
 def _call(fn, test_input):
     """Call the learner's function, spreading list inputs as positional args."""
     if isinstance(test_input, list):
@@ -238,7 +264,7 @@ def _test_script_variable(user_code, input_variable, output_variable, validation
         expected = test["expected"]
         entry = {
             "test_id": idx + 1,
-            "input": f"{input_variable} = {test_input!r}" if input_variable else _describe(test_input),
+            "input": _describe_inputs(input_variable, test_input) if input_variable else _describe(test_input),
             "expected": _describe(expected),
         }
 
@@ -256,8 +282,7 @@ def _test_script_variable(user_code, input_variable, output_variable, validation
                 raise EOFError("EOF when reading a line")
         g["__builtins__"]["input"] = _mock_input
 
-        if input_variable:
-            g[input_variable] = test_input
+        _bind_inputs(g, input_variable, test_input)
 
         try:
             exec(user_code, g)
@@ -296,7 +321,7 @@ def _test_script_output(user_code, input_variable, validation_tests):
         expected = test.get("expected_output", test.get("expected", ""))
         entry = {
             "test_id": idx + 1,
-            "input": f"{input_variable} = {test_input!r}" if input_variable else _describe(test_input),
+            "input": _describe_inputs(input_variable, test_input) if input_variable else _describe(test_input),
             "expected": _describe(expected),
         }
 
@@ -314,8 +339,7 @@ def _test_script_output(user_code, input_variable, validation_tests):
                 raise EOFError("EOF when reading a line")
         g["__builtins__"]["input"] = _mock_input
 
-        if input_variable:
-            g[input_variable] = test_input
+        _bind_inputs(g, input_variable, test_input)
 
         captured = io.StringIO()
         try:

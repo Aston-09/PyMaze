@@ -2,7 +2,7 @@
   "interaction_id": "loom_methods",
   "widget": "predict_output",
   "title": "Reshape the Thread",
-  "prompt": "Words can be raised, lowered, and trimmed. Predict the reshaped thread.",
+  "prompt": "A method is an action attached to a value, written value.action(). .upper() raises a word to capitals, .lower() drops it to small letters. Predict the reshaped thread.",
   "config": {
     "rounds": [
       {

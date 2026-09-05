@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import useAdvanceKey from '../utils/useAdvanceKey';
 
 /**
  * DialogueBox — RPG-style typewriter dialogue renderer.
@@ -41,7 +42,7 @@ export default function DialogueBox({ dialogues, onComplete, onSkipAll }) {
     return () => clearInterval(timerRef.current);
   }, [currentDialogueIdx, currentLineIdx, currentLine]);
 
-  const handleContinue = useCallback(() => {
+  const handleContinue = () => {
     // If still typing, complete instantly
     if (isTyping) {
       clearInterval(timerRef.current);
@@ -65,29 +66,9 @@ export default function DialogueBox({ dialogues, onComplete, onSkipAll }) {
 
     // All done
     onComplete?.();
-  }, [isTyping, currentLine, currentLineIdx, currentDialogue, currentDialogueIdx, dialogues.length, onComplete]);
+  };
 
-  // Keyboard: Enter/Space advances dialogue.
-  // Scoped to this component — only fires when no input/textarea/editor is focused.
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-
-      // Don't fire when the user is typing in an input, textarea, or code editor
-      const tag = document.activeElement?.tagName?.toLowerCase();
-      if (tag === 'input' || tag === 'textarea') return;
-      // Monaco editor uses a textarea internally with a specific class
-      if (document.activeElement?.closest('.monaco-editor')) return;
-      // Don't steal from contentEditable elements
-      if (document.activeElement?.isContentEditable) return;
-
-      e.preventDefault();
-      handleContinue();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleContinue]);
+  useAdvanceKey(handleContinue);
 
   if (!currentDialogue) return null;
 

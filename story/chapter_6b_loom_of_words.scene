@@ -4,14 +4,21 @@ background: night_valley.avif
 music: wisdom_theme.mp3
 
 dialogue:
-"You have taken three steps toward the tower when the threads of the loom tighten, gentle but sure, around your wrist."
+"West, the land turns strange and soft. Threads of light hang in the air, each strung with tiny glowing runes."
+"At the centre of the web a woman works an enormous loom, weaving threads into sentences and unpicking them again."
 
 background: riddle_weaver
 
 npc Riddle Weaver:
-"So soon? You cut ONE name from ONE ribbon and think the loom is read."
-"Sit. The lazy one keeps. He has kept for years; he will keep an hour more."
-"Words are the last thread before functions, and the finest. Learn the whole weave."
+"A traveller of letters, letter by letter, arrives —"
+"— though not yet lettered enough to read the letters, I'd wager."
+
+npc You:
+"...I didn't understand a single word of that."
+
+npc Riddle Weaver:
+"No. Not yet. But you will — thread by thread."
+"Sit. Words are the last thread before functions, and the finest. Learn the whole weave."
 
 system skill_learned:
 "MODULE UNLOCKED"
@@ -84,7 +91,7 @@ npc Riddle Weaver:
 
 system system:
 "MISSION"
-"Return the word in all capitals with a single '!' added to the end."
+"Store in shouted the word in all capitals with a single '!' added to the end."
 
 mission: loom_shout
 
@@ -98,20 +105,20 @@ dialogue:
 "She gestures up the mountain, to the sealed gate at the tower's foot."
 
 npc Riddle Weaver:
-"The gate answers only to a traveller named PROPERLY. Take the first name from a full one, and weave it into a title fit for a door."
-"Cut, take, and weave — all three threads at once."
+"That gate answers only to a traveller named PROPERLY. Take the first name from a full one, and weave it into a title fit for a door."
+"Practise it here, on my loom, where a wrong thread costs nothing. Cut, take, and weave — all three at once."
 
 system system:
 "MISSION"
-"Take the first word of full_name and weave: <first> the <rank>."
+"Take the first word of full_name and weave into title_card: <first> the <rank>."
 
 mission: loom_titlecard
 
 background: night_valley.avif
 
 dialogue:
-"You cut the first name loose, weave it into a title, and speak it at the gate."
-"The runes rearrange to match your words, and the way to the tower's stair opens."
+"You cut the first name loose, weave it into a title, and speak it into the threads."
+"The loom holds the words a moment, approves of them, and lets them go."
 
 background: night_forest.avif
 
@@ -123,12 +130,10 @@ interactive: loom_final_recall
 
 npc Riddle Weaver:
 "Split, taken, raised. The whole loom, in your hands now."
-"Go up. The lazy one is the last teacher on this road, and the strangest."
-"He will try to give you everything and climb out of doing so. Let him. It is his only real magic."
+"Then come. There is a gate on the way up that will not open for an apprentice."
 
 dialogue:
-"The threads release your wrist."
-"High above, the single gold window waits, and the long climb begins in earnest."
+"She rises from the loom for the first time, and the threads part to let you both through."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -141,4 +146,4 @@ gold: 45
 achievement: NAMED AND WOVEN
 
 next:
-chapter_7b_spellbook
+chapter_6_riddle_weaver

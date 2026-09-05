@@ -2,7 +2,7 @@
   "interaction_id": "scales_final_recall",
   "widget": "predict_output",
   "title": "One Last Measure",
-  "prompt": "Arithmetic, a weighing, and a ward — all in a single line. Predict the truth.",
+  "prompt": "Arithmetic, a weighing and a ward in one line: ** raises to a power, == asks whether two things match, and 'and' needs BOTH sides true. Predict the truth.",
   "config": {
     "rounds": [
       {

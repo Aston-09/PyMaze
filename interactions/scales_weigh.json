@@ -2,7 +2,7 @@
   "interaction_id": "scales_weigh",
   "widget": "predict_output",
   "title": "The Balance",
-  "prompt": "A comparison does not give a number — it puts two things on a balance and tells you the truth.",
+  "prompt": "A comparison does not give a number. >, < and == put two things on a balance and answer True or False — == asks 'are these the same?', and it is fussy about text versus numbers.",
   "config": {
     "rounds": [
       {

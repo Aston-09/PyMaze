@@ -4,10 +4,11 @@
   "difficulty": "medium",
   "title": "Weave a Title",
   "narrative": "The gate answers only to a traveller named properly. Take the first name from a full name, and weave it into a title fit for the door.",
-  "instructions": "Write a function `title_card(full_name, rank)`.\n\n- Take the FIRST word of `full_name`.\n- Weave it into this exact sentence: `<first> the <rank>`\n\nFor example, `title_card(\"Kael Ash\", \"Brave\")` returns `\"Kael the Brave\"`.",
-  "starting_code": "def title_card(full_name, rank):\n    # Take the first word of full_name, then weave: <first> the <rank>\n    # e.g. title_card(\"Kael Ash\", \"Brave\") -> \"Kael the Brave\"\n    return None\n",
-  "test_type": "function",
-  "function_name": "title_card",
+  "instructions": "The System provides `full_name` and `rank`. Do not assign either yourself.\n\n- Take the FIRST word of `full_name`.\n- Weave it into this exact sentence and store it in `title_card`: `<first> the <rank>`\n\nWith `full_name = \"Kael Ash\"` and `rank = \"Brave\"`, `title_card` is `\"Kael the Brave\"`.",
+  "starting_code": "# `full_name` and `rank` are provided by the System (do not reassign them).\n# Take the first word of full_name, then weave: <first> the <rank>\n\nfirst = \n\ntitle_card = \n",
+  "test_type": "script_variable",
+  "input_variable": "full_name, rank",
+  "output_variable": "title_card",
   "validation_tests": [
     { "input": ["Kael Ash", "Brave"], "expected": "Kael the Brave" },
     { "input": ["Lyra Veil", "Wise"], "expected": "Lyra the Wise" },
@@ -15,8 +16,8 @@
   ],
   "hints": [
     "Split the full name into words with `full_name.split()`.",
-    "Take the first word with `[0]`: `full_name.split()[0]`.",
-    "Weave it with an f-string: `f\"{full_name.split()[0]} the {rank}\"`.",
+    "Take the first word with `[0]`: `first = full_name.split()[0]`.",
+    "Weave it with an f-string: `title_card = f\"{first} the {rank}\"`.",
     "A name with only one word splits into a one-item list, so [0] still gives that single name."
   ],
   "reward": {

@@ -4,20 +4,10 @@ background: night_valley.avif
 music: mystery_forest.mp3
 
 dialogue:
-"West, the land turns strange and soft. Threads of light hang in the air, each strung with tiny glowing runes."
-"At the centre of the web a woman works an enormous loom, weaving threads into sentences and unpicking them again."
+"The web thins, and the path turns up the bare rock toward the tower."
+"Ahead a final gate stands sealed, a long ribbon of runes across its face."
 
 background: riddle_weaver
-
-npc Riddle Weaver:
-"A traveller of letters, letter by letter, arrives —"
-"— though not yet lettered enough to read the letters, I'd wager."
-
-npc You:
-"...I didn't understand a single word of that."
-
-npc Riddle Weaver:
-"No. Not yet. But you will — thread by thread."
 
 system notification:
 "NEW QUEST"
@@ -25,26 +15,15 @@ system notification:
 "Weave a name from the ribbon of runes."
 
 npc Riddle Weaver:
-"Words are not LUMPS, child. They are RIBBONS — runes in a row, a line you can cut."
-
-dialogue:
-"She plucks a thread from the loom. Runes run along its length, bright and small and ordered."
-
-npc Riddle Weaver:
-"Take only the runes you want. A SLICE, from here to there, and the rest falls away."
+"No loom here, child, and no second thread. Only the gate, and what you carry."
 "Cut the first few runes of a long word, and you may hold a truer name hidden inside it."
 "Then do not merely SHOW it, cold and bare. WEAVE it — your own words wrapped snug around the name you found."
-
-dialogue:
-"Ahead a final gate stands sealed, a long ribbon of runes across its face."
-
-npc Riddle Weaver:
 "The gate hides a name in its first four runes. Slice it loose, then weave it into the words that open the way:"
 "'The gate opens for —' and then the name, and a full stop, like a knot tied off."
 
 system system:
 "MISSION"
-"Slice the first 4 runes as the name, then weave it into: The gate opens for {name}."
+"Slice the first 4 runes as the name, then weave into opening_words: The gate opens for {name}."
 
 mission: riddle_strings
 
@@ -60,14 +39,12 @@ dialogue:
 "Beyond it, far up a leaning tower on the bare rock, a single window burns gold."
 
 npc Riddle Weaver:
-"There. Cut, and woven, and spoken true."
-"But you have used one motion of the loom, and the loom has many."
-"To split a ribbon where it breathes. To join the pieces back. To raise a thread loud, or lay it low."
-"And the hardest: to know that a thread once spun can never be recut — only respun."
-"Sit. The tower is not going anywhere, and the lazy one up there will expect a weaver, not an apprentice."
+"There. Cut, and woven, and spoken true. A weaver, then — not an apprentice."
+"Go up. The lazy one is the last teacher on this road, and the strangest."
+"He will try to give you everything and climb out of doing so. Let him. It is his only real magic."
 
 dialogue:
-"High above, the golden window burns on, patient."
+"High above, the golden window burns on, patient, and the long climb begins in earnest."
 
 system level_up:
 "CHAPTER COMPLETE"
@@ -80,4 +57,4 @@ gold: 50
 achievement: WEAVER OF NAMES
 
 next:
-chapter_6b_loom_of_words
+chapter_7b_spellbook

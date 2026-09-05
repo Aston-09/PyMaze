@@ -1,4 +1,5 @@
 import React from 'react';
+import useAdvanceKey from '../utils/useAdvanceKey';
 
 /**
  * RewardPopup — Animated overlay showing earned rewards after a challenge.
@@ -9,6 +10,8 @@ import React from 'react';
  *   onDismiss: called when the user clicks Continue
  */
 export default function RewardPopup({ reward, statBonuses, onDismiss }) {
+  useAdvanceKey(onDismiss);
+
   return (
     <div className="reward-overlay" onClick={onDismiss}>
       <div className="reward-card" onClick={(e) => e.stopPropagation()}>

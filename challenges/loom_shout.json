@@ -4,10 +4,11 @@
   "difficulty": "easy",
   "title": "Say It Louder",
   "narrative": "The loom's threads carry a word too softly to open anything. Raise it to a shout — all capitals, and an edge on the end.",
-  "instructions": "Write a function `shout(word)` that returns the word in ALL CAPITALS with a single `\"!\"` added to the end.\n\n- `shout(\"fire\")` returns `\"FIRE!\"`.",
-  "starting_code": "def shout(word):\n    # Return the word in all capitals, with a single \"!\" on the end.\n    return None\n",
-  "test_type": "function",
-  "function_name": "shout",
+  "instructions": "The System provides `word`. Do not assign it yourself.\n\nStore in `shouted` the word in ALL CAPITALS with a single `\"!\"` added to the end.\n\n- With `word = \"fire\"`, `shouted` is `\"FIRE!\"`.",
+  "starting_code": "# `word` is provided by the System (do not reassign it).\n# All capitals, with a single \"!\" on the end.\n\nshouted = \n",
+  "test_type": "script_variable",
+  "input_variable": "word",
+  "output_variable": "shouted",
   "validation_tests": [
     { "input": "fire", "expected": "FIRE!" },
     { "input": "run", "expected": "RUN!" },
@@ -16,7 +17,7 @@
   "hints": [
     "Raise the runes with `word.upper()`.",
     "Add the edge by joining strings with +: `word.upper() + \"!\"`.",
-    "Return the whole thing: `return word.upper() + \"!\"`.",
+    "`shouted = word.upper() + \"!\"`.",
     ".upper() gives back a NEW string; the original word is untouched."
   ],
   "reward": {
