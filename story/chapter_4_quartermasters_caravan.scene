@@ -50,6 +50,8 @@ system system:
 
 mission: caravan_lists
 
+background: green_valley.jpg
+
 dialogue:
 "You reach into slot after slot, each one place lower than the number asked."
 "Crate after crate lands in its proper wagon. The line remembers itself."

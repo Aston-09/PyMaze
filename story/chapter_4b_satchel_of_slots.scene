@@ -83,6 +83,8 @@ system system:
 
 mission: satchel_pack
 
+background: quartermaster
+
 npc Quartermaster:
 "Ha! Loaded and counted, no fingers. Now the fiddly one."
 
@@ -98,6 +100,8 @@ system system:
 "Return the list with the first and last crates removed, using one slice."
 
 mission: satchel_middle
+
+background: green_valley.jpg
 
 dialogue:
 "You cut the slice clean — first and last gone, the middle intact."

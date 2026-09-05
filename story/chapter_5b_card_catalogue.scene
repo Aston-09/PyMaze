@@ -79,6 +79,8 @@ system system:
 
 mission: catalogue_lookup
 
+background: cataloguer
+
 npc Cataloguer:
 "Just so. Now the question that has been troubling me."
 
@@ -95,6 +97,8 @@ system system:
 "Return how many distinct incantations (values) the grimoire holds."
 
 mission: catalogue_distinct
+
+background: ancient_library.png
 
 dialogue:
 "You gather the values, let the set swallow the duplicates, and speak the count."

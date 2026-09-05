@@ -7,10 +7,10 @@
     "target": "grimoire[\"fire\"] = \"Ignis\"",
     "slots": ["dict", "key", "assign", "value"],
     "slot_labels": {
-      "dict": "the book",
-      "key": "under this name",
-      "assign": "file",
-      "value": "this incantation"
+      "dict": "the book (Dictionary)",
+      "key": "under this name (Key)",
+      "assign": "file (Assignment)",
+      "value": "this incantation (Value)"
     },
     "fragments": [
       { "id": "f1", "text": "grimoire", "slot": "dict" },

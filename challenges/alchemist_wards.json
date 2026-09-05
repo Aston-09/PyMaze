@@ -1,30 +1,28 @@
 {
   "challenge_id": "alchemist_wards",
-  "topic": "Operators — comparison + logical, returning a bool",
+  "topic": "Comparison + Logic",
   "difficulty": "easy",
   "title": "The Ward That Judges",
-  "narrative": "The Alchemist's inner door is sealed by a ward that judges every traveller. It opens only for those strong enough AND carrying the proper key. Combine a weighing and a ward into a single verdict.",
-  "instructions": "Write a function `can_enter(level, has_key)` that returns a single True/False verdict.\n\nThe ward opens only when BOTH are true:\n- `level` is at least 5 (5 or more), AND\n- `has_key` is True.\n\nReturn the combined result directly (it will be True or False).",
-  "starting_code": "def can_enter(level, has_key):\n    # The ward opens only if level is at least 5 AND the traveller has the key.\n    # Combine a comparison and a logical 'and' into one verdict.\n    return None\n",
-  "test_type": "function",
-  "function_name": "can_enter",
+  "narrative": "The sealed inner door hums with a ward far older than the rest. It opens only for one strong enough and carrying the proper key. Write a single verdict the ward can read.",
+  "instructions": "The System provides `level` and `has_key` — do not assign them yourself.\n\n- Create a variable called `verdict`.\n- Set `verdict` to `True` only if `level` is at least 5 AND `has_key` is `True`.\n- Otherwise, set `verdict` to `False`.\n\nHint: you can write this as a single expression using `and`.",
+  "starting_code": "# `level` and `has_key` are provided by the System (do not reassign them).\n\n# Write a single expression that combines a comparison and 'and':\nverdict = None  # replace None with your expression\n",
+  "test_type": "script_variable",
+  "input_variable": "__multi__",
+  "output_variable": "verdict",
   "validation_tests": [
-    { "input": [5, true], "expected": true },
-    { "input": [4, true], "expected": false },
-    { "input": [9, false], "expected": false },
-    { "input": [5, false], "expected": false },
-    { "input": [10, true], "expected": true }
+    { "input": {"level": 10, "has_key": true}, "expected": true },
+    { "input": {"level": 3, "has_key": true}, "expected": false },
+    { "input": {"level": 5, "has_key": false}, "expected": false },
+    { "input": {"level": 5, "has_key": true}, "expected": true }
   ],
   "hints": [
-    "The strength test is a comparison: `level >= 5`.",
-    "Both conditions must hold, so join them with `and`: `level >= 5 and has_key`.",
-    "Return that expression directly — it already evaluates to True or False.",
-    "`return level >= 5 and has_key`"
+    "Use a comparison: level >= 5",
+    "Combine it with 'and': level >= 5 and has_key",
+    "The result of 'and' is already True or False, so you can assign it directly."
   ],
   "reward": {
-    "xp": 50,
-    "gold": 25,
-    "title": "Ward-Reader",
-    "achievement": "MASTER OF THE SCALES"
+    "xp": 75,
+    "gold": 30,
+    "achievement": "WARD KEEPER"
   }
 }

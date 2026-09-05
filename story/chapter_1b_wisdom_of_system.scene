@@ -238,6 +238,8 @@ npc System Sage:
 
 mission: wisdom_listener_of_worlds
 
+background: ancient_library.png
+
 dialogue:
 "A word settles into a brand-new chest, labelled weapon."
 "The crystal shatters into light."

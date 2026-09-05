@@ -52,6 +52,8 @@ system system:
 
 mission: operators_intro
 
+background: alchemist
+
 npc Alchemist:
 "Balanced to the grain. You have the hands of a measurer, whether you like it or not."
 
@@ -112,6 +114,8 @@ system system:
 "Return True only if level is at least 5 AND has_key is True."
 
 mission: alchemist_wards
+
+background: ancient_library.png
 
 dialogue:
 "The ward reads your verdict, considers it, and clicks open onto a stair leading back down to the road."

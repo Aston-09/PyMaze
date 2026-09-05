@@ -48,6 +48,8 @@ system system:
 
 mission: riddle_strings
 
+background: forest_gate.png
+
 dialogue:
 "You cut the first four runes loose — a name, at last — wrap your words around them, and speak."
 "The runes rearrange to match, and the gate swings open."

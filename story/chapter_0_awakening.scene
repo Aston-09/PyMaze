@@ -7,28 +7,13 @@ dialogue:
 "Darkness."
 "..."
 "You slowly open your eyes."
-"A cold wind brushes against your face."
-"Wet grass beneath your hands. The smell of earth and pine."
-"Above you, through black branches, hang stars in shapes you do not recognise."
-
-background: night_valley.avif
-
-dialogue:
-"You sit up."
-"The trees fall away below you into a valley you have never seen."
-"Mountains stand black against a sky the colour of deep water."
-"A thin crescent moon rests above them — too small, and the wrong shape."
-"You don't remember how you got here."
-"You don't remember anything before this moment."
+"Wet grass beneath your hands. Stars in shapes you do not recognise."
 
 background: ruins.png
 
 dialogue:
-"You turn."
-"Behind you, half-swallowed by the hillside, stand ancient ruins."
-"Broken columns. Stone worn smooth by centuries of weather."
+"Behind you, ancient ruins — broken columns, stone worn smooth by centuries."
 "Something deep inside them is still faintly glowing."
-"Suddenly..."
 
 system arrival:
 "ISEKAI ARRIVAL"

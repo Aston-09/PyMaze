@@ -1,27 +1,27 @@
 {
   "challenge_id": "loops_intro",
   "topic": "Loops (For / While)",
-  "difficulty": "medium",
+  "difficulty": "easy",
   "title": "The Infinite Spiral",
-  "narrative": "A strange mechanism with interlocking gears stands before you. To activate it, you must repeat a sequence of actions.",
-  "instructions": "The variable `n` is already provided by the System — do not assign it yourself, or you will overwrite the value being tested.\n\n- Create a list variable called `sequence`.\n- Write a `for` loop over a `range` from 1 to `n` (inclusive).\n- Append each number in the range to the `sequence` list.",
-  "starting_code": "# `n` is provided by the System (do not reassign it).\nsequence = []\n\n# Write your loop below:\n\n",
+  "narrative": "A strange mechanism with interlocking gears stands before you. To activate it, you must repeat a sequence of actions — counting each plank as it is laid.",
+  "instructions": "The variable `n` is already provided by the System — do not assign it yourself, or you will overwrite the value being tested.\n\n- Create a variable called `count` and set it to `0`.\n- Write a `while` loop that runs as long as `count` is less than `n`.\n- Inside the loop, add 1 to `count` on each step.\n- After the loop, `count` should equal `n`.",
+  "starting_code": "# `n` is provided by the System (do not reassign it).\ncount = 0\n\n# Write your while loop below:\n\n",
   "test_type": "script_variable",
   "input_variable": "n",
-  "output_variable": "sequence",
+  "output_variable": "count",
   "validation_tests": [
     {
       "input": 5,
-      "expected": [1, 2, 3, 4, 5]
+      "expected": 5
     },
     {
       "input": 3,
-      "expected": [1, 2, 3]
+      "expected": 3
     }
   ],
   "hints": [
-    "Use 'for i in range(1, n + 1):'",
-    "Use 'sequence.append(i)' to add the number to the list."
+    "Use 'while count < n:' to keep the loop running",
+    "Inside the loop, use 'count = count + 1' or 'count += 1' to add 1 each step"
   ],
   "reward": {
     "xp": 100,

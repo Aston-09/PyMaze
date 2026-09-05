@@ -88,6 +88,8 @@ system system:
 
 mission: loom_shout
 
+background: riddle_weaver
+
 npc Riddle Weaver:
 "Louder. Better. Now the weave itself — the thing the gate ahead demands."
 
@@ -104,6 +106,8 @@ system system:
 "Take the first word of full_name and weave: <first> the <rank>."
 
 mission: loom_titlecard
+
+background: night_valley.avif
 
 dialogue:
 "You cut the first name loose, weave it into a title, and speak it at the gate."

@@ -48,6 +48,8 @@ system system:
 
 mission: loops_intro
 
+background: valley_vista.jpg
+
 dialogue:
 "You speak the loop. A plank of light snaps into being, then another on its echo, then a third."
 "The bridge unrolls across the chasm, one plank per count, until it kisses the far edge. You cross."

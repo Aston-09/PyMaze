@@ -7,9 +7,9 @@
     "target": "gold_pouch = 40",
     "slots": ["name", "operator", "value"],
     "slot_labels": {
-      "name": "the chest's name",
-      "operator": "place inside",
-      "value": "what goes in"
+      "name": "the chest's name (Variable)",
+      "operator": "place inside (Assignment)",
+      "value": "what goes in (Value)"
     },
     "fragments": [
       { "id": "f1", "text": "gold_pouch", "slot": "name" },

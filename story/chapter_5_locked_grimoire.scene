@@ -47,6 +47,8 @@ system system:
 
 mission: grimoire_dicts
 
+background: ancient_library.png
+
 dialogue:
 "You speak a name. A thread pulls taut and the incantation rises glowing off the page."
 "Then you speak one the book has never held — and instead of shrieking it murmurs 'Unknown Spell' and waits."

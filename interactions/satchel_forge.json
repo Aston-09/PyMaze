@@ -7,8 +7,8 @@
     "target": "satchel.append(crate)",
     "slots": ["obj", "method"],
     "slot_labels": {
-      "obj": "the satchel",
-      "method": "grow it by one"
+      "obj": "the satchel (List)",
+      "method": "grow it by one (Method)"
     },
     "fragments": [
       { "id": "f1", "text": "satchel", "slot": "obj" },

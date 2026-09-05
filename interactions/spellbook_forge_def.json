@@ -7,10 +7,10 @@
     "target": "def firebolt(power):",
     "slots": ["keyword", "name", "params", "colon"],
     "slot_labels": {
-      "keyword": "define",
-      "name": "the spell's name",
-      "params": "its reagent",
-      "colon": "begin"
+      "keyword": "define (Keyword)",
+      "name": "the spell's name (Function)",
+      "params": "its reagent (Parameter)",
+      "colon": "begin (Syntax)"
     },
     "fragments": [
       { "id": "f1", "text": "def", "slot": "keyword" },

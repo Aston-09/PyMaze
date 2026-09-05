@@ -124,6 +124,8 @@ system system:
 
 mission: halls_doors_break
 
+background: ruins.png
+
 dialogue:
 "You open door after door, and at the cursed zero you simply... stop."
 "The corridor exhales. It has never seen anyone stop before."
@@ -144,6 +146,8 @@ system system:
 "Write a while loop that steps count up to steps_to_door, then ends on its own."
 
 mission: halls_free_warden
+
+background: ruins.png
 
 dialogue:
 "You speak the loop."

@@ -4,20 +4,21 @@
   "difficulty": "easy",
   "title": "The Cursed Door",
   "narrative": "The corridor is a line of numbered doors. You open them in order — but a door marked 0 is cursed, and the moment you reach one you must STOP. Count how many you opened before the curse.",
-  "instructions": "Write a function `doors_until_curse(doors)`.\n\n- `doors` is a list of numbers, walked in order.\n- Open them one by one, counting each.\n- The instant you reach a door equal to `0` (cursed), STOP with `break` — do not count it.\n\nReturn how many doors you opened before the curse (or all of them, if there is no cursed door).",
-  "starting_code": "def doors_until_curse(doors):\n    opened = 0\n    for door in doors:\n        # If this door is cursed (equals 0), STOP: break out of the loop.\n        # Otherwise, count it as opened.\n        pass  # replace this\n    return opened\n",
-  "test_type": "function",
-  "function_name": "doors_until_curse",
+  "instructions": "The System provides `doors` — a list of numbers. Do not assign it yourself.\n\n- Create a variable called `opened` and set it to `0`.\n- Write a `for` loop that walks through `doors` in order.\n- If a door equals `0` (cursed), use `break` to STOP immediately — do not count it.\n- Otherwise, add 1 to `opened`.\n\nAfter the loop, `opened` should hold how many doors you opened before the curse.",
+  "starting_code": "# `doors` is provided by the System (do not reassign it).\nopened = 0\n\nfor door in doors:\n    # If this door is cursed (equals 0), STOP: break out of the loop.\n    # Otherwise, count it as opened.\n    pass  # replace this\n",
+  "test_type": "script_variable",
+  "input_variable": "doors",
+  "output_variable": "opened",
   "validation_tests": [
-    { "input": [[3, 5, 0, 9]], "expected": 2 },
-    { "input": [[0]], "expected": 0 },
-    { "input": [[1, 2, 3]], "expected": 3 },
-    { "input": [[7, 0, 0]], "expected": 1 }
+    { "input": [3, 5, 0, 9], "expected": 2 },
+    { "input": [0], "expected": 0 },
+    { "input": [1, 2, 3], "expected": 3 },
+    { "input": [7, 0, 0], "expected": 1 }
   ],
   "hints": [
     "Inside the loop, check the cursed door first: `if door == 0:` then `break`.",
     "If it is not cursed, count it: `opened = opened + 1`.",
-    "break leaves the loop immediately, so a door that comes AFTER the curse is never counted.",
+    "break leaves the loop immediately, so a door after the curse is never counted.",
     "Order matters: check for the curse BEFORE you count, or you'll count the cursed door by mistake."
   ],
   "reward": {
